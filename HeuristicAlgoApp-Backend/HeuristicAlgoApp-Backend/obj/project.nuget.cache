@@ -1,15 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "r6BVLTOvS2oaNLEd5YNG1QKqbbHxtyJGUBorNhKpysBcI6aszS6IqWt7W+EeHsLjRjTJX/STgkxNJ2tU4b0G0Q==",
+  "dgSpecHash": "2dcoLmQFT4VpUXc9PKOoS4rhnxvkZbzscIDmGKTbym+98jPA+6vAIskw9qhlzCB0FothEdSq9uOg1sh2zRiSUA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj",
+  "projectFilePath": "C:\\Users\\gesie\\astudia_repos\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\maz2g\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
-    "C:\\Users\\maz2g\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
-    "C:\\Users\\maz2g\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
-    "C:\\Users\\maz2g\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
-    "C:\\Users\\maz2g\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
-    "C:\\Users\\maz2g\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+    "C:\\Users\\gesie\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\gesie\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\gesie\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\gesie\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\gesie\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\gesie\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
   ],
   "logs": []
 }

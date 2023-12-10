@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj": {}
+    "C:\\Users\\gesie\\astudia_repos\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj": {
+    "C:\\Users\\gesie\\astudia_repos\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj",
+        "projectUniqueName": "C:\\Users\\gesie\\astudia_repos\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj",
         "projectName": "HeuristicAlgoApp-Backend",
-        "projectPath": "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj",
-        "packagesPath": "C:\\Users\\maz2g\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\obj\\",
+        "projectPath": "C:\\Users\\gesie\\astudia_repos\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj",
+        "packagesPath": "C:\\Users\\gesie\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gesie\\astudia_repos\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\maz2g\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\gesie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -64,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
