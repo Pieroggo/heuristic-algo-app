@@ -12,7 +12,7 @@ namespace HeuristicAlgoApp_Backend.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "function1", "function2", "function3", "function4", "function5" };
         }
 
         // GET api/<FitnessFunctionController>/5

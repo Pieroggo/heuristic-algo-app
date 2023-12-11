@@ -19,7 +19,7 @@ namespace HeuristicAlgoApp_Backend.Controllers
         [HttpGet]
         public IEnumerable<string> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "algorithm1", "algorithm2", "algorithm3" };
         }
 
         // GET api/<ValuesController>/5
