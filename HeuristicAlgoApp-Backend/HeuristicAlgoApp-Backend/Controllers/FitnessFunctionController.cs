@@ -4,10 +4,11 @@
 
 namespace HeuristicAlgoApp_Backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class FitnessFunctionController : ControllerBase
     {
+        //ContextModel
         // GET: api/<FitnessFunctionController>
         [HttpGet]
         public IEnumerable<string> Get()

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using HeuristicAlgoApp_Backend.Models;
 using HeuristicAlgoApp_Backend.Repositories;
+using HeuristicAlgoApp_Backend.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,7 +11,10 @@ namespace HeuristicAlgoApp_Backend.Controllers
     [ApiController]
     public class AlgorithmController : ControllerBase
     {
-        private readonly AlgorithmRepository algorithmRepository;
+        //ContextModel
+        private readonly AlgorithmRepository? algorithmRepository;
+        private readonly AlgorithmService? algorithmService;
+
 
         public AlgorithmController() {
             this.algorithmRepository = new AlgorithmRepository();
