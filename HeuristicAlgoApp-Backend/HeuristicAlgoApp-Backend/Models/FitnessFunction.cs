@@ -2,14 +2,12 @@
 
 namespace HeuristicAlgoApp_Backend.Models
 {
-    public class FitnessFunction : IFitnessFunction
+    public class FitnessFunction
     {
-        public FitnessFunction() { this.Name = "Nameless Fitness Function"; }
         public string Name { get; set; }
-        public double CalculateFitness(double[] position)
-        {
-            Console.WriteLine("Executed CalculateFitness function");
-            return -1.0;
-        }
+        public string TypeName { get; set; }
+        public string FileName { get; set; }
+        public int Dimension { get; set; } //if infinite, set to -1
+        public double[] Domain { get; set; }
     }
 }
