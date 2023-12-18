@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useEffect } from 'react';
 import { useStore } from './store';
@@ -14,14 +13,13 @@ function App() {
   useEffect(() => {
     axios.get(appStore.apiPath + '/Algorithm/GetAll')
       .then(response => {
-        appStore.algorithms = response.data
+        appStore.setAlgorithms(response.data)
       })
-    axios.get(appStore.apiPath + '/FitnessFunction')
+    axios.get(appStore.apiPath + '/FitnessFunction/Get')
       .then(response => {
-        appStore.functions = response.data
+        appStore.setFunctions(response.data)
       })
   }, [])
-
 
   return (
     <div className="App flex-box-main">
@@ -29,7 +27,7 @@ function App() {
       <div className='flex-box-row'>
 
         <div className='flex-box-items'>
-          <h2>Single</h2>
+          <h2>Single task</h2>
           <div className='item1'>
             <h3>Algorytmy: </h3>
             <table className="bp4-html-table .modifier">
@@ -74,7 +72,7 @@ function App() {
 
 
         <div className='flex-box-items'>
-          <h2>Multi</h2>
+          <h2>Multi task</h2>
           <div className='item1'>
             <h3>Algorytmy: </h3>
             <table className="bp4-html-table .modifier">
@@ -119,10 +117,12 @@ function App() {
       </div>
 
       <div className='flex-box-buttons'>
-        <h1>Upload</h1>
-        <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis justo ut augue tempus, id facilisis diam aliquam. Sed libero nisi, consectetur sed molestie vitae, varius et lacus. Aenean massa magna, maximus at porta non, viverra at turpis. Suspendisse auctor, ante eu bibendum hendrerit, odio ligula viverra quam, sed mattis lectus mauris sed justo. Ut facilisis, massa in pulvinar vehicula, dolor nulla mollis nisi, condimentum fringilla ligula lectus eu neque. Sed et libero sapien. Fusce dapibus pulvinar enim sit amet placerat. Nulla efficitur ac arcu et feugiat. 
-        </p>
+        <h1>Wgrywanie</h1>
+        <p>Tutaj możesz przesłać własny plik (.dll) z funkcją lub algorytmem do systemu</p>
+        <div>
+          <input type="file" id="fileUpload" onChange={appStore.handleFileChange} /> <br /><br />
+          <button onClick={appStore.handleUpload}>Prześlij plik</button>
+        </div>
       </div>
 
     </div>
