@@ -39,30 +39,9 @@ namespace HeuristicAlgoApp_Backend.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public IActionResult Add([FromBody] IFormFile file)
+        public IActionResult Add(IFormFile file)
         {
-            {
-                if (file != null && file.Length > 0)
-                {
-                    //// Pobierz nazwę pliku
-                    //string fileName = Path.GetFileName(file.FileName);
-
-                    //// Ustaw ścieżkę docelową na serwerze
-                    //string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", fileName);
-
-                    //// Zapisz plik na serwerze
-                    //using (var stream = new FileStream(uploadPath, FileMode.Create))
-                    //{
-                    //    file.CopyTo(stream);
-                    //}
-
-                    // Możesz wykonać dodatkowe operacje lub zapisać informacje o pliku w bazie danych
-
-                    return Ok($"File uploaded successfully: {file.Name}");
-                }
-
-                return BadRequest("No file selected or file is empty");
-            }
+            return Ok();
         }
 
         // PUT api/<ValuesController>/5
