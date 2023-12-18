@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using HeuristicAlgoApp_Backend.Models;
-using HeuristicAlgoApp_Backend.Repositories;
 using HeuristicAlgoApp_Backend.Services;
 using Microsoft.AspNetCore.Hosting.Server;
 using System.IO;
 using System.Web;
+using MediatR;
+using HeuristicAlgoApp_Backend.Queries;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,57 +16,27 @@ namespace HeuristicAlgoApp_Backend.Controllers
     [ApiController]
     public class AlgorithmController : ControllerBase
     {
-        //ContextModel
-        private readonly AlgorithmRepository? algorithmRepository;
-        private readonly AlgorithmService? algorithmService;
+        private readonly ISender sender;
 
-
-        public AlgorithmController() {
-            this.algorithmRepository = new AlgorithmRepository();
+        public AlgorithmController(ISender sender)
+        {
+            this.sender = sender;
         }
+
         // GET: api/<ValuesController>
         [HttpGet]
-        public IEnumerable<string> GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            return new string[] { "algorithm1", "algorithm2", "algorithm3" };
+            var algorithms = await sender.Send(new GetAllAlgorithmsQuery());
+            return Ok(algorithms);
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult> GetAlgorithmById(int id) //change other tasks in other controllers to ActionResult type
         {
-            return "value";
-        }
-
-        // POST api/<ValuesController>
-        [HttpPost]
-        public IActionResult Add(IFormFile file)
-        {
-            string sciezkaFolderu = Path.Combine(Directory.GetCurrentDirectory(), "Files/Dlls");
-            if (!Directory.Exists(sciezkaFolderu))
-            {
-                Directory.CreateDirectory(sciezkaFolderu);
-            }
-
-            string sciezka = Path.Combine("Files/Dlls", file.FileName);
-
-            using (var strumien = new FileStream(sciezka, FileMode.Create))
-            {
-                file.CopyTo(strumien);
-            }
-            return Ok($"File uploaded successfully: {file.FileName}");
-        }
-
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var algorithm = await sender.Send(new GetAlgorithmByIdQuery(id));
+            return Ok(algorithm);
         }
     }
 }

@@ -7,6 +7,6 @@ namespace HeuristicAlgoApp_Backend.Models
         public string Name { get; set; }
         public string TypeName { get; set; }
         public string FileName { get; set; }
-        public IEnumerable<Parameter> Parameters { get; set; }
+        public List<Parameter> Parameters { get; set; }
     }
 }

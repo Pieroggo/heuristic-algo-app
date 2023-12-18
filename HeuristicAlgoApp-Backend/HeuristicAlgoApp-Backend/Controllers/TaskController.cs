@@ -1,5 +1,4 @@
 ﻿using HeuristicAlgoApp_Backend.Services;
-using HeuristicAlgoApp_Backend.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +8,6 @@ namespace HeuristicAlgoApp_Backend.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        //ContextModel
-        private readonly TaskRepository taskRepository;
-        private readonly TaskService? taskService;
 
         [HttpGet]
         public async void TaskForSingleAlgo([FromForm] int algoId, int fitFuncId) {

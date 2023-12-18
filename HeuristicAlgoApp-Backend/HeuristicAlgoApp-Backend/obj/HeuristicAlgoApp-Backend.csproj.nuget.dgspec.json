@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Studia\\Semestr 5\\ZastMetSztuczIntProbInz\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj": {}
+    "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj": {}
   },
   "projects": {
-    "E:\\Studia\\Semestr 5\\ZastMetSztuczIntProbInz\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj": {
+    "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Studia\\Semestr 5\\ZastMetSztuczIntProbInz\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj",
+        "projectUniqueName": "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj",
         "projectName": "HeuristicAlgoApp-Backend",
-        "projectPath": "E:\\Studia\\Semestr 5\\ZastMetSztuczIntProbInz\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj",
-        "packagesPath": "C:\\Users\\dawid\\.nuget\\packages\\",
-        "outputPath": "E:\\Studia\\Semestr 5\\ZastMetSztuczIntProbInz\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\obj\\",
+        "projectPath": "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend.csproj",
+        "packagesPath": "C:\\Users\\maz2g\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\maz2g\\OneDrive\\Desktop\\Studia\\Sem 5\\Sztuczna inteligencja w projektach\\heuristic-algo-app\\HeuristicAlgoApp-Backend\\HeuristicAlgoApp-Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\dawid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\maz2g\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -76,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
