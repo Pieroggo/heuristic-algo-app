@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HeuristicAlgoApp_Backend.Queries;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,19 +11,26 @@ namespace HeuristicAlgoApp_Backend.Controllers
     [ApiController]
     public class FitnessFunctionController : ControllerBase
     {
+        private readonly ISender _sender;
+        public FitnessFunctionController(ISender sender)
+        {
+            _sender = sender;
+        }
         //ContextModel
         // GET: api/<FitnessFunctionController>
         [HttpGet]
-        public IEnumerable<string> GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            return new string[] { "function1", "function2", "function3", "function4", "function5" };
+            var fitnessFuncs = await _sender.Send(new GetAllFitnessFunctionsQuerry());
+            return Ok(fitnessFuncs);
         }
 
         // GET api/<FitnessFunctionController>/5
-        [HttpGet("{id}")]
-        public string GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult> GetById(int id)
         {
-            return "value";
+            var fitnessFunc = await _sender.Send(new GetFitnessFunctionByIdQuery(id));
+            return Ok(fitnessFunc);
         }
     }
 }
