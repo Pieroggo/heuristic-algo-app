@@ -33,7 +33,7 @@ namespace HeuristicAlgoApp_Backend.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{id:int}")]
-        public async Task<ActionResult> GetAlgorithmById(int id) //change other tasks in other controllers to ActionResult type
+        public async Task<ActionResult> GetById(int id) //change other tasks in other controllers to ActionResult type
         {
             var algorithm = await sender.Send(new GetAlgorithmByIdQuery(id));
             return Ok(algorithm);

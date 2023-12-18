@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using HeuristicAlgoApp_Backend.Commands;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HeuristicAlgoApp_Backend.Controllers
@@ -14,24 +15,8 @@ namespace HeuristicAlgoApp_Backend.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(IFormFile file)
         {
-            try
-            {
-                string sciezkaFolderu = Path.Combine(Directory.GetCurrentDirectory(), "Files/Dlls");
-                if (!Directory.Exists(sciezkaFolderu))
-                {
-                    Directory.CreateDirectory(sciezkaFolderu);
-                }
-
-                string sciezka = Path.Combine("Files/Dlls", file.FileName);
-
-                using (var strumien = new FileStream(sciezka, FileMode.Create))
-                {
-                    file.CopyTo(strumien);
-                }
-            }
-            catch (Exception e) { Console.WriteLine(e); }
-            return Ok($"File uploaded successfully: {file.FileName}");
-            //make checks for getting the Types of Algos and FitFunctions
+            await _sender.Send(new AddFileCommand(file));
+            return Ok();//maybe return info about added types
         }
     }
 }

@@ -11,34 +11,16 @@ namespace HeuristicAlgoApp_Backend.Controllers
         //ContextModel
         // GET: api/<FitnessFunctionController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<string> GetAll()
         {
             return new string[] { "function1", "function2", "function3", "function4", "function5" };
         }
 
         // GET api/<FitnessFunctionController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string GetById(int id)
         {
             return "value";
-        }
-
-        // POST api/<FitnessFunctionController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<FitnessFunctionController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<FitnessFunctionController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
