@@ -17,8 +17,19 @@ namespace HeuristicAlgoApp_Backend.Handlers
 
         public async Task Handle(AddFileCommand request, CancellationToken cancellationToken)
         {
-            //make file here
-            ReflectionExtractionService.ExtractAlgosAndFunctions(this.dataCollection,request.file.FileName);// change file.FileName for the path to file
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Files/Dlls");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            string path = Path.Combine("Files/Dlls", request.file.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                request.file.CopyTo(stream);
+            }
+            await ReflectionExtractionService.ExtractAlgosAndFunctions(this.dataCollection,path);
         }
     }
 }
