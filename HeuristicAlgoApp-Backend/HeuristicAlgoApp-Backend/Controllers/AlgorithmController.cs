@@ -41,7 +41,19 @@ namespace HeuristicAlgoApp_Backend.Controllers
         [HttpPost]
         public IActionResult Add(IFormFile file)
         {
-            return Ok();
+            string sciezkaFolderu = Path.Combine(Directory.GetCurrentDirectory(), "Files/Dlls");
+            if (!Directory.Exists(sciezkaFolderu))
+            {
+                Directory.CreateDirectory(sciezkaFolderu);
+            }
+
+            string sciezka = Path.Combine("Files/Dlls", file.FileName);
+
+            using (var strumien = new FileStream(sciezka, FileMode.Create))
+            {
+                file.CopyTo(strumien);
+            }
+            return Ok($"File uploaded successfully: {file.FileName}");
         }
 
         // PUT api/<ValuesController>/5
