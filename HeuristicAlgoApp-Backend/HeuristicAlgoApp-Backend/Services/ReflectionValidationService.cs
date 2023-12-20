@@ -44,8 +44,8 @@ namespace HeuristicAlgoApp_Backend.Services
                     return isOk;
                 }
         public static bool IsCorrectFitnessFunction(Type checkedType) {
-            Console.WriteLine("Executed IsCorrectFitnessFunction function");
-            return false;
+            
+            return checkedType.GetMethod("CalculateFitness")!=null;
         }
     }
 }

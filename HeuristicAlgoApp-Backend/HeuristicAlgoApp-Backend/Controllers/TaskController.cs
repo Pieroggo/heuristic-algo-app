@@ -1,4 +1,6 @@
-﻿using HeuristicAlgoApp_Backend.Services;
+﻿using HeuristicAlgoApp_Backend.Commands;
+using HeuristicAlgoApp_Backend.Services;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,15 +11,22 @@ namespace HeuristicAlgoApp_Backend.Controllers
     public class TaskController : ControllerBase
     {
 
-        [HttpGet]
-        public async void TaskForSingleAlgo([FromForm] int algoId, int fitFuncId) {
+        private readonly ISender _sender;
+        public TaskController(ISender sender) => _sender = sender;
 
-            //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
+        [HttpGet]
+        public async Task<ActionResult> TaskForSingleAlgo(int algoId, int fitFuncId, [FromBody] double[] parameters) {
+
+            double? result = await _sender.Send(new SolveWithSingleAlgoCommand(algoId, fitFuncId, parameters));
+            if (result!=null) { return Ok(result); }
+            else { return BadRequest(); }
         }
         [HttpGet]
-        public async void TaskForMultiAlgo([FromForm] int[] algoIds, int fitFuncId)
+        public async Task<ActionResult> TaskForMultiAlgo([FromForm] int[] algoIds, int fitFuncId)
         {
-
+            double[]? results = await _sender.Send(new SolveWithManyAlgosCommand());
+            if (results.Length != 0) { return Ok(results); }
+            else { return BadRequest(); }
             //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
         }
         [HttpGet]
