@@ -4,7 +4,7 @@ using MediatR;
 
 namespace HeuristicAlgoApp_Backend.Handlers
 {
-    public class GetAllFitnessFunctionsHandler : IRequestHandler<GetAllFitnessFunctionsQuerry,IEnumerable<FitnessFunction>>
+    public class GetAllFitnessFunctionsHandler : IRequestHandler<GetAllFitnessFunctionsQuery,IEnumerable<FitnessFunction>>
     {
         private readonly DataCollection _dataCollection;
 
@@ -12,7 +12,7 @@ namespace HeuristicAlgoApp_Backend.Handlers
         {
             _dataCollection = dataCollection;
         }
-        public async Task<IEnumerable<FitnessFunction>> Handle(GetAllFitnessFunctionsQuerry request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<FitnessFunction>> Handle(GetAllFitnessFunctionsQuery request, CancellationToken cancellationToken)
         {
             return await _dataCollection.GetAllFitnessFunctions();
         }
