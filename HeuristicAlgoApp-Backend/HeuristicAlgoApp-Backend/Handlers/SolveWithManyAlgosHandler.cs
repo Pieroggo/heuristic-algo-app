@@ -15,7 +15,11 @@ namespace HeuristicAlgoApp_Backend.Handlers
 
         public async Task<double[]?> Handle(SolveWithManyAlgosCommand request, CancellationToken cancellationToken)
         {
+<<<<<<< Updated upstream
             return new double[] {21.43}; //to be implemented
+=======
+            return new double[] { }; //to be implemented
+>>>>>>> Stashed changes
         }
     }
 }

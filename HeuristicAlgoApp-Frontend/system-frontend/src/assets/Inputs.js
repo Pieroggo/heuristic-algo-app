@@ -126,10 +126,18 @@ export default observer(function Inputs({ which, many }) {
                                     <div>
                                         <br />
                                         <label htmlFor="dim_f_one">wymiary: </label>
-                                        <input type="number" id="dim_f_one" value={func.dimension} maxLength={1} className="smallNumInput" onChange={(e) => appStore.handleFuncDimChange(e, func.id)}></input>
+                                        <input type="number"
+                                            id="dim_f_one"
+                                            value={func.dimension}
+                                            maxLength={1}
+                                            className="smallNumInput"
+                                            onChange={(e) => appStore.handleFuncDimChange(e, func.id)}
+                                        >
+                                        </input>
+                                        {/* {appStore.checkDim(func.id)} */}
 
                                         <p>&lt; dolna granica &#59; górna granica &gt;</p>
-                                        <BoundariesFor id={func.id}/>
+                                        <BoundariesFor id={func.id} />
 
                                         {/* <br />
                                         <label>dolna granica:

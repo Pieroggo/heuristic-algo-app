@@ -11,6 +11,7 @@ namespace HeuristicAlgoApp_Backend.Models
         public string TypeName { get; set; }
         public string FileName { get; set; }
         public int Dimension { get; set; } //if infinite, set to -1
+        public bool IsInfiniteDim { get; set; }
         public double[] LowerBoundaries { get; set; }
         public double[] UpperBoundaries { get; set; }
         public FitnessFunction() { GenerateId(); }

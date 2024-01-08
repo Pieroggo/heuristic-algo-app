@@ -28,6 +28,9 @@ namespace HeuristicAlgoApp_Backend.Services
                 }
                 
             }
+
+            // zmień dodawanie FitFunction - dodaj IsInfiniteDim
+
         }
     }
 }

@@ -7,9 +7,11 @@ export default observer(function BoundariesFor({ id }) {
 
     let f = appStore.getFunctionById(id);
 
-    if (f.dimension < 1) { appStore.setFuntionDimension(id, 0) }
+    // if (f.dimension < 1) {
+    //     // console.log("function ", f.id, " dimensions ", f.dimension)
+    //     appStore.setFuntionDimension(id, 1)
+    // }
 
-    // console.log("function ", f.id, " dimensions ", f.dimension)
 
     return (
         // console.log("for")

@@ -220,4 +220,8 @@ C:\Users\gesie\astudia_repos\heuristic-algo-app\HeuristicAlgoApp-Backend\Heurist
 C:\Users\gesie\astudia_repos\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 C:\Users\grazi\Projectos\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\maz2g\OneDrive\Desktop\Studia\Sem 5\Sztuczna inteligencja w projektach\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+<<<<<<< Updated upstream
 E:\Studia\Semestr 5\ZastMetSztuczIntProbInz\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+=======
+C:\Users\gesie\astudia_repos\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+>>>>>>> Stashed changes

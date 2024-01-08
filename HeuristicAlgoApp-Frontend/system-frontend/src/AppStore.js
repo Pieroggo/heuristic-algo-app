@@ -65,7 +65,7 @@ export default class AppStore {
     // FUNCTION get func of id
 
     getFunctionById = (id) => {
-        let f = this.functions.filter((f) => {return f.id == id})[0]
+        let f = this.functions.filter((f) => { return f.id == id })[0]
         console.log("> Wybieram funkcje: ", f.id, " : ", f.name)
         return f
     }
@@ -77,36 +77,44 @@ export default class AppStore {
     //     this.getFunctionById(id).dimension = dim
     // }
 
+    checkDim(){
+        console.log(">>>", document.querySelector('input[id="dim_f_one"]:disabled'))
+        if (this.getFunctionById(this.funcID).isInfiniteDim == false) {
+            // document.getElementById("dim_f_one").disabled = true;
+        }
+    }
+
     setFuntionDimension = (id, dim) => {
         runInAction(() => {
             this.getFunctionById(id).dimension = dim
+            console.log("setting func dim: ", dim)
         })
     }
 
     handleFuncDimChange = (e, id) => {
-        
+
         // zmiejszamy
-        if(this.getFunctionById(id).dimension > e.target.value){
+        if (this.getFunctionById(id).dimension > e.target.value) {
             this.getFunctionById(id).lowerBoundaries.pop()
         }
-        if(this.getFunctionById(id).dimension > e.target.value){
+        if (this.getFunctionById(id).dimension > e.target.value) {
             this.getFunctionById(id).upperBoundaries.pop()
         }
-        
+
         // zwiekszamy
-        if(this.getFunctionById(id).dimension < e.target.value){
+        if (this.getFunctionById(id).dimension < e.target.value) {
             this.getFunctionById(id).lowerBoundaries.push(0)
         }
-        if(this.getFunctionById(id).dimension < e.target.value){
+        if (this.getFunctionById(id).dimension < e.target.value) {
             this.getFunctionById(id).upperBoundaries.push(0)
         }
 
         this.setFuntionDimension(id, e.target.value)
+
     }
-    
+
     handleFuncLowBoundChange = (e, dim, id) => {
-        id = id-1
-        this.functions[id].lowerBoundaries[dim] = e.target.value
+        this.getFunctionById(id).lowerBoundaries[dim] = e.target.value
     }
 
     // TASKs
@@ -157,9 +165,9 @@ export default class AppStore {
             })
         }
     }
-    
+
     funcID = null
-    
+
     handleFuncIDChange = () => {
         console.log("> funcID change")
         document.querySelector('input[name="func-one"]:checked')
@@ -167,6 +175,7 @@ export default class AppStore {
             this.funcID = document.querySelector('input[name="func-one"]:checked').value
             :
             this.funcID = null
+        this.checkDim()
     }
 
     runMultiTask = async () => {

@@ -32,6 +32,7 @@ function App() {
           <p>jeden algorytm dla wielu funkcji testowych</p>
           <div className='item1 items'>
             <h3>wybierz algorytm: </h3>
+            <p>i ustaw jego parametry</p>
 
             <Inputs which={"algo"} many={false} />
 

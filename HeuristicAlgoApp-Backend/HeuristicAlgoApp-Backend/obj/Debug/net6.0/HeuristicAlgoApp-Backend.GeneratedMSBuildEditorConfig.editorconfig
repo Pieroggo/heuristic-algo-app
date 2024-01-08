@@ -9,9 +9,17 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HeuristicAlgoApp_Backend
 build_property.RootNamespace = HeuristicAlgoApp_Backend
+<<<<<<< Updated upstream
 build_property.ProjectDir = E:\Studia\Semestr 5\ZastMetSztuczIntProbInz\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = E:\Studia\Semestr 5\ZastMetSztuczIntProbInz\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend
+=======
+build_property.ProjectDir = C:\Users\gesie\astudia_repos\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\gesie\astudia_repos\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend
+>>>>>>> Stashed changes
 build_property._RazorSourceGeneratorDebug = 
