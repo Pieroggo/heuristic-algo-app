@@ -14,32 +14,51 @@ namespace HeuristicAlgoApp_Backend.Controllers
         private readonly ISender _sender;
         public TaskController(ISender sender) => _sender = sender;
 
-        [HttpGet]
-        public async Task<ActionResult> TaskForSingleAlgo(int algoId,[FromBody] int[] fitFuncIds, [FromBody] double[] parameters) {
+        [HttpPost]
+        public async Task<ActionResult> TaskForSingleAlgo(int algoId,[FromBody] int[] fitFuncIds, [FromBody] double[] parameters)
+        //should also have dimensions and bounds for fitFunc
+        {
 
             double?[]? result = await _sender.Send(new SolveWithSingleAlgoCommand(algoId, fitFuncIds, parameters));
-            if (result!=null) { return Ok(result); }
+            string reportPath = Directory.GetCurrentDirectory()+ "\\..\\..\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\DummySingleAlgoPDF.pdf"; //need to test it, may need to backtrack 1 more folder
+            if (result!=null) { return Ok(reportPath); }
             else { return BadRequest(); }
         }
-        [HttpGet]
+        [HttpPost]
         public async Task<ActionResult> TaskForMultiAlgo([FromForm] int[] algoIds, int fitFuncId)
+        //should also have dimensions and bounds for fitFunc
         {
             double?[]? results = await _sender.Send(new SolveWithManyAlgosCommand(algoIds,fitFuncId));
-            if (results!= null) { return Ok(results); }
+            string reportPath = Directory.GetCurrentDirectory() + "\\..\\..\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\DummyMultiAlgoPDF.pdf";
+            if (results!= null) { return Ok(reportPath); }
             else { return BadRequest(); }
             //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
         }
         [HttpGet]
-        public async void BreakSolving()
+        public async Task<ActionResult> GetSolvingSingleAlgo()
         {
+            //to be implemented
+            return Ok("soon :)");
 
-            //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
         }
         [HttpGet]
-        public async void ResumeSolving()
+        public async Task<ActionResult> GetSolvingMultiAlgo()
         {
-
-            //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
+            //to be implemented
+            return Ok("soon :)");
+        }
+        [HttpPost]
+        public async Task<ActionResult> BreakSolving()
+        {
+            await _sender.Send(new BreakSolvingCommand());
+            return Ok();
+        }
+        [HttpPost]
+        public async Task<ActionResult> ResumeSolving()
+        {
+            await _sender.Send(new ResumeSolvingCommand());
+            return Ok();
+            //to be implemented
         }
     }
 }

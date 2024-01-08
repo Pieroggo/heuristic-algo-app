@@ -4,9 +4,10 @@ namespace HeuristicAlgoApp_Backend.Services
 {
     public class ReflectionValidationService
     {
-        private readonly static string[] propertiesNeededInAlgorithm = new string[] { "Name","ParamsInfo" };
+        private readonly static string[] propertiesNeededInAlgorithm = new string[] { "Name", "ParamsInfo","writer","reader","stringReportGenerator","pdfReportGenerator" }; //maybe later, if necessary, add Cancelation Token field name to this list
+        //private readonly static string[] classPropertiesNeededInAlgorithm = new string[] {  }; //optional to check if the properties have correct fields
         private readonly static string[] methodsNeededInAlgorithm = new string[] { "Solve" };
-        private readonly static string[] methodsNeededInFitnessFunction = new string[] { "CalculateFitness" };
+        
         public static bool CheckAssemblyPath(string fPath)
         {
             bool isPathOk = true;
