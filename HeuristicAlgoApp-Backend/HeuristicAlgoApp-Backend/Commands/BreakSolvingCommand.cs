@@ -1,6 +1,8 @@
-﻿namespace HeuristicAlgoApp_Backend.Commands
+﻿using MediatR;
+
+namespace HeuristicAlgoApp_Backend.Commands
 {
-    public class BrakeSolvingCommand
+    public record BreakSolvingCommand() : IRequest
     {
     }
 }
