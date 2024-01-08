@@ -4,7 +4,7 @@ using MediatR;
 
 namespace HeuristicAlgoApp_Backend.Handlers
 {
-    public class SolveWithManyAlgosHandler : IRequestHandler<SolveWithManyAlgosCommand,double?>
+    public class SolveWithManyAlgosHandler : IRequestHandler<SolveWithManyAlgosCommand, double?[]?>
     {
         private readonly DataCollection dataCollection;
 
@@ -13,9 +13,9 @@ namespace HeuristicAlgoApp_Backend.Handlers
             this.dataCollection = dataCollection;
         }
 
-        public async Task<double?> Handle(SolveWithManyAlgosCommand request, CancellationToken cancellationToken)
+        public async Task<double?[]?> Handle(SolveWithManyAlgosCommand request, CancellationToken cancellationToken)
         {
-            return 21.37 //to be implemented
+            return null; //to be implemented
         }
     }
 }

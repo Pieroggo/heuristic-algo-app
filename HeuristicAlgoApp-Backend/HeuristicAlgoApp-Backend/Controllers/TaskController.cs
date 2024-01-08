@@ -15,17 +15,17 @@ namespace HeuristicAlgoApp_Backend.Controllers
         public TaskController(ISender sender) => _sender = sender;
 
         [HttpGet]
-        public async Task<ActionResult> TaskForSingleAlgo(int algoId, int fitFuncId, [FromBody] double[] parameters) {
+        public async Task<ActionResult> TaskForSingleAlgo(int algoId,[FromBody] int[] fitFuncIds, [FromBody] double[] parameters) {
 
-            double? result = await _sender.Send(new SolveWithSingleAlgoCommand(algoId, fitFuncId, parameters));
+            double?[]? result = await _sender.Send(new SolveWithSingleAlgoCommand(algoId, fitFuncIds, parameters));
             if (result!=null) { return Ok(result); }
             else { return BadRequest(); }
         }
         [HttpGet]
         public async Task<ActionResult> TaskForMultiAlgo([FromForm] int[] algoIds, int fitFuncId)
         {
-            double[]? results = await _sender.Send(new SolveWithManyAlgosCommand());
-            if (results.Length != 0) { return Ok(results); }
+            double?[]? results = await _sender.Send(new SolveWithManyAlgosCommand(algoIds,fitFuncId));
+            if (results!= null) { return Ok(results); }
             else { return BadRequest(); }
             //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
         }

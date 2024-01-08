@@ -13,7 +13,12 @@ namespace HeuristicAlgoApp_Backend.Models
         public int Dimension { get; set; } //if infinite, set to -1
         public double[] LowerBoundaries { get; set; }
         public double[] UpperBoundaries { get; set; }
-        public FitnessFunction() { GenerateId(); }
+        public FitnessFunction() { 
+            GenerateId();
+            Dimension = 2;
+            LowerBoundaries = new double[] { -1, -1 };
+            UpperBoundaries = new double[] { 1, 1 };
+        }
         public void GenerateId()
         {
             Id = Interlocked.Increment(ref UUID);
