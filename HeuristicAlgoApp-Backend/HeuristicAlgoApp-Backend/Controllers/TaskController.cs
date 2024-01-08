@@ -24,7 +24,7 @@ namespace HeuristicAlgoApp_Backend.Controllers
         [HttpGet]
         public async Task<ActionResult> TaskForMultiAlgo([FromForm] int[] algoIds, int fitFuncId)
         {
-            double[]? results = await _sender.Send(new SolveWithManyAlgosCommand());
+            double[]? results = await _sender.Send(new SolveWithManyAlgosCommand(algoIds, fitFuncId));
             if (results.Length != 0) { return Ok(results); }
             else { return BadRequest(); }
             //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
