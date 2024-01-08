@@ -30,16 +30,18 @@ namespace HeuristicAlgoApp_Backend.Controllers
             //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
         }
         [HttpGet]
-        public async void BreakSolving()
+        public async Task<ActionResult> BreakSolving()
         {
-
+            await _sender.Send(new BreakSolvingCommand());
             //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
+            return Ok();
         }
         [HttpGet]
-        public async void ResumeSolving()
+        public async Task<ActionResult> ResumeSolving()
         {
-
+            await _sender.Send(new ResumeSolvingCommand());
             //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
+            return Ok();
         }
     }
 }
