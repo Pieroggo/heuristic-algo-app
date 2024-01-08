@@ -16,16 +16,14 @@ namespace HeuristicAlgoApp_Backend.Controllers
         {
             _sender = sender;
         }
-        //ContextModel
-        // GET: api/<FitnessFunctionController>
+ 
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            var fitnessFuncs = await _sender.Send(new GetAllFitnessFunctionsQuerry());
+            var fitnessFuncs = await _sender.Send(new GetAllFitnessFunctionsQuery());
             return Ok(fitnessFuncs);
         }
 
-        // GET api/<FitnessFunctionController>/5
         [HttpGet("{id:int}")]
         public async Task<ActionResult> GetById(int id)
         {

@@ -2,5 +2,5 @@
 using MediatR;
 namespace HeuristicAlgoApp_Backend.Queries
 {
-    public record GetAllFitnessFunctionsQuerry : IRequest<IEnumerable<FitnessFunction>>;
+    public record GetAllFitnessFunctionsQuery : IRequest<IEnumerable<FitnessFunction>>;
 }
