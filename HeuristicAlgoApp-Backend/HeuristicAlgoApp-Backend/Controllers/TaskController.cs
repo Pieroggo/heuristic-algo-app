@@ -17,7 +17,7 @@ namespace HeuristicAlgoApp_Backend.Controllers
         [HttpGet]
         public async Task<ActionResult> TaskForSingleAlgo(int algoId, int fitFuncId, [FromBody] double[] parameters) {
 
-            double? result = await _sender.Send(new SolveWithSingleAlgoCommand(algoId, fitFuncId, parameters));
+            string? result = await _sender.Send(new SolveWithSingleAlgoCommand(algoId, fitFuncId, parameters));
             if (result!=null) { return Ok(result); }
             else { return BadRequest(); }
         }
