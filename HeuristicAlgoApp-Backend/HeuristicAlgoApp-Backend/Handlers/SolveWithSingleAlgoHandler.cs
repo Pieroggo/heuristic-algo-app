@@ -28,8 +28,9 @@ namespace HeuristicAlgoApp_Backend.Handlers
             //fitFunc, lb, ub, parameters
             if (algorithm!=null)
             {
+                string reportPath = Directory.GetCurrentDirectory() + "\\..\\..\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
                 object solveParams = new object[] { fitnessFunction,fitnessFunctionDTO };
-                double result=algorithm.GetType().GetMethod("Solve").Invoke(algorithm);
+                double result=algorithm.GetType().GetMethod("Solve").Invoke(algorithm,solveParams,reportPath);
                 string path = algorithm.GetType().GetField("pdfReportGenerator").Invoke(algorithm);
                 PropertyInfo pdfProperty = typePDF.GetProperty("filePathPDF");
                 object pdfValue = pdfProperty.GetValue(pdfInstance);
