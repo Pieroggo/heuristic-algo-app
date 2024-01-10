@@ -1,4 +1,5 @@
 import { useStore } from "../store";
+import React, { Component }  from 'react';
 import { observer } from "mobx-react-lite";
 
 export default observer(function BoundariesFor({ id }) {

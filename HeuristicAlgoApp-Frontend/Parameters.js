@@ -1,10 +1,10 @@
 import { useStore } from "../store";
 import { observer } from "mobx-react-lite";
+import React, { Component }  from 'react';
 
 export default observer(function Parametry({ }) {
 
     const { appStore } = useStore();
-
     <div>
         <br />
         {/* <label htmlFor={func.dimension + "_one"}>wymiary: </label>

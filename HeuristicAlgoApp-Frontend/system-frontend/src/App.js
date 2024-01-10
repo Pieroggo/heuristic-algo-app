@@ -1,4 +1,5 @@
 import './App.css';
+import React, { Component }  from 'react';
 import { useEffect } from 'react';
 import { useStore } from './store';
 import { observer } from 'mobx-react-lite';

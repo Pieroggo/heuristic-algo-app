@@ -1,7 +1,8 @@
+import React, { Component }  from 'react';
 import { useStore } from "../store";
 import { observer } from "mobx-react-lite";
 import BoundariesFor from "./BoundariesFor";
-import Parameters from "./Parameters";
+//import Parameters from "./Parameters";
 
 export default observer(function Inputs({ which, many }) {
 
