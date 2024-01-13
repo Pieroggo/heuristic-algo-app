@@ -15,11 +15,11 @@ namespace HeuristicAlgoApp_Backend.Controllers
         public TaskController(ISender sender) => _sender = sender;
 
         [HttpPost]
-        public async Task<ActionResult> TaskForSingleAlgo(int algoId,[FromBody] int[] fitFuncIds, [FromBody] double[] parameters)
+        public async Task<ActionResult> TaskForSingleAlgo(int algoId, int[] fitFuncIds)// double[] parameters
         //should also have dimensions and bounds for fitFunc
         {
 
-            double?[]? result = await _sender.Send(new SolveWithSingleAlgoCommand(algoId, fitFuncIds, parameters));
+            double?[]? result = await _sender.Send(new SolveWithSingleAlgoCommand(algoId, fitFuncIds, new double[] { }));
             string reportPath = Directory.GetCurrentDirectory()+ "\\..\\..\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\DummySingleAlgoPDF.pdf"; //need to test it, may need to backtrack 1 more folder
             if (result!=null) { return Ok(reportPath); }
             else { return BadRequest(); }

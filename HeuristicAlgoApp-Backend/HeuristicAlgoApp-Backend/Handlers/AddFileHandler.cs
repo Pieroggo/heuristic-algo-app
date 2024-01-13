@@ -23,7 +23,7 @@ namespace HeuristicAlgoApp_Backend.Handlers
                 Directory.CreateDirectory(folderPath);
             }
 
-            string path = Path.Combine("Files/Dlls", request.file.FileName);
+            string path = Path.Combine(folderPath, request.file.FileName);
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
