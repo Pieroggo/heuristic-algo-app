@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HeuristicAlgoApp-Backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+62d0e15279b1e1cf609eb0454d7a884f4b13bc90")]
 [assembly: System.Reflection.AssemblyProductAttribute("HeuristicAlgoApp-Backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HeuristicAlgoApp-Backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

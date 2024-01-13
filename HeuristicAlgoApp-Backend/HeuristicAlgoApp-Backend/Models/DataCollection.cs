@@ -15,9 +15,9 @@ namespace HeuristicAlgoApp_Backend.Models
             fitnessFunctions = new List<FitnessFunction>();
             algorithms.Add(new Algorithm(){Name="Sample Algo",TypeName="Sample Algo Type", FileName="Sample Algo File", Parameters=new List<Parameter>(){ new Parameter{ Name = "Parametr",LowerBoundary=-1,UpperBoundary=1 } } });
             algorithms.Add(new Algorithm() {Name = "Sample Algo 2", TypeName = "Sample Algo 2 Type", FileName = "Sample Algo 2 File", Parameters = new List<Parameter>() { new Parameter { Name = "ParametrX", LowerBoundary = -1, UpperBoundary = 1 }, new Parameter { Name = "ParametrY", LowerBoundary = -100, UpperBoundary = 100 } } });
-            fitnessFunctions.Add(new FitnessFunction() { Name = "Fitness Function", TypeName = "Fitness Function Type", FileName = "Fitness Function File", Dimension = -1 });
-            fitnessFunctions.Add(new FitnessFunction() { Name = "Fitness Function 2", TypeName = "Fitness Function 2 Type", FileName = "Fitness Function 2 File", Dimension = -1 });
-            fitnessFunctions.Add(new FitnessFunction() { Name = "Fitness Function 2D", TypeName = "Fitness Function 2D Type", FileName = "Fitness Function 2D File", Dimension = 2 });
+            fitnessFunctions.Add(new FitnessFunction() { Name = "Fitness Function", TypeName = "Fitness Function Type", FileName = "Fitness Function File" });
+            fitnessFunctions.Add(new FitnessFunction() { Name = "Fitness Function 2", TypeName = "Fitness Function 2 Type", FileName = "Fitness Function 2 File" });
+            fitnessFunctions.Add(new FitnessFunction() { Name = "Fitness Function 2D", TypeName = "Fitness Function 2D Type", FileName = "Fitness Function 2D File" });
             solvingSingleAlgo = null;
             solvingMultiAlgo = null;
         }

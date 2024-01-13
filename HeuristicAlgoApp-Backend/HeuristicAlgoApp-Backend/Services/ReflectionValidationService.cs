@@ -25,6 +25,7 @@ namespace HeuristicAlgoApp_Backend.Services
         }
         public static bool IsCorrectAlgorithm(Type checkedType)
         {
+                if (checkedType.Name=="IOptimizationAlgorithm") { return false; }
                     bool isOk = true;
                     foreach (string fieldName in propertiesNeededInAlgorithm)
                     {
@@ -46,7 +47,7 @@ namespace HeuristicAlgoApp_Backend.Services
                 }
         public static bool IsCorrectFitnessFunction(Type checkedType) {
             
-            return checkedType.GetMethod("CalculateFitness")!=null;
+            return checkedType.GetMethod("CalculateFitness")!=null && checkedType.Name!="IFitnessFunction";
         }
     }
 }
