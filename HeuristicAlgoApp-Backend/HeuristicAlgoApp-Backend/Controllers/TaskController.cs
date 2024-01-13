@@ -21,7 +21,7 @@ namespace HeuristicAlgoApp_Backend.Controllers
         {
 
             //double?[]? result = await _sender.Send(new SolveWithSingleAlgoCommand(algoId, fitFuncIds, new double[] { }));
-            string reportPath = Directory.GetCurrentDirectory()+ "\\..\\..\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\DummySingleAlgoPDF.pdf"; //need to test it, may need to backtrack 1 more folder
+            string reportPath = Directory.GetCurrentDirectory()+ "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\DummySingleAlgoPDF.pdf"; //need to test it, may need to backtrack 1 more folder
             //if (result!=null) {
             return Ok(reportPath); //}
            // else { return BadRequest(); }
@@ -31,7 +31,7 @@ namespace HeuristicAlgoApp_Backend.Controllers
         //should also have dimensions and bounds for fitFunc
         {
             //double?[]? results = await _sender.Send(new SolveWithManyAlgosCommand(algoIds,fitFuncId));
-            string reportPath = Directory.GetCurrentDirectory() + "\\..\\..\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\DummyMultiAlgoPDF.pdf";
+            string reportPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\DummyMultiAlgoPDF.pdf";
            // if (results!= null) {
            return Ok(reportPath); //}
            // else { return BadRequest(); }
