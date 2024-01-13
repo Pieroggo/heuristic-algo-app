@@ -18,6 +18,21 @@ namespace HeuristicAlgoApp_Backend.Services
                     if (ReflectionValidationService.IsCorrectAlgorithm(t))
                     {
                         dynamic algo=Activator.CreateInstance(t);
+                        List<Parameter> parameters = new List<Parameter>();
+                        dynamic paramsInfo = algo.GetType().GetProperty("ParamsInfo").GetValue(algo);
+                        if (paramsInfo != null && paramsInfo.Length!=0)
+                        {
+                            foreach (dynamic param in paramsInfo)
+                            {
+                                parameters.Add(new Parameter()
+                                {
+                                    Name = param.GetType().GetProperty("Name").GetValue(param),
+                                    Description = param.GetType().GetProperty("Description").GetValue(param),
+                                    LowerBoundary = param.GetType().GetProperty("LowerBoundary").GetValue(param),
+                                    UpperBoundary = param.GetType().GetProperty("UpperBoundary").GetValue(param)
+                                });
+                            }
+                        }
                         await dataCollection.AddAlgorithm(new Algorithm() { Name = t.GetProperty("Name").GetValue(algo),TypeName=t.Name,FileName=fPath });//for now, without Parameters
                     }
                     if (ReflectionValidationService.IsCorrectFitnessFunction(t)) {
