@@ -29,17 +29,24 @@ function App() {
       <div className='flex-box-row'>
 
         <div className='flex-box-items'>
-          <h2>Single task</h2>
-          <p>jeden algorytm dla wielu funkcji testowych</p>
+          <h1>Single task</h1>
+          <p>"Jeden algorytm dla wielu funkcji testowych"</p>
           <div className='item1 items'>
-            <h3>wybierz algorytm: </h3>
+            <h3>Wybierz algorytm: </h3>
+            <p>(ustaw ilość iteracji i wielkość populacji)</p>
+            <p>(oraz dodatkowe parametry (jeśli posiada))</p>
 
             <Inputs which={"algo"} many={false} />
+
+            {/* TO DO - wybór ilości iteracji i populacji */}
+
+            {/* TO DO - wybór dodatkowych parametrów */}
 
           </div>
 
           <div className='item2 items'>
-            <h3>wybierz funkcje: </h3>
+            <h3>Wybierz funkcje: </h3>
+            <p>(ustaw ilość parametrów i ich zakresy)</p>
 
             <Inputs which={"func"} many={true} />
 
@@ -47,23 +54,23 @@ function App() {
 
           <button onClick={() => appStore.runSinlgeTask()}>Uruchom</button>
 
-
         </div>
 
 
         <div className='flex-box-items'>
-          <h2>Multi task</h2>
-          <p>jedna funkcja testowa dla wielu algorytmów</p>
+          <h1>Multi task</h1>
+          <p>"Jedna funkcja testowa dla wielu algorytmów"</p>
           <div className='item1 items'>
-            <h3>wybierz algorytmy: </h3>
-            <p>automatyczny dobór najlepszych parametrów</p>
+            <h3>Wybierz algorytmy: </h3>
+            <p>(automatyczny dobór parametrów)</p>
 
             <Inputs which={"algo"} many={true} />
 
           </div>
 
           <div className='item2 items'>
-            <h3>wybierz funkcję: </h3>
+            <h3>Wybierz funkcję: </h3>
+            <p>(ustaw ilość jej parametrów i ich zakresy)</p>
 
             <Inputs which={"func"} many={false} />
 

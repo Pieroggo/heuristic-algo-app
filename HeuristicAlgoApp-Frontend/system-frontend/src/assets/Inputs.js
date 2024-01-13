@@ -1,4 +1,4 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 import { useStore } from "../store";
 import { observer } from "mobx-react-lite";
 import BoundariesFor from "./BoundariesFor";
@@ -40,6 +40,8 @@ export default observer(function Inputs({ which, many }) {
         )
     }
 
+    // for SINGLE TASK
+
     // many functions
 
     if (which === "func" && many === true) {
@@ -59,9 +61,28 @@ export default observer(function Inputs({ which, many }) {
                                 <label htmlFor={func.name + "_many"}>
                                     {func.name}
                                 </label>
+                                {/* {appStore.funcID == func.id &&
+                                    <div>
+                                        <br />
+                                        <label htmlFor="dim_f_many">wymiary: </label>
+                                        <input type="number" id="dim_f_many" value={func.dimension} maxLength={1} className="smallNumInput" onChange={(e) => appStore.handleFuncDimChange(e, func.id)}></input>
+
+                                        <p>&lt; dolna granica &#59; górna granica &gt;</p>
+                                        <BoundariesFor id={func.id} />
+                                        // boudariesFor jeszcze będzie przyjmował czy single czy multi?
+                                        // kurcze, mam zagwostke
+                                    </div>
+                                } */}
+                                {/* nie, to nie w ten sposób. trzeba inaczej */}
+                                {/* więcej zmiennych - funkcje dla singla i funkcje dla multi [dwie kopie lokalnie] */}
+                                {/* przy wysyłaniu pobierasz ino z this.'ów */}
                             </td>
                             <td>
-                                <input type="checkbox" id={func.name + "_many"} value={func.id} name="func-many"></input>
+                                {/* <input type="checkbox" id={func.name + "_many"} value={func.id} name="func-many" onChange={() => { appStore.handleFuncIDChange() }}></input> */}
+                                {/* onChange wtedy będzie tylko zmieniał odpowiednie wartości odpowiednich zmiennych (opdowiednie XD ale będzie musiał wiedzieć po czymś które to są te odpowiednie)*/}
+                                {/* nie potrzeba będzie skomplikowanych IDków (to jak chcesz wiedzieć co dotyczy którego S/M?)*/}
+                                {/* React jest stanowy jak USA */}
+                                <input type="checkbox" id={func.name + "_many"} value={func.id} name="func-many" onChange={() => { }} ></input>
                             </td>
                         </tr>
                     ))}
@@ -102,6 +123,8 @@ export default observer(function Inputs({ which, many }) {
         )
     }
 
+    // for MULTI TASK
+
     // one function
 
     if (which === "func" && many === false) {
@@ -130,7 +153,7 @@ export default observer(function Inputs({ which, many }) {
                                         <input type="number" id="dim_f_one" value={func.dimension} maxLength={1} className="smallNumInput" onChange={(e) => appStore.handleFuncDimChange(e, func.id)}></input>
 
                                         <p>&lt; dolna granica &#59; górna granica &gt;</p>
-                                        <BoundariesFor id={func.id}/>
+                                        <BoundariesFor id={func.id} />
 
                                         {/* <br />
                                         <label>dolna granica:
