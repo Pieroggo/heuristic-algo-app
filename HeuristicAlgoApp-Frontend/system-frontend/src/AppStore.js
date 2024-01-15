@@ -10,14 +10,27 @@ export default class AppStore {
     //apiPath = 'https://jsonplaceholder.typicode.com/';
     apiPath = 'https://localhost:7071/api';
 
+    // SHOW VALUES function to better see values of states when using mobx
+
+    show = (what) => {
+        // console.log("> Showing variable values")
+        what.map((item) => {
+            return console.log(item);
+        })
+    }
+
+    // FUNCTIONS & ALGORITHMS
+
+    // wczytanie i ustawienie
+
     algorithms = [];
     functions = [];
-    file = "";
 
-    przerwanoSingleTask = false;
-    przerwanoMultiTask = false;
+    functionsForSingle = []
+    algorithmsForSingle = []
 
-    // TO DO break functionality
+    functionsForMulti = []
+    algorithmsForMulti = []
 
     setAlgorithms = (data) => {
         this.algorithms = data;
@@ -27,7 +40,298 @@ export default class AppStore {
         this.functions = data;
     }
 
-    handleFileChange = (event) => {
+    setAllAlgorithms = (data) => {
+        this.algorithmsForSingle = data;
+        this.algorithmsForMulti = data;
+    }
+
+    setAllFunctions = (data) => {
+        this.functionsForSingle = data;
+        this.functionsForMulti = data;
+    }
+
+    // GET BY ID
+
+    // get func of id
+
+    getFunctionById = (singleOrMulti, id) => {
+        if (singleOrMulti === "single") {
+            let f = this.functionsForSingle.filter((f) => { return f.id == id })[0]
+            // console.log("> Wybieram functionsForSingle: ", f.id, " : ", f.name)
+            return f
+        }
+        else if (singleOrMulti === "multi") {
+            let f = this.functionsForMulti.filter((f) => { return f.id == id })[0]
+            // console.log("> Wybieram functionsForMulti: ", f.id, " : ", f.name)
+            return f
+        }
+        else {
+            return false
+        }
+    }
+
+    getAlgorithmById = (singleOrMulti, id) => {
+        if (singleOrMulti === "single") {
+            let a = this.algorithmsForSingle.filter((a) => { return a.id == id })[0]
+            // console.log("> Wybieram algorithmsForSingle: ", a.id, " : ", a.name)
+            return a
+        }
+        else if (singleOrMulti === "multi") {
+            let a = this.algorithmsForMulti.filter((f) => { return f.id == id })[0]
+            // console.log("> Wybieram algorithmsForMulti: ", a.id, " : ", a.name)
+            return a
+        }
+        else {
+            return false
+        }
+    }
+
+    // get algo of id
+
+    // FUNCTIONS / ALGOS CHANGING (onChange)
+
+    handleOnChangeFuncId = (singleOrMulti, id, e) => {
+
+        if (singleOrMulti === "single") {
+            if (e.target.checked) {
+                this.singleFuncIds.push(e.target.value)
+            }
+            if (!e.target.checked) {
+                this.singleFuncIds = this.singleFuncIds.filter(item => item !== e.target.value)
+            }
+            // console.log("single handleOnChangeFuncId: ")
+            this.show(this.singleFuncIds)
+        }
+        else if (singleOrMulti === "multi") {
+            this.multiFuncId = e.target.value
+            // console.log("multi handleOnChangeFuncId: ", this.multiFuncId)
+        }
+        else { }
+
+    }
+
+    handleOnChangeAlgoId = (singleOrMulti, e) => {
+
+        if (singleOrMulti === "single") {
+            this.singleAlgoId = e.target.value
+            // console.log("single handleOnChangeAlgoId: ", this.singleAlgoId)
+            this.setAlgorithmParameters(e.target.value, "all", "min") // ustawienie wartości wstępnych (minimalnych) wartości
+        }
+        else if (singleOrMulti === "multi") {
+            if (e.target.checked) {
+                this.multiAlgoIds.push(e.target.value)
+            }
+            if (!e.target.checked) {
+                this.multiAlgoIds = this.multiAlgoIds.filter(item => item !== e.target.value)
+            }
+            // console.log("multi handleOnChangeAlgoId: ")
+            this.show(this.multiAlgoIds)
+        }
+        else { }
+
+    }
+
+    // PARAMETERS / DIMENSIONS changing
+
+    setAlgorithmParameters = (algoId, position, value) => {
+        if (position == "all" && value == "min") {
+            runInAction(() => {
+                // Array(n).fill(0)
+                let a = this.getAlgorithmById("single", algoId)
+                this.singleAlgoParameters = Array(a.parameters.length).fill(0) // wyzerowana tablica o długości tyle ile jest parametrów
+                a.parameters.map((parameter, i) => (
+                    // ustawienie na minimalne wartości
+                    this.singleAlgoParameters[i] = parameter.lowerBoundary
+                ))
+            })
+        }
+        else {
+            value = parseFloat(value)
+            runInAction(() => {
+                this.singleAlgoParameters[position] = value
+            })
+        }
+        // console.log("parametry ustawione na: ")
+        // console.log(this.singleAlgoParameters)
+    }
+
+    setIterations = (singleOrMulti, value) => {
+        value = parseFloat(value)
+        if (value > 0) {
+            runInAction(() => {
+                if (singleOrMulti == "single") {
+                    this.singleIterations = value
+                    return true
+                }
+                else if (singleOrMulti == "multi") {
+                    this.multiIterations = value
+                    return true
+                }
+                else {
+                    return false
+                }
+            })
+        }
+    }
+
+    setPopulation = (singleOrMulti, value) => {
+        value = parseFloat(value)
+        if (value > 0) {
+            runInAction(() => {
+                if (singleOrMulti == "single") {
+                    this.singlePopulation = value
+                    return true
+                }
+                else if (singleOrMulti == "multi") {
+                    this.multiPopulation = value
+                    return true
+                }
+                else {
+                    return false
+                }
+            })
+        }
+    }
+
+    setFuncDimension = (singleOrMulti, id, value) => {
+        runInAction(() => {
+            this.getFunctionById(singleOrMulti, id).dimension = value
+        })
+    }
+
+    handleOnChangeFuncDim = (singleOrMulti, id, e) => {
+
+        // zmiejszamy
+        if (this.getFunctionById(singleOrMulti, id).dimension > e.target.value) {
+            this.getFunctionById(singleOrMulti, id).lowerBoundaries.pop()
+        }
+        if (this.getFunctionById(singleOrMulti, id).dimension > e.target.value) {
+            this.getFunctionById(singleOrMulti, id).upperBoundaries.pop()
+        }
+
+        // zwiekszamy
+        if (this.getFunctionById(singleOrMulti, id).dimension < e.target.value) {
+            this.getFunctionById(singleOrMulti, id).lowerBoundaries.push(-1)
+        }
+        if (this.getFunctionById(singleOrMulti, id).dimension < e.target.value) {
+            this.getFunctionById(singleOrMulti, id).upperBoundaries.push(1)
+        }
+
+        this.setFuncDimension(singleOrMulti, id, e.target.value)
+    }
+
+    handleOnChangeFuncLowerBound = (singleOrMulti, fid, dim, e) => {
+        if (singleOrMulti == "single") {
+            // this.functions[id].lowerBoundaries[dim] = e.target.value
+            this.getFunctionById(singleOrMulti, fid).lowerBoundaries[dim] = e.target.value
+        }
+        if (singleOrMulti == "multi") {
+            // this.functions[id].lowerBoundaries[dim] = e.target.value
+            this.getFunctionById(singleOrMulti, fid).lowerBoundaries[dim] = e.target.value
+        }
+    }
+
+    handleOnChangeFuncUpperBound = (singleOrMulti, fid, dim, e) => {
+        if (singleOrMulti == "single") {
+            this.getFunctionById(singleOrMulti, fid).upperBoundaries[dim] = e.target.value
+        }
+        if (singleOrMulti == "multi") {
+            this.getFunctionById(singleOrMulti, fid).upperBoundaries[dim] = e.target.value
+        }
+    }
+
+    // SINGLE & MULTI TASK's
+
+    // dla Single Taska:
+
+    singleAlgoId = null;
+    singleFuncIds = [];
+
+    singlePopulation = 1
+    singleIterations = 1
+    singleAlgoParameters = null
+
+    runSinlgeTask = async () => {
+
+        console.log("> Uruchamiam SINGLE TASK")
+
+        if (this.singleFuncIds.length > 0 && this.singleAlgoId){
+            console.log("Wysyłam: ")
+            console.log("AlgoId: ", this.singleAlgoId)
+            console.log("FitFuncIds: ", this.singleFuncIds)
+            console.log("NumOfAgents: ", this.singlePopulation)
+            console.log("NumOfIterations: ", this.singleIterations)
+            console.log("AlgoParameters: ", this.getAlgorithmById("single", this.singleAlgoId).parameters)
+            console.log("FitFuncLowerBoundaries: ")
+            {this.singleFuncIds.map((fid) => {
+                console.log(this.getFunctionById("single", fid).lowerBoundaries)
+            })}
+            console.log("FitFuncUpperBoundaries: ")
+            {this.singleFuncIds.map((fid) => {
+                console.log(this.getFunctionById("single", fid).upperBoundaries)
+            })}
+        }
+        else {
+            console.log("Nie wybrano funkcjów i/lub algorytmu")
+        }
+
+        // console.log("Wysyłam")
+        // TO DO
+
+        // console.log("Czyszcze inputy")
+        // TO DO
+
+    }
+
+    // dla Multi Taska:
+
+    multiAlgoIds = []
+    multiFuncId = null
+
+    multiPopulation = 1
+    multiIterations = 1
+
+    runMultiTask = async () => {
+
+        console.log("> Uruchamiam MULTI TASK")
+        
+        if (this.multiAlgoIds.length > 0 && this.multiFuncId){
+            console.log("Wysyłam: ")
+            console.log("AlgoIds: ", this.multiAlgoIds)
+            console.log("FitFuncId: ", this.multiFuncId)
+            console.log("NumOfAgents: ", this.multiPopulation)
+            console.log("NumOfIterations: ", this.multiIterations)
+            console.log("FitFuncDimension: ", this.getFunctionById("multi", this.multiFuncId).dimension)
+            console.log("FitFuncLowerBoundaries: ", this.getFunctionById("multi", this.multiFuncId).lowerBoundaries)
+            console.log("FitFuncUpperBoundaries: ", this.getFunctionById("multi", this.multiFuncId).upperBoundaries)
+        }
+        else {
+            console.log("Nie wybrano funkcji i/lub algorytmów")
+        }
+
+        // console.log("Wysyłam")
+        // TO DO
+
+        // console.log("Czyszcze inputy")
+        // TO DO
+
+    }
+
+    // przerywanie tasków PAUSE - RESUME
+
+    przerwanoSingleTask = false;
+    przerwanoMultiTask = false;
+    // TO DO
+
+
+    
+    // FILE UPLOAD
+
+    file = "";
+
+    // handling upload
+
+    handleOnChangeFile = (event) => {
 
         console.log("> Zmieniam plik");
 
@@ -61,174 +365,6 @@ export default class AppStore {
         console.log("Czyszcze input")
         document.getElementById("fileUpload").value = ""
     }
-
-    // FUNCTION get func of id
-
-    getFunctionById = (id) => {
-        let f = this.functions.filter((f) => {return f.id == id})[0]
-        console.log("> Wybieram funkcje: ", f.id, " : ", f.name)
-        return f
-    }
-
-
-    // PARAMETERS changing
-
-    // setFuntionDimension = (id, dim) => {
-    //     this.getFunctionById(id).dimension = dim
-    // }
-
-    setFuntionDimension = (id, dim) => {
-        runInAction(() => {
-            this.getFunctionById(id).dimension = dim
-        })
-    }
-
-    handleFuncDimChange = (e, id) => {
-        
-        // zmiejszamy
-        if(this.getFunctionById(id).dimension > e.target.value){
-            this.getFunctionById(id).lowerBoundaries.pop()
-        }
-        if(this.getFunctionById(id).dimension > e.target.value){
-            this.getFunctionById(id).upperBoundaries.pop()
-        }
-        
-        // zwiekszamy
-        if(this.getFunctionById(id).dimension < e.target.value){
-            this.getFunctionById(id).lowerBoundaries.push(0)
-        }
-        if(this.getFunctionById(id).dimension < e.target.value){
-            this.getFunctionById(id).upperBoundaries.push(0)
-        }
-
-        this.setFuntionDimension(id, e.target.value)
-    }
-    
-    handleFuncLowBoundChange = (e, dim, id) => {
-        id = id-1
-        this.functions[id].lowerBoundaries[dim] = e.target.value
-    }
-
-    // TASKs
-
-    runSinlgeTask = async () => {
-
-        console.log("> Uruchamiam SINGLE TASK")
-
-        let algoID = document.querySelector('input[name="algo-one"]:checked')
-        if (algoID) {
-            console.log("Wybrany algorytm: ", algoID.value)
-        }
-        else {
-            console.log("Nie wybrano algorytmu")
-        }
-
-        let funcIDs = []
-        let checkboxes = document.querySelectorAll('input[name="func-many"]:checked')
-        if (checkboxes.length > 0) {
-            checkboxes.forEach((checkbox) => {
-                funcIDs.push(checkbox.value)
-            })
-            console.log("Wybrane funkcje: ", funcIDs)
-        }
-        else {
-            console.log("Nie wybrano funkcjów")
-        }
-
-        console.log("Czyszcze inputy")
-        if (algoID) { algoID.checked = false }
-        if (checkboxes.length > 0) {
-            checkboxes.forEach((checkbox) => {
-                checkbox.checked = false
-            })
-        }
-
-    }
-
-    algoIDs = []
-
-    handleAlgoIDsChange = () => {
-        this.algoIDs = []
-        console.log("> algoIDs change")
-        let checkboxes = document.querySelectorAll('input[name="algo-many"]:checked')
-        if (checkboxes.length > 0) {
-            checkboxes.forEach((checkbox) => {
-                this.algoIDs.push(checkbox.value)
-            })
-        }
-    }
-    
-    funcID = null
-    
-    handleFuncIDChange = () => {
-        console.log("> funcID change")
-        document.querySelector('input[name="func-one"]:checked')
-            ?
-            this.funcID = document.querySelector('input[name="func-one"]:checked').value
-            :
-            this.funcID = null
-    }
-
-    runMultiTask = async () => {
-
-        console.log("> Uruchamiam MULTI TASK")
-
-        if (this.algoIDs.length > 0) {
-            console.log("Wybrane algosy: ")
-            this.algoIDs.forEach((id) => {
-                console.log(id)
-            })
-        }
-        else {
-            console.log("Nie wybrano algorytmów")
-        }
-
-        if (this.funcID) {
-            console.log("Wybrana funkcja: ", this.funcID)
-        }
-        else {
-            console.log("Nie wybrano funkcji")
-        }
-
-        // let algoIDs = []
-        // let checkboxes = document.querySelectorAll('input[name="algo-many"]:checked')
-        // if (checkboxes.length > 0) {
-        //     checkboxes.forEach((checkbox) => {
-        //         algoIDs.push(checkbox.value)
-        //     })
-        //     console.log("Wybrane algosy: ", algoIDs)
-        // }
-        // else {
-        //     console.log("Nie wybrano algorytmów")
-        // }
-
-        // let funcID = document.querySelector('input[name="func-one"]:checked')
-
-        // if (funcID) {
-        //     console.log("Wybrana funckja: ", funcID.value)
-        // }
-        // else {
-        //     console.log("Nie wybrano funkcji")
-        // }
-
-
-
-
-        console.log("Czyszcze inputy")
-        let checkboxes = document.querySelectorAll('input[name="algo-many"]:checked')
-        if (checkboxes.length > 0) {
-            checkboxes.forEach((checkbox) => {
-                checkbox.checked = false
-            })
-            this.algoIDs = []
-        }
-        if (this.funcID) {
-            document.querySelector('input[name="func-one"]:checked').checked = false
-            this.funcID = null
-        }
-
-    }
-
 
 
 }

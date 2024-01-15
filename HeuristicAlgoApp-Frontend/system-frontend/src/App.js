@@ -16,10 +16,12 @@ function App() {
     axios.get(appStore.apiPath + '/Algorithm/GetAll')
       .then(response => {
         appStore.setAlgorithms(response.data)
+        appStore.setAllAlgorithms(response.data)
       })
-    axios.get(appStore.apiPath + '/FitnessFunction/GetAll')
+      axios.get(appStore.apiPath + '/FitnessFunction/GetAll')
       .then(response => {
         appStore.setFunctions(response.data)
+        appStore.setAllFunctions(response.data)
       })
   }, [])
 
@@ -36,11 +38,7 @@ function App() {
             <p>(ustaw ilość iteracji i wielkość populacji)</p>
             <p>(oraz dodatkowe parametry (jeśli posiada))</p>
 
-            <Inputs which={"algo"} many={false} />
-
-            {/* TO DO - wybór ilości iteracji i populacji */}
-
-            {/* TO DO - wybór dodatkowych parametrów */}
+            <Inputs algoOrFunc={"algo"} multiple={false} />
 
           </div>
 
@@ -48,7 +46,7 @@ function App() {
             <h3>Wybierz funkcje: </h3>
             <p>(ustaw ilość parametrów i ich zakresy)</p>
 
-            <Inputs which={"func"} many={true} />
+            <Inputs algoOrFunc={"func"} multiple={true} />
 
           </div>
 
@@ -62,9 +60,10 @@ function App() {
           <p>"Jedna funkcja testowa dla wielu algorytmów"</p>
           <div className='item1 items'>
             <h3>Wybierz algorytmy: </h3>
+            <p>(ustaw ilość iteracji i wielkość populacji)</p>
             <p>(automatyczny dobór parametrów)</p>
 
-            <Inputs which={"algo"} many={true} />
+            <Inputs algoOrFunc={"algo"} multiple={true} />
 
           </div>
 
@@ -72,7 +71,7 @@ function App() {
             <h3>Wybierz funkcję: </h3>
             <p>(ustaw ilość jej parametrów i ich zakresy)</p>
 
-            <Inputs which={"func"} many={false} />
+            <Inputs algoOrFunc={"func"} multiple={false} />
 
           </div>
 
@@ -85,7 +84,7 @@ function App() {
         <h1>Wgrywanie</h1>
         <p>Tutaj możesz przesłać własny plik (.dll) z funkcją lub algorytmem do systemu</p>
         <div>
-          <input type="file" id="fileUpload" onChange={appStore.handleFileChange} /> <br />
+          <input type="file" id="fileUpload" onChange={appStore.handleOnChangeFile} /> <br />
           <button onClick={appStore.handleUpload}>Prześlij plik</button>
         </div>
       </div>

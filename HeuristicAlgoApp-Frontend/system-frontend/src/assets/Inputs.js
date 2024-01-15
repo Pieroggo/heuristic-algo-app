@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { useStore } from "../store";
 import { observer } from "mobx-react-lite";
-import BoundariesFor from "./BoundariesFor";
+import DimBoundariesForFunc from "./DimBoundariesForFunc";
+import PopulationAndIterationsForAlgo from './PopulationAndIterationsForAlgo';
+import ParametersForAlgo from './ParametersForAlgo';
 //import Parameters from "./Parameters";
 
-export default observer(function Inputs({ which, many }) {
+export default observer(function Inputs({ algoOrFunc, multiple }) {
 
     const { appStore } = useStore();
 
@@ -12,31 +14,45 @@ export default observer(function Inputs({ which, many }) {
 
     // one algo
 
-    if (which === "algo" && many === false) {
+    if (algoOrFunc === "algo" && multiple === false) {
         return (
-            <table className="bp4-html-table .modifier">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>nazwa</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {appStore.algorithms.map(algo => (
-                        <tr key={algo.id}>
-                            <td>{algo.id}</td>
-                            <td>
-                                <label htmlFor={algo.name + "_one"}>
-                                    {algo.name}
-                                </label>
-                            </td>
-                            <td>
-                                <input type="radio" id={algo.name + "_one"} value={algo.id} name="algo-one"></input>
-                            </td>
+            <div className='items'>
+                <table className="bp4-html-table .modifier">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>nazwa</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {appStore.algorithmsForSingle.map(algo => (
+                            <tr key={algo.id}>
+                                <td>{algo.id}</td>
+                                <td>
+                                    <label htmlFor={"single-algo-" + algo.id}>
+                                        {algo.name}
+                                    </label>
+                                    {appStore.singleAlgoId == algo.id && algo.parameters.length > 0 &&
+                                        <div>
+                                            <br />
+                                            <ParametersForAlgo id={algo.id} />
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    <input type="radio" id={"single-algo-" + algo.id} value={algo.id} name="single-algo-radio" onChange={(e) => appStore.handleOnChangeAlgoId("single", e)}></input>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {(appStore.singleAlgoId) &&
+                    <div>
+                        <br />
+                        <PopulationAndIterationsForAlgo singleOrMulti={"single"} />
+                    </div>
+                }
+            </div>
         )
     }
 
@@ -44,7 +60,7 @@ export default observer(function Inputs({ which, many }) {
 
     // many functions
 
-    if (which === "func" && many === true) {
+    if (algoOrFunc === "func" && multiple === true) {
         return (
             <table className="bp4-html-table .modifier">
                 <thead>
@@ -54,35 +70,39 @@ export default observer(function Inputs({ which, many }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {appStore.functions.map(func => (
+                    {appStore.functionsForSingle.map(func => (
                         <tr key={func.id}>
                             <td>{func.id}</td>
                             <td>
-                                <label htmlFor={func.name + "_many"}>
+                                <label htmlFor={"single-func-" + func.id}>
                                     {func.name}
                                 </label>
-                                {/* {appStore.funcID == func.id &&
+                                {/* {console.log("funcId: ", func.id, appStore.singleFuncIds.find(fid => fid == func.id), appStore.singleFuncIds.includes(func.id))} */}
+                                {func.id == appStore.singleFuncIds.find(fid => fid == func.id) &&
                                     <div>
                                         <br />
-                                        <label htmlFor="dim_f_many">wymiary: </label>
-                                        <input type="number" id="dim_f_many" value={func.dimension} maxLength={1} className="smallNumInput" onChange={(e) => appStore.handleFuncDimChange(e, func.id)}></input>
+                                        {/* WYMIAR */}
+                                        <label htmlFor={"single-func-dim-" + func.id}>Wymiary: </label>
+                                        <input
+                                            type="number"
+                                            id={"single-func-dim-" + func.id}
+                                            value={func.dimension}
+                                            min={1}
+                                            maxLength={2}
+                                            className="smallNumInput"
+                                            disabled={!func.isDimensionInfinite}
+                                            onChange={(e) => appStore.handleOnChangeFuncDim("single", func.id, e)}>
+                                        </input>
 
+                                        {/* GRANICE WYMIARÓW */}
                                         <p>&lt; dolna granica &#59; górna granica &gt;</p>
-                                        <BoundariesFor id={func.id} />
-                                        // boudariesFor jeszcze będzie przyjmował czy single czy multi?
-                                        // kurcze, mam zagwostke
+                                        <DimBoundariesForFunc singleOrMulti={"single"} id={func.id} />
+
                                     </div>
-                                } */}
-                                {/* nie, to nie w ten sposób. trzeba inaczej */}
-                                {/* więcej zmiennych - funkcje dla singla i funkcje dla multi [dwie kopie lokalnie] */}
-                                {/* przy wysyłaniu pobierasz ino z this.'ów */}
+                                }
                             </td>
                             <td>
-                                {/* <input type="checkbox" id={func.name + "_many"} value={func.id} name="func-many" onChange={() => { appStore.handleFuncIDChange() }}></input> */}
-                                {/* onChange wtedy będzie tylko zmieniał odpowiednie wartości odpowiednich zmiennych (opdowiednie XD ale będzie musiał wiedzieć po czymś które to są te odpowiednie)*/}
-                                {/* nie potrzeba będzie skomplikowanych IDków (to jak chcesz wiedzieć co dotyczy którego S/M?)*/}
-                                {/* React jest stanowy jak USA */}
-                                <input type="checkbox" id={func.name + "_many"} value={func.id} name="func-many" onChange={() => { }} ></input>
+                                <input type="checkbox" id={"single-func-" + func.id} value={func.id} name="single-func-boxes" onChange={(e) => appStore.handleOnChangeFuncId("single", func.id, e)} ></input>
                             </td>
                         </tr>
                     ))}
@@ -95,31 +115,39 @@ export default observer(function Inputs({ which, many }) {
 
     // many algos
 
-    if (which === "algo" && many === true) {
+    if (algoOrFunc === "algo" && multiple === true) {
         return (
-            <table className="bp4-html-table .modifier">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>nazwa</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {appStore.algorithms.map(algo => (
-                        <tr key={algo.id}>
-                            <td>{algo.id}</td>
-                            <td>
-                                <label htmlFor={algo.name + "_many"}>
-                                    {algo.name}
-                                </label>
-                            </td>
-                            <td>
-                                <input type="checkbox" id={algo.name + "_many"} value={algo.id} name="algo-many" onChange={() => appStore.handleAlgoIDsChange()}></input>
-                            </td>
+            <div className='items'>
+                <table className="bp4-html-table .modifier">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>nazwa</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {appStore.algorithmsForMulti.map(algo => (
+                            <tr key={algo.id}>
+                                <td>{algo.id}</td>
+                                <td>
+                                    <label htmlFor={"multi-algo-" + algo.id}>
+                                        {algo.name}
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id={"multi-algo-" + algo.id} value={algo.id} name="multi-algo-boxes" onChange={(e) => appStore.handleOnChangeAlgoId("multi", e)}></input>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {(appStore.multiAlgoIds.length > 0) &&
+                    <div>
+                        <br />
+                        <PopulationAndIterationsForAlgo singleOrMulti={"multi"} />
+                    </div>
+                }
+            </div>
         )
     }
 
@@ -127,7 +155,7 @@ export default observer(function Inputs({ which, many }) {
 
     // one function
 
-    if (which === "func" && many === false) {
+    if (algoOrFunc === "func" && multiple === false) {
         return (
             <table className="bp4-html-table .modifier">
                 <thead>
@@ -137,36 +165,40 @@ export default observer(function Inputs({ which, many }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {appStore.functions.map(func => (
+                    {appStore.functionsForMulti.map(func => (
                         <tr key={func.id}>
                             <td>{func.id}</td>
                             <td>
-                                <label htmlFor={func.name + "_one"}>
+                                <label htmlFor={"multi-func-" + func.name}>
                                     {func.name}
                                 </label>
-                                {appStore.funcID == func.id &&
-                                    // może tak?
-                                    // <Parameters id={func.id}/>
+                                {appStore.multiFuncId == func.id &&
                                     <div>
                                         <br />
-                                        <label htmlFor="dim_f_one">wymiary: </label>
-                                        <input type="number" id="dim_f_one" value={func.dimension} maxLength={1} className="smallNumInput" onChange={(e) => appStore.handleFuncDimChange(e, func.id)}></input>
+                                        {/* WYMIAR */}
+                                        <label htmlFor="multi-func-dim">Wymiary: </label>
+                                        <input
+                                            type="number"
+                                            id="multi-func-dim"
+                                            value={func.dimension}
+                                            min={1}
+                                            maxLength={2}
+                                            className="smallNumInput"
+                                            disabled={!func.isDimensionInfinite}
+                                            onChange={(e) => appStore.handleOnChangeFuncDim("multi", func.id, e)}>
+                                        </input>
 
+                                        {/* GRANICE WYMIARÓW */}
                                         <p>&lt; dolna granica &#59; górna granica &gt;</p>
-                                        <BoundariesFor id={func.id} />
+                                        <DimBoundariesForFunc singleOrMulti={"multi"} id={func.id} />
 
-                                        {/* <br />
-                                        <label>dolna granica:
-                                            <input type="number" id={func.lowerBoundaries[0] + "_one"} value={func.lowerBoundaries[0]} className="mediumNumInput" onChange={(e) => appStore.handleFuncLowBoundChange(e, 1, func.id)}></input>
-                                        </label> */}
                                     </div>
                                 }
                             </td>
                             <td>
-                                <input type="radio" id={func.name + "_one"} value={func.id} name="func-one" onChange={() => { appStore.handleFuncIDChange() }}></input>
+                                <input type="radio" id={"multi-func-" + func.name} value={func.id} name="multi-func-radio" onChange={(e) => appStore.handleOnChangeFuncId("multi", func.id, e)}></input>
                             </td>
                         </tr>
-                        // TO DO wyświetlenie paramsów dla wybranych
                     ))}
                 </tbody>
             </table>

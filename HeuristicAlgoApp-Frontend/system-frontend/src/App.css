@@ -30,8 +30,8 @@
 .items {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
   /* margin-top: 10px;
   background-color: #e3e3e3;
   padding: 10px;
@@ -76,6 +76,17 @@ button {
 }
 
 .lowerBounds {
+  display: flex;
+  flex-direction: column;
+}
+
+.populationAndIterations {
+  padding: 5px;
+  background-color: #e3e3e3;
+  border-radius: 5px;
+}
+
+.parametersForAlgo {
   display: flex;
   flex-direction: column;
 }
