@@ -21,6 +21,7 @@
   align-items: center;
   /* padding-bottom: 50px; */
   width: 100vw;
+  padding-bottom: 15px;
 }
 
 .flex-box-items:nth-child(1) {
@@ -93,12 +94,18 @@ button {
 
 .buttonForm {
   display: inline;
+  /* background-color: #fa8c8c; */
 }
 
 .runningTask {
+  margin: 10px;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #fa8c8c;
+  border-radius: 5px;
+}
+
+.report {
   margin: 5px;
-  /* padding: 5px;
-  background-color: #e3e3e3;
-  border-radius: 5px; */
 }
 

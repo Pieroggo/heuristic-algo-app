@@ -138,25 +138,28 @@ export default class AppStore {
     // PARAMETERS / DIMENSIONS changing
 
     setAlgorithmParameters = (algoId, position, value) => {
-        if (position == "all" && value == "min") {
-            runInAction(() => {
-                // Array(n).fill(0)
-                let a = this.getAlgorithmById("single", algoId)
-                this.singleAlgoParameters = Array(a.parameters.length).fill(0) // wyzerowana tablica o długości tyle ile jest parametrów
-                a.parameters.map((parameter, i) => (
-                    // ustawienie na minimalne wartości
-                    this.singleAlgoParameters[i] = parameter.lowerBoundary
-                ))
-            })
+        if (this.getAlgorithmById("single", algoId).parameters != null) {
+
+            if (position == "all" && value == "min") {
+                runInAction(() => {
+                    // Array(n).fill(0)
+                    let a = this.getAlgorithmById("single", algoId)
+                    this.singleAlgoParameters = Array(a.parameters.length).fill(0) // wyzerowana tablica o długości tyle ile jest parametrów
+                    a.parameters.map((parameter, i) => (
+                        // ustawienie na minimalne wartości
+                        this.singleAlgoParameters[i] = parameter.lowerBoundary
+                    ))
+                })
+            }
+            else {
+                value = parseFloat(value)
+                runInAction(() => {
+                    this.singleAlgoParameters[position] = value
+                })
+            }
+            // console.log("parametry ustawione na: ")
+            // console.log(this.singleAlgoParameters)
         }
-        else {
-            value = parseFloat(value)
-            runInAction(() => {
-                this.singleAlgoParameters[position] = value
-            })
-        }
-        // console.log("parametry ustawione na: ")
-        // console.log(this.singleAlgoParameters)
     }
 
     setIterations = (singleOrMulti, value) => {
@@ -246,7 +249,7 @@ export default class AppStore {
 
     // SINGLE & MULTI TASK's
 
-    // dla Single Taska:
+    // dla SINGLE Taska:
 
     singleAlgoId = null;
     singleFuncIds = [];
@@ -284,20 +287,38 @@ export default class AppStore {
                     console.log(this.getFunctionById("single", fid).upperBoundaries)
                 })
             }
+
+            console.log("Wysyłam")
+            this.setSinglePDFReport(false)
+            this.setSingleTaskRunning(true)
+
+            const pWaiting = new Promise((resolve) => { // sztuczne czekanie pare sekund, tak jakby się tam coś mieliło
+                console.log("Timeout 3 sekundy")
+                setTimeout(resolve, 3000, 'pWaiting');
+            })
+
+            const pSingleTaskResponse = await this.postSingleTask()
+                .then((result) => {
+                    console.log("Odebrano [data]: ", result.data)
+                    return result.data
+                })
+
+            Promise.all([pWaiting, pSingleTaskResponse])
+                .then((values) => {
+                    console.log("Proms resolved")
+                    if (this.singleTaskRunning) { // jeśli nie został przerwany (tymczasowo)
+                        this.setSingleTaskRunning(false)
+                        this.setSinglePDFReport(values[1])
+                    }
+                });
+
+            // console.log("Czyszcze inputy")
+            // TO DO
+
         }
         else {
             console.log("Nie wybrano funkcjów i/lub algorytmu")
         }
-
-        console.log("Wysyłam")
-        await this.postSingleTask().then((result) => {
-            console.log("Odebrano [data]: ", result.data)
-            this.setSinglePDFReport(result.data)
-        })
-
-        // console.log("Czyszcze inputy")
-        // TO DO
-
     }
 
     postSingleTask = async () => {
@@ -343,8 +364,7 @@ export default class AppStore {
                 FitFuncUpperBoundaries: this.singleFuncIds.map((fid) => {
                     return this.getFunctionById("single", fid).upperBoundaries
                 }),
-            }
-        )
+            })
             .then((response) => {
                 return response
             })
@@ -367,7 +387,7 @@ export default class AppStore {
 
     }
 
-    // dla Multi Taska:
+    // dla MULTI Taska:
 
     multiAlgoIds = []
     multiFuncId = null
@@ -388,24 +408,88 @@ export default class AppStore {
             console.log("FitFuncDimension: ", this.getFunctionById("multi", this.multiFuncId).dimension)
             console.log("FitFuncLowerBoundaries: ", this.getFunctionById("multi", this.multiFuncId).lowerBoundaries)
             console.log("FitFuncUpperBoundaries: ", this.getFunctionById("multi", this.multiFuncId).upperBoundaries)
+
+            console.log("Wysyłam")
+            this.setMultiPDFReport(false)
+            this.setMultiTaskRunning(true)
+
+            const pWaiting = new Promise((resolve) => { // sztuczne czekanie pare sekund, tak jakby się tam coś mieliło
+                console.log("Timeout 3 sekundy")
+                setTimeout(resolve, 3000, 'pWaiting');
+            })
+
+            const pMultiTaskResponse = await this.postMultiTask()
+                .then((result) => {
+                    console.log("Odebrano [data]: ", result.data)
+                    return result.data
+                })
+
+            Promise.all([pWaiting, pMultiTaskResponse])
+                .then((values) => {
+                    console.log("Proms resolved")
+                    if (this.multiTaskRunning) { // jeśli nie został przerwany (tymczasowo)
+                        this.setMultiTaskRunning(false)
+                        this.setMultiPDFReport(values[1])
+                    }
+                });
+
+            // console.log("Czyszcze inputy")
+            // TO DO
+
+
         }
         else {
             console.log("Nie wybrano funkcji i/lub algorytmów")
         }
+    }
 
-        // console.log("Wysyłam")
-        // TO DO
+    postMultiTask = async () => {
 
-        // console.log("Czyszcze inputy")
-        // TO DO
-
+        return axios.post(this.apiPath + '/Task/TaskForMultiAlgo',
+            {
+                AlgoIds: this.multiAlgoIds,
+                FitFuncId: this.multiFuncId,
+                NumOfAgents: this.multiPopulation,
+                NumOfIterations: this.multiIterations,
+                FitFuncDimension: this.getFunctionById("multi", this.multiFuncId).dimension,
+                FitFuncLowerBoundaries: this.getFunctionById("multi", this.multiFuncId).lowerBoundaries,
+                FitFuncUpperBoundaries: this.getFunctionById("multi", this.multiFuncId).upperBoundaries
+            })
+            .then((response) => {
+                return response
+            })
     }
 
     // przerywanie tasków PAUSE - RESUME
 
-    przerwanoSingleTask = false;
-    przerwanoMultiTask = false;
-    // TO DO
+    singleTaskRunning = false;
+    multiTaskRunning = false;
+
+    setSingleTaskRunning = (bool) => {
+        this.singleTaskRunning = bool
+    }
+
+    setMultiTaskRunning = (bool) => {
+        this.multiTaskRunning = bool
+    }
+
+    breakTask = (singleOrMulti) => {
+        console.log("Breaking " + singleOrMulti + " task")
+
+        if (singleOrMulti == "single") {
+            this.setSingleTaskRunning(false)
+            this.setSinglePDFReport(null)
+
+        }
+        if (singleOrMulti == "multi") {
+            this.setMultiTaskRunning(false)
+            this.setMultiPDFReport(null)
+
+        }
+
+    }
+
+    // PDF REPORTs
 
     // single
     singlePDFReport = null
@@ -449,7 +533,7 @@ export default class AppStore {
             try {
                 const response = await axios.post(this.apiPath + '/Upload/Add', formData);
                 console.log('Plik przesłany pomyślnie', response);
-                alert("Plik wysłany")
+                alert("Plik wysłany - odśwież stronę")
             } catch (error) {
                 console.error('Błąd podczas przesyłania pliku', error);
             }

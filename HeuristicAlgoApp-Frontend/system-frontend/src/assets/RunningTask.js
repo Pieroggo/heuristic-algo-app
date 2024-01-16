@@ -6,12 +6,20 @@ export default observer(function RunningTask({ singleOrMulti }) {
 
     const { appStore } = useStore();
 
-    if(appStore.singlePDFReport){
+    if(singleOrMulti == "single"){
         return (
             <div className="runningTask">
-                <form action="/pdf/DummySingleAlgoPDF.pdf" className="buttonForm">
-                    <input type="submit" value="Otwórz raport" />
-                </form>
+                SingleTask się mieli..
+                <button onClick={() => appStore.breakTask(singleOrMulti)}>Przerwij</button>
+            </div>
+        )
+    }
+
+    if(singleOrMulti == "multi"){
+        return (
+            <div className="runningTask">
+                MultiTask się mieli..
+                <button onClick={() => appStore.breakTask(singleOrMulti)}>Przerwij</button>
             </div>
         )
     }

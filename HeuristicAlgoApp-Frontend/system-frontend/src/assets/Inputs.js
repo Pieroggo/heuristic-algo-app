@@ -32,7 +32,7 @@ export default observer(function Inputs({ algoOrFunc, multiple }) {
                                     <label htmlFor={"single-algo-" + algo.id}>
                                         {algo.name}
                                     </label>
-                                    {appStore.singleAlgoId == algo.id && algo.parameters.length > 0 &&
+                                    {(appStore.singleAlgoId == algo.id) && (algo.parameters != null) && (algo.parameters.length > 0) &&
                                         <div>
                                             <br />
                                             <ParametersForAlgo id={algo.id} />

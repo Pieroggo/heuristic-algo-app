@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import axios from 'axios';
 import Inputs from './assets/Inputs';
 import RunningTask from './assets/RunningTask';
+import PDFReport from './assets/PDFReport';
 
 function App() {
 
@@ -51,9 +52,15 @@ function App() {
 
           </div>
 
-          <button onClick={() => appStore.runSinlgeTask()}>Uruchom</button>
-
-          <RunningTask singleOrMulti="single"/>
+          {!appStore.singleTaskRunning &&
+            <button onClick={() => appStore.runSinlgeTask()}>Uruchom</button>
+          }
+          {appStore.singleTaskRunning &&
+            <RunningTask singleOrMulti="single" />
+          }
+          {appStore.singlePDFReport &&
+            <PDFReport singleOrMulti="single" />
+          }
 
         </div>
 
@@ -78,7 +85,15 @@ function App() {
 
           </div>
 
-          <button onClick={() => appStore.runMultiTask()}>Uruchom</button>
+          {!appStore.multiTaskRunning &&
+            <button onClick={() => appStore.runMultiTask()}>Uruchom</button>
+          }
+          {appStore.multiTaskRunning &&
+            <RunningTask singleOrMulti="multi" />
+          }
+          {appStore.multiPDFReport &&
+            <PDFReport singleOrMulti="multi" />
+          }
 
         </div>
       </div>
