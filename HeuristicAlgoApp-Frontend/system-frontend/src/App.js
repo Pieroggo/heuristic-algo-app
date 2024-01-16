@@ -1,10 +1,11 @@
 import './App.css';
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 import { useEffect } from 'react';
 import { useStore } from './store';
 import { observer } from 'mobx-react-lite';
 import axios from 'axios';
 import Inputs from './assets/Inputs';
+import RunningTask from './assets/RunningTask';
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
         appStore.setAlgorithms(response.data)
         appStore.setAllAlgorithms(response.data)
       })
-      axios.get(appStore.apiPath + '/FitnessFunction/GetAll')
+    axios.get(appStore.apiPath + '/FitnessFunction/GetAll')
       .then(response => {
         appStore.setFunctions(response.data)
         appStore.setAllFunctions(response.data)
@@ -51,6 +52,8 @@ function App() {
           </div>
 
           <button onClick={() => appStore.runSinlgeTask()}>Uruchom</button>
+
+          <RunningTask singleOrMulti="single"/>
 
         </div>
 

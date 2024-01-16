@@ -102,7 +102,7 @@ export default observer(function Inputs({ algoOrFunc, multiple }) {
                                 }
                             </td>
                             <td>
-                                <input type="checkbox" id={"single-func-" + func.id} value={func.id} name="single-func-boxes" onChange={(e) => appStore.handleOnChangeFuncId("single", func.id, e)} ></input>
+                                <input type="checkbox" id={"single-func-" + func.id} value={func.id} name="single-func-boxes" onChange={(e) => appStore.handleOnChangeFuncId("single", e)} ></input>
                             </td>
                         </tr>
                     ))}
@@ -196,7 +196,7 @@ export default observer(function Inputs({ algoOrFunc, multiple }) {
                                 }
                             </td>
                             <td>
-                                <input type="radio" id={"multi-func-" + func.name} value={func.id} name="multi-func-radio" onChange={(e) => appStore.handleOnChangeFuncId("multi", func.id, e)}></input>
+                                <input type="radio" id={"multi-func-" + func.name} value={func.id} name="multi-func-radio" onChange={(e) => appStore.handleOnChangeFuncId("multi", e)}></input>
                             </td>
                         </tr>
                     ))}
