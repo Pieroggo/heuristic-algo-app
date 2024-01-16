@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, runInAction } from "mobx";
+import { action, makeAutoObservable, runInAction, values } from "mobx";
 import axios from "axios";
 
 export default class AppStore {
@@ -90,20 +90,22 @@ export default class AppStore {
 
     // FUNCTIONS / ALGOS CHANGING (onChange)
 
-    handleOnChangeFuncId = (singleOrMulti, id, e) => {
+    handleOnChangeFuncId = (singleOrMulti, e) => {
+
+        const value = parseInt(e.target.value)
 
         if (singleOrMulti === "single") {
             if (e.target.checked) {
-                this.singleFuncIds.push(e.target.value)
+                this.singleFuncIds.push(value)
             }
             if (!e.target.checked) {
-                this.singleFuncIds = this.singleFuncIds.filter(item => item !== e.target.value)
+                this.singleFuncIds = this.singleFuncIds.filter(item => item !== value)
             }
             // console.log("single handleOnChangeFuncId: ")
-            this.show(this.singleFuncIds)
+            // this.show(this.singleFuncIds)
         }
         else if (singleOrMulti === "multi") {
-            this.multiFuncId = e.target.value
+            this.multiFuncId = value
             // console.log("multi handleOnChangeFuncId: ", this.multiFuncId)
         }
         else { }
@@ -112,20 +114,22 @@ export default class AppStore {
 
     handleOnChangeAlgoId = (singleOrMulti, e) => {
 
+        const value = parseInt(e.target.value)
+
         if (singleOrMulti === "single") {
-            this.singleAlgoId = e.target.value
+            this.singleAlgoId = value
             // console.log("single handleOnChangeAlgoId: ", this.singleAlgoId)
-            this.setAlgorithmParameters(e.target.value, "all", "min") // ustawienie wartości wstępnych (minimalnych) wartości
+            this.setAlgorithmParameters(value, "all", "min") // ustawienie wartości wstępnych (minimalnych) wartości
         }
         else if (singleOrMulti === "multi") {
             if (e.target.checked) {
-                this.multiAlgoIds.push(e.target.value)
+                this.multiAlgoIds.push(value)
             }
             if (!e.target.checked) {
-                this.multiAlgoIds = this.multiAlgoIds.filter(item => item !== e.target.value)
+                this.multiAlgoIds = this.multiAlgoIds.filter(item => item !== value)
             }
             // console.log("multi handleOnChangeAlgoId: ")
-            this.show(this.multiAlgoIds)
+            // this.show(this.multiAlgoIds)
         }
         else { }
 
@@ -255,31 +259,111 @@ export default class AppStore {
 
         console.log("> Uruchamiam SINGLE TASK")
 
-        if (this.singleFuncIds.length > 0 && this.singleAlgoId){
+        if (this.singleFuncIds.length > 0 && this.singleAlgoId) {
             console.log("Wysyłam: ")
             console.log("AlgoId: ", this.singleAlgoId)
             console.log("FitFuncIds: ", this.singleFuncIds)
             console.log("NumOfAgents: ", this.singlePopulation)
             console.log("NumOfIterations: ", this.singleIterations)
             console.log("AlgoParameters: ", this.getAlgorithmById("single", this.singleAlgoId).parameters)
+            console.log("FitFuncDimensions: ")
+            {
+                this.singleFuncIds.map((fid) => {
+                    console.log(this.getFunctionById("single", fid).dimension)
+                })
+            }
             console.log("FitFuncLowerBoundaries: ")
-            {this.singleFuncIds.map((fid) => {
-                console.log(this.getFunctionById("single", fid).lowerBoundaries)
-            })}
+            {
+                this.singleFuncIds.map((fid) => {
+                    console.log(this.getFunctionById("single", fid).lowerBoundaries)
+                })
+            }
             console.log("FitFuncUpperBoundaries: ")
-            {this.singleFuncIds.map((fid) => {
-                console.log(this.getFunctionById("single", fid).upperBoundaries)
-            })}
+            {
+                this.singleFuncIds.map((fid) => {
+                    console.log(this.getFunctionById("single", fid).upperBoundaries)
+                })
+            }
         }
         else {
             console.log("Nie wybrano funkcjów i/lub algorytmu")
         }
 
-        // console.log("Wysyłam")
-        // TO DO
+        console.log("Wysyłam")
+        await this.postSingleTask().then((result) => {
+            console.log("Odebrano [data]: ", result.data)
+            this.setSinglePDFReport(result.data)
+        })
 
         // console.log("Czyszcze inputy")
         // TO DO
+
+    }
+
+    postSingleTask = async () => {
+
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(
+        //         {
+        //             "AlgoId": this.singleAlgoId,
+        //             "FitFuncIds": this.singleFuncIds,
+        //             "NumOfAgents": this.singlePopulation,
+        //             "NumOfIterations": this.singleIterations,
+        //             "AlgoParameters": this.singleAlgoParameters,
+        //             "FitFuncDimensions": this.singleFuncIds.map((fid) => {
+        //                 return this.getFunctionById("single", fid).dimension
+        //             }),
+        //             "FitFuncLowerBoundaries": this.singleFuncIds.map((fid) => {
+        //                 return this.getFunctionById("single", fid).lowerBoundaries
+        //             }),
+        //             "FitFuncUpperBoundaries": this.singleFuncIds.map((fid) => {
+        //                 return this.getFunctionById("single", fid).upperBoundaries
+        //             }),
+        //         }
+        //     )
+        // };
+
+        // console.log("postSingleTask, sending: ", requestOptions)
+
+        return axios.post(this.apiPath + '/Task/TaskForSingleAlgo',
+            {
+                AlgoId: this.singleAlgoId,
+                FitFuncIds: this.singleFuncIds,
+                NumOfAgents: this.singlePopulation,
+                NumOfIterations: this.singleIterations,
+                AlgoParameters: this.singleAlgoParameters,
+                FitFuncDimensions: this.singleFuncIds.map((fid) => {
+                    return this.getFunctionById("single", fid).dimension
+                }),
+                FitFuncLowerBoundaries: this.singleFuncIds.map((fid) => {
+                    return this.getFunctionById("single", fid).lowerBoundaries
+                }),
+                FitFuncUpperBoundaries: this.singleFuncIds.map((fid) => {
+                    return this.getFunctionById("single", fid).upperBoundaries
+                }),
+            }
+        )
+            .then((response) => {
+                return response
+            })
+
+        // return fetch(this.apiPath + "/Task/TaskForSingleAlgo", requestOptions)
+        //     .then(function (response) {
+        //         if (!response.ok) {
+        //             console.log("response postSingleTask not ok: ", response.status)
+        //             throw Error(response.statusText);
+        //         }
+        //         console.log("response postSingleTask status: ", response.status);
+        //         // return response.json();
+        //         return response;
+        //     })
+        //     .catch(function (error) {
+        //         console.log("postSingleTask error: ")
+        //         console.log(error)
+        //         return false;
+        //     })
 
     }
 
@@ -294,8 +378,8 @@ export default class AppStore {
     runMultiTask = async () => {
 
         console.log("> Uruchamiam MULTI TASK")
-        
-        if (this.multiAlgoIds.length > 0 && this.multiFuncId){
+
+        if (this.multiAlgoIds.length > 0 && this.multiFuncId) {
             console.log("Wysyłam: ")
             console.log("AlgoIds: ", this.multiAlgoIds)
             console.log("FitFuncId: ", this.multiFuncId)
@@ -323,8 +407,21 @@ export default class AppStore {
     przerwanoMultiTask = false;
     // TO DO
 
+    // single
+    singlePDFReport = null
 
-    
+    setSinglePDFReport = (data) => {
+        this.singlePDFReport = data
+    }
+
+    // multi
+
+    multiPDFReport = null
+
+    setMultiPDFReport = (data) => {
+        this.multiPDFReport = data
+    }
+
     // FILE UPLOAD
 
     file = "";
