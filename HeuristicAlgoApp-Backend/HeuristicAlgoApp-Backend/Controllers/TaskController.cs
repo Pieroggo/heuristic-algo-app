@@ -19,14 +19,15 @@ namespace HeuristicAlgoApp_Backend.Controllers
         public async Task<ActionResult> TaskForSingleAlgo([FromBody] SingleTaskDTO singleTask)// double[] parameters
         {
             Console.WriteLine("Starting TaskForSingleAlgo");
-            double?[]? result = await _sender.Send(new SolveWithSingleAlgoCommand(singleTask));
-            Console.Write($"Result: [{result[0]}");
-            for(int i=1;i<result.Count();i++) {
-                Console.Write($", {result[i]}");
-            }
-            Console.WriteLine("]");
+            double?[]? results = await _sender.Send(new SolveWithSingleAlgoCommand(singleTask));
             string reportPath = Directory.GetCurrentDirectory()+ "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\DummySingleAlgoPDF.pdf"; //need to test it, may need to backtrack 1 more folder
-            if (result!=null) {
+            if (results !=null) {
+                Console.Write($"Result: [{results[0]}");
+                for (int i = 1; i < results.Count(); i++)
+                {
+                    Console.Write($", {results[i]}");
+                }
+                Console.WriteLine("]");
                 Console.WriteLine("Sending OK for Single Algo");
                 return Ok(reportPath);
             }
@@ -34,14 +35,22 @@ namespace HeuristicAlgoApp_Backend.Controllers
         }
         [HttpPost]
         public async Task<ActionResult> TaskForMultiAlgo([FromBody] MultiTaskDTO multiTask)
-        //should also have dimensions and bounds for fitFunc
         {
-            //double?[]? results = await _sender.Send(new SolveWithManyAlgosCommand(multiTask));
-            string reportPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\DummyMultiAlgoPDF.pdf";
-           // if (results!= null) {
-           return Ok(reportPath); //}
-           // else { return BadRequest(); }
-            //return Ok(await taskService.TaskForSingleAlgo(algoId,fitFuncId));
+            Console.WriteLine("Starting TaskForMultiAlgo");
+            double?[]? results = await _sender.Send(new SolveWithManyAlgosCommand(multiTask));
+            string reportPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\DummySingleAlgoPDF.pdf"; //need to test it, may need to backtrack 1 more folder
+            if (results != null)
+            {
+                Console.Write($"Result: [{results[0]}");
+                for (int i = 1; i < results.Count(); i++)
+                {
+                    Console.Write($", {results[i]}");
+                }
+                Console.WriteLine("]");
+                Console.WriteLine("Sending OK for Multi Algo");
+                return Ok(reportPath);
+            }
+            else { return BadRequest(); }
         }
         [HttpGet]
         public async Task<ActionResult> GetSolvingSingleAlgo()

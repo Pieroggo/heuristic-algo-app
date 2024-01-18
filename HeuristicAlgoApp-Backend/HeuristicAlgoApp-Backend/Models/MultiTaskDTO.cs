@@ -7,7 +7,7 @@
         public int NumOfAgents { get; set; }
         public int NumOfIterations { get;set; }
         public int FitFuncDimension { get; set; }
-        public double?[]? FitFuncLowerBoundaries { get; set; }
-        public double?[]? FitFuncUpperBoundaries { get; set; }
+        public double[] FitFuncLowerBoundaries { get; set; }
+        public double[] FitFuncUpperBoundaries { get; set; }
     }
 }
