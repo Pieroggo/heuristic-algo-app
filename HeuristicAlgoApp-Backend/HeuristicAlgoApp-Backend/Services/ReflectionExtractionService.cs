@@ -33,11 +33,11 @@ namespace HeuristicAlgoApp_Backend.Services
                                 });
                             }
                         }
-                        await dataCollection.AddAlgorithm(new Algorithm() { Name = t.GetProperty("Name").GetValue(algo),TypeName=t.Name,FileName=fPath });//for now, without Parameters
+                        await dataCollection.AddAlgorithm(new Algorithm() { Name = t.GetProperty("Name").GetValue(algo),TypeName=t.FullName,FileName=fPath });//for now, without Parameters
                     }
                     if (ReflectionValidationService.IsCorrectFitnessFunction(t)) {
                         //dynamic fitFunc=Activator.CreateInstance(t) //może być potrzebny przy założeniu składowej Name
-                        await dataCollection.AddFitnessFunction(new FitnessFunction() {Name=t.Name,TypeName=t.Name,FileName=fPath }); //Name, Dimension i Domain będzie trzeba dorobić po naradzie
+                        await dataCollection.AddFitnessFunction(new FitnessFunction() {Name=t.Name,TypeName=t.FullName,FileName=fPath }); //Name, Dimension i Domain będzie trzeba dorobić po naradzie
 
                     }
                 }

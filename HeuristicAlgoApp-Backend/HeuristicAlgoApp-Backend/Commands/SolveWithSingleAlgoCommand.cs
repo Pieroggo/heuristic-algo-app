@@ -1,7 +1,8 @@
-﻿using MediatR;
+﻿using HeuristicAlgoApp_Backend.Models;
+using MediatR;
 
 namespace HeuristicAlgoApp_Backend.Commands
 {
-    public record SolveWithSingleAlgoCommand(int algoId,int[] fitFuncIds, double[] parameters) : IRequest<double?[]?>;
+    public record SolveWithSingleAlgoCommand(SingleTaskDTO singleTask) : IRequest<double?[]?>;
 
 }
