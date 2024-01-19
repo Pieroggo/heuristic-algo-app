@@ -277,3 +277,8 @@ D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-
 D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\obj\Debug\net6.0\HeuristicAlgoApp-Backend.pdb
 D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\obj\Debug\net6.0\HeuristicAlgoApp-Backend.genruntimeconfig.cache
 D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\obj\Debug\net6.0\ref\HeuristicAlgoApp-Backend.dll
+D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\PdfSharpCore.dll
+D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\ICSharpCode.SharpZipLib.dll
+D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\SixLabors.Fonts.dll
+D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\SixLabors.ImageSharp.dll
+D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\de\PdfSharpCore.resources.dll

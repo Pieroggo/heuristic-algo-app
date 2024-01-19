@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace HeuristicAlgoApp_Backend.Handlers
 {
-    public class SolveWithSingleAlgoHandler : IRequestHandler<SolveWithSingleAlgoCommand, double?[]?>
+    public class SolveWithSingleAlgoHandler : IRequestHandler<SolveWithSingleAlgoCommand, string?[]>
     {
         private readonly DataCollection dataCollection;
 
@@ -15,10 +15,10 @@ namespace HeuristicAlgoApp_Backend.Handlers
             this.dataCollection = dataCollection;
         }
 
-        public async Task<double?[]?> Handle(SolveWithSingleAlgoCommand request, CancellationToken cancellationToken)
+        public async Task<string?[]> Handle(SolveWithSingleAlgoCommand request, CancellationToken cancellationToken)
         {
             Console.WriteLine("Handler Beginning");
-            List<double?> results = new List<double?>();
+            List<string?> reports = new List<string?>();
             Algorithm algorithmDTO = await dataCollection.GetAlgorithmById(request.singleTask.AlgoId);
             try
             {
@@ -48,20 +48,22 @@ namespace HeuristicAlgoApp_Backend.Handlers
                                 }
                             }
                             solveParams.Add(doubleParams.ToArray());
+                            string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
+                            solveParams.Add(reportFolderPath);
                             await dataCollection.AssignReferenceSingleAlgo(algorithm);
-                            double result = algorithm.GetType().GetMethod("Solve").Invoke(algorithm,solveParams.ToArray());
+                            string reportPath= algorithm.GetType().GetMethod("Solve").Invoke(algorithm,solveParams.ToArray());
                             
-                            if (result != null) { Console.WriteLine($"Solve on algorithm worked."); }
-                            results.Add(result);
+                            if (reportPath != null) { Console.WriteLine($"Solve on algorithm worked."); }
+                            reports.Add(reportPath);
                             await dataCollection.AssignReferenceSingleAlgo(null); //reset of reference
                         }
                         else {
-                            results.Add(null);
+                            reports.Add(null);
                         }
                         i++;
                     }
                     Console.WriteLine($"Line Check");
-                    return results.ToArray();
+                    return reports.ToArray();
                 }
                 else { return null; }
             }

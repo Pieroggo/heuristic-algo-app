@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace HeuristicAlgoApp_Backend.Handlers
 {
-    public class SolveWithManyAlgosHandler : IRequestHandler<SolveWithManyAlgosCommand, double?[]?>
+    public class SolveWithManyAlgosHandler : IRequestHandler<SolveWithManyAlgosCommand, string?[]?>
     {
         private readonly DataCollection dataCollection;
 
@@ -14,10 +14,10 @@ namespace HeuristicAlgoApp_Backend.Handlers
             this.dataCollection = dataCollection;
         }
 
-        public async Task<double?[]?> Handle(SolveWithManyAlgosCommand request, CancellationToken cancellationToken)
+        public async Task<string?[]?> Handle(SolveWithManyAlgosCommand request, CancellationToken cancellationToken)
         {
             Console.WriteLine("Handler Beginning");
-            List<double?> results = new List<double?>(); 
+            List<string?> reports = new List<string?>(); 
             try
             {
                 Console.WriteLine(request.multiTask.FitFuncId);
@@ -42,21 +42,22 @@ namespace HeuristicAlgoApp_Backend.Handlers
                             List<double> doubleParams = new List<double> { request.multiTask.NumOfAgents, request.multiTask.NumOfIterations, request.multiTask.FitFuncDimension };//list without additional parameters
                             
                             solveParams.Add(doubleParams.ToArray());
+                            string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
+                            solveParams.Add(reportFolderPath);
                             await dataCollection.AssignReferenceMultiAlgo(algorithm);
-                            Console.WriteLine(algorithm.ToString());
-                            double result =algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
+                            string? result =algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
                             if (result != null) { Console.WriteLine($"Solve on algorithm worked."); }
-                            results.Add(result);
+                            reports.Add(result);
                             await dataCollection.AssignReferenceMultiAlgo(null); //reset of reference
                         }
                         else
                         {
-                            results.Add(null);
+                            reports.Add(null);
                         }
                         i++;
                     }
                     
-                    return results.ToArray();
+                    return reports.ToArray();
                 }
                 else { return null; }
             }
