@@ -289,12 +289,12 @@ export default class AppStore {
             }
 
             console.log("Wysyłam")
-            this.setSinglePDFReport(false)
+            this.clearSinglePDFReports()
             this.setSingleTaskRunning(true)
 
             const pWaiting = new Promise((resolve) => { // sztuczne czekanie pare sekund, tak jakby się tam coś mieliło
-                console.log("Timeout 3 sekundy")
-                setTimeout(resolve, 3000, 'pWaiting');
+                console.log("Timeout: 0.5 sekund")
+                setTimeout(resolve, 500, 'pWaiting');
             })
 
             const pSingleTaskResponse = await this.postSingleTask()
@@ -308,12 +308,9 @@ export default class AppStore {
                     console.log("Proms resolved")
                     if (this.singleTaskRunning) { // jeśli nie został przerwany (tymczasowo)
                         this.setSingleTaskRunning(false)
-                        this.setSinglePDFReport(values[1])
+                        this.addSinglePDFReports(values[1])
                     }
                 });
-
-            // console.log("Czyszcze inputy")
-            // TO DO
 
         }
         else {
@@ -410,7 +407,7 @@ export default class AppStore {
             console.log("FitFuncUpperBoundaries: ", this.getFunctionById("multi", this.multiFuncId).upperBoundaries)
 
             console.log("Wysyłam")
-            this.setMultiPDFReport(false)
+            this.clearMultiPDFReports()
             this.setMultiTaskRunning(true)
 
             const pWaiting = new Promise((resolve) => { // sztuczne czekanie pare sekund, tak jakby się tam coś mieliło
@@ -429,13 +426,9 @@ export default class AppStore {
                     console.log("Proms resolved")
                     if (this.multiTaskRunning) { // jeśli nie został przerwany (tymczasowo)
                         this.setMultiTaskRunning(false)
-                        this.setMultiPDFReport(values[1])
+                        this.addMultiPDFReports(values[1])
                     }
                 });
-
-            // console.log("Czyszcze inputy")
-            // TO DO
-
 
         }
         else {
@@ -478,12 +471,12 @@ export default class AppStore {
 
         if (singleOrMulti == "single") {
             this.setSingleTaskRunning(false)
-            this.setSinglePDFReport(null)
+            this.clearSinglePDFReports()
 
         }
         if (singleOrMulti == "multi") {
             this.setMultiTaskRunning(false)
-            this.setMultiPDFReport(null)
+            this.clearMultiPDFReports()
 
         }
 
@@ -492,18 +485,30 @@ export default class AppStore {
     // PDF REPORTs
 
     // single
-    singlePDFReport = null
+    singlePDFReports = []
 
-    setSinglePDFReport = (data) => {
-        this.singlePDFReport = data
+    addSinglePDFReports = (reportsNames) => {
+        reportsNames.map((n) => {
+            this.singlePDFReports.push(n)
+        })
+    }
+
+    clearSinglePDFReports = () => {
+        this.singlePDFReports = []
     }
 
     // multi
 
-    multiPDFReport = null
+    multiPDFReports = []
 
-    setMultiPDFReport = (data) => {
-        this.multiPDFReport = data
+    addMultiPDFReports = (reportsNames) => {
+        reportsNames.map((n) => {
+            this.multiPDFReports.push(n)
+        })
+    }
+
+    clearMultiPDFReports = () => {
+        this.multiPDFReports = []
     }
 
     // FILE UPLOAD

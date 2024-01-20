@@ -58,7 +58,7 @@ function App() {
           {appStore.singleTaskRunning &&
             <RunningTask singleOrMulti="single" />
           }
-          {appStore.singlePDFReport &&
+          {appStore.singlePDFReports.length > 0 &&
             <PDFReport singleOrMulti="single" />
           }
 
@@ -91,7 +91,7 @@ function App() {
           {appStore.multiTaskRunning &&
             <RunningTask singleOrMulti="multi" />
           }
-          {appStore.multiPDFReport &&
+          {appStore.multiPDFReports.length > 0 &&
             <PDFReport singleOrMulti="multi" />
           }
 
