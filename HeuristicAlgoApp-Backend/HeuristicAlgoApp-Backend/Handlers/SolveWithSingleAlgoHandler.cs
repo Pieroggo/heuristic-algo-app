@@ -54,12 +54,13 @@ namespace HeuristicAlgoApp_Backend.Handlers
                             solveParams.Add(reportFolderPath);
                             await dataCollection.AssignReferenceSingleAlgo(algorithm);
                             string reportPath= algorithm.GetType().GetMethod("Solve").Invoke(algorithm,solveParams.ToArray());
-                            
+                            string frontReportPath = ReportFrontFolderPath + Path.GetFileName(reportPath);
                             if (reportPath != null) { 
                                 Console.WriteLine($"Solve on algorithm worked.");
+
                                 File.Copy(reportPath, ReportFrontFolderPath + Path.GetFileName(reportPath));
                             }
-                            reports.Add(reportPath);
+                            reports.Add(frontReportPath);
                             await dataCollection.AssignReferenceSingleAlgo(null); //reset of reference
                         }
                         else {

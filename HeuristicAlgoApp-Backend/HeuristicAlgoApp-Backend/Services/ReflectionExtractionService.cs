@@ -20,6 +20,7 @@ namespace HeuristicAlgoApp_Backend.Services
                         dynamic algo=Activator.CreateInstance(t);
                         List<Parameter> parameters = new List<Parameter>();
                         dynamic paramsInfo = algo.GetType().GetProperty("ParamsInfo").GetValue(algo);
+                        Console.WriteLine(paramsInfo.Length);
                         if (paramsInfo != null && paramsInfo.Length!=0)
                         {
                             foreach (dynamic param in paramsInfo)
@@ -33,7 +34,7 @@ namespace HeuristicAlgoApp_Backend.Services
                                 });
                             }
                         }
-                        await dataCollection.AddAlgorithm(new Algorithm() { Name = t.GetProperty("Name").GetValue(algo),TypeName=t.FullName,FileName=fPath });//for now, without Parameters
+                        await dataCollection.AddAlgorithm(new Algorithm() { Name = t.GetProperty("Name").GetValue(algo),TypeName=t.FullName,FileName=fPath,Parameters=parameters });//for now, without Parameters
                     }
                     if (ReflectionValidationService.IsCorrectFitnessFunction(t)) {
                         //dynamic fitFunc=Activator.CreateInstance(t) //może być potrzebny przy założeniu składowej Name

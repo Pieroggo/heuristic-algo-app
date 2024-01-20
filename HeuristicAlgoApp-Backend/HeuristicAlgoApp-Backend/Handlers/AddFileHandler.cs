@@ -28,6 +28,7 @@ namespace HeuristicAlgoApp_Backend.Handlers
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 request.file.CopyTo(stream);
+                stream.Close();
             }
             await ReflectionExtractionService.ExtractAlgosAndFunctions(this.dataCollection,path);
         }
