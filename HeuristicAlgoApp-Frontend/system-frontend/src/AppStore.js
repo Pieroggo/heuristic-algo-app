@@ -411,8 +411,8 @@ export default class AppStore {
             this.setMultiTaskRunning(true)
 
             const pWaiting = new Promise((resolve) => { // sztuczne czekanie pare sekund, tak jakby się tam coś mieliło
-                console.log("Timeout 3 sekundy")
-                setTimeout(resolve, 3000, 'pWaiting');
+                console.log("Timeout 0.5 sekundy")
+                setTimeout(resolve, 500, 'pWaiting');
             })
 
             const pMultiTaskResponse = await this.postMultiTask()

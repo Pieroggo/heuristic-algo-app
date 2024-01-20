@@ -59,7 +59,11 @@ function App() {
             <RunningTask singleOrMulti="single" />
           }
           {appStore.singlePDFReports.length > 0 &&
-            <PDFReport singleOrMulti="single" />
+            <div className='report'>
+              <h3>Przejrzyj ostatnie raporty: </h3>
+              <PDFReport singleOrMulti="single" />
+              <p>(wszystkie raporty znajdziesz w folderze)</p>
+            </div>
           }
 
         </div>
@@ -92,7 +96,11 @@ function App() {
             <RunningTask singleOrMulti="multi" />
           }
           {appStore.multiPDFReports.length > 0 &&
-            <PDFReport singleOrMulti="multi" />
+            <div className='report'>
+              <h3>Przejrzyj ostatnie raporty: </h3>
+              <PDFReport singleOrMulti="multi" />
+              <p>(wszystkie raporty znajdziesz w folderze)</p>
+            </div>
           }
 
         </div>

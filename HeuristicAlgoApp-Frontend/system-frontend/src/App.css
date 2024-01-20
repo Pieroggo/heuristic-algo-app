@@ -116,5 +116,7 @@ button {
 }
 
 .reportButton {
-  margin: 5px;
+  /* background-color: #7adf7a; */
+  padding: 5px;
+  margin: 10px;
 }
