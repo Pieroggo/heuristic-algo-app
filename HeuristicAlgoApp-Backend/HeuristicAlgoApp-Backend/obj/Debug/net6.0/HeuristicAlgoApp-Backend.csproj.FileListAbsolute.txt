@@ -282,3 +282,9 @@ D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-
 D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\SixLabors.Fonts.dll
 D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\SixLabors.ImageSharp.dll
 D:\Studia\Sem 5\AI\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\de\PdfSharpCore.resources.dll
+E:\Studia\Semestr 5\ZastMetSztuczIntProbInz\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+E:\Studia\Semestr 5\ZastMetSztuczIntProbInz\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\PdfSharpCore.dll
+E:\Studia\Semestr 5\ZastMetSztuczIntProbInz\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\ICSharpCode.SharpZipLib.dll
+E:\Studia\Semestr 5\ZastMetSztuczIntProbInz\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\SixLabors.Fonts.dll
+E:\Studia\Semestr 5\ZastMetSztuczIntProbInz\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\SixLabors.ImageSharp.dll
+E:\Studia\Semestr 5\ZastMetSztuczIntProbInz\heuristic-algo-app\HeuristicAlgoApp-Backend\HeuristicAlgoApp-Backend\bin\Debug\net6.0\de\PdfSharpCore.resources.dll

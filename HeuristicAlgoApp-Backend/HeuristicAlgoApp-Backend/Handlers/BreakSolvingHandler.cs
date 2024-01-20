@@ -15,9 +15,14 @@ namespace HeuristicAlgoApp_Backend.Handlers
 
         public Task Handle(BreakSolvingCommand request, CancellationToken cancellationToken)
         {
-            string path = Directory.GetCurrentDirectory() + "\\..\\..\\..\\SalpSwarmAlgo\\folder\\";
+            string path = Directory.GetCurrentDirectory() + "\\PauseFolder\\";
             string fileName = "PAUSEFILE.txt";
-            string fullPath = System.IO.Path.Combine(path, fileName);
+            string fullPath = Path.Combine(path, fileName);
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
 
             try
             {
