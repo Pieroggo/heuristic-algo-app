@@ -52,7 +52,8 @@ namespace HeuristicAlgoApp_Backend.Handlers
                                 Console.WriteLine($"Solve on algorithm worked.");
                                 File.Copy(reportPath, ReportFrontFolderPath + Path.GetFileName(reportPath));
                             }
-                            reports.Add(frontReportPath);
+                            //reports.Add(frontReportPath);
+                            reports.Add(Path.GetFileName(frontReportPath));
                             await dataCollection.AssignReferenceMultiAlgo(null); //reset of reference
                         }
                         else

@@ -60,7 +60,8 @@ namespace HeuristicAlgoApp_Backend.Handlers
 
                                 File.Copy(reportPath, ReportFrontFolderPath + Path.GetFileName(reportPath));
                             }
-                            reports.Add(frontReportPath);
+                            //reports.Add(frontReportPath);
+                            reports.Add(Path.GetFileName(frontReportPath));
                             await dataCollection.AssignReferenceSingleAlgo(null); //reset of reference
                         }
                         else {
