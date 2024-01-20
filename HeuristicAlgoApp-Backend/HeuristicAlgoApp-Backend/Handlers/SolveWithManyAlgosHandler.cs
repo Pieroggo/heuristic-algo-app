@@ -8,6 +8,7 @@ namespace HeuristicAlgoApp_Backend.Handlers
     public class SolveWithManyAlgosHandler : IRequestHandler<SolveWithManyAlgosCommand, string?[]?>
     {
         private readonly DataCollection dataCollection;
+        private readonly string ReportFrontFolderPath = Directory.GetCurrentDirectory() + "\\..\\..\\HeuristicAlgoApp-Frontend\\system-frontend\\public\\pdf\\";
 
         public SolveWithManyAlgosHandler(DataCollection dataCollection)
         {
@@ -45,9 +46,12 @@ namespace HeuristicAlgoApp_Backend.Handlers
                             string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
                             solveParams.Add(reportFolderPath);
                             await dataCollection.AssignReferenceMultiAlgo(algorithm);
-                            string? result =algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
-                            if (result != null) { Console.WriteLine($"Solve on algorithm worked."); }
-                            reports.Add(result);
+                            string? reportPath =algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
+                            if (reportPath != null) { 
+                                Console.WriteLine($"Solve on algorithm worked.");
+                                File.Copy(reportPath, ReportFrontFolderPath + Path.GetFileName(reportPath));
+                            }
+                            reports.Add(reportPath);
                             await dataCollection.AssignReferenceMultiAlgo(null); //reset of reference
                         }
                         else

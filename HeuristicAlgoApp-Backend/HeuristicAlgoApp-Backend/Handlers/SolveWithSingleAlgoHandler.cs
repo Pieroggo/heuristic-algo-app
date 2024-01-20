@@ -2,6 +2,7 @@
 using HeuristicAlgoApp_Backend.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.CodeDom;
 using System.Reflection;
 
 namespace HeuristicAlgoApp_Backend.Handlers
@@ -10,6 +11,7 @@ namespace HeuristicAlgoApp_Backend.Handlers
     {
         private readonly DataCollection dataCollection;
 
+        private readonly string ReportFrontFolderPath=Directory.GetCurrentDirectory() + "\\..\\..\\HeuristicAlgoApp-Frontend\\system-frontend\\public\\pdf\\";
         public SolveWithSingleAlgoHandler(DataCollection dataCollection)
         {
             this.dataCollection = dataCollection;
@@ -53,7 +55,10 @@ namespace HeuristicAlgoApp_Backend.Handlers
                             await dataCollection.AssignReferenceSingleAlgo(algorithm);
                             string reportPath= algorithm.GetType().GetMethod("Solve").Invoke(algorithm,solveParams.ToArray());
                             
-                            if (reportPath != null) { Console.WriteLine($"Solve on algorithm worked."); }
+                            if (reportPath != null) { 
+                                Console.WriteLine($"Solve on algorithm worked.");
+                                File.Copy(reportPath, ReportFrontFolderPath + Path.GetFileName(reportPath));
+                            }
                             reports.Add(reportPath);
                             await dataCollection.AssignReferenceSingleAlgo(null); //reset of reference
                         }
@@ -62,7 +67,6 @@ namespace HeuristicAlgoApp_Backend.Handlers
                         }
                         i++;
                     }
-                    Console.WriteLine($"Line Check");
                     return reports.ToArray();
                 }
                 else { return null; }
