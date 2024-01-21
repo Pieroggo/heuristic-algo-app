@@ -1,27 +1,31 @@
-Hello therere
+Hello therere 🖐
 
-# Project created with:
+# Projekt stworzony przy użyciu:
 `npx create-react-app system-frontend --use-npm`
 
-# Packages installed:
+# Doinstalowane paczki:
 `mobx` \
 `mobx-react-lite` \
 `axios`\
 `@blueprintjs/core`\
-...\
+(możliwe że coś tam jeszcze)
 
-# For repairing:
-npm install\ 
-npm audit fix --force\ 
+# Żeby naprawić:
+`npm install`\
+`npm audit fix --force`
 
-usuń packages-lock.json\
-usuń node_modules\
-wywal "babel-loader"\
-npm install\
+usuń: `packages-lock.json`\
+usuń: `node_modules`\
+wywal: "babel-loader"\
+zrób: `npm install`
 
-# To run it:
-`npm start`
+# Żeby odpalić:
+`npm start`\
+(pamiętaj, żeby uruchomić też backend)
 
+---------------------------
+
+# Default text below:
 ## Available Scripts
 
 In the project directory, you can run:
