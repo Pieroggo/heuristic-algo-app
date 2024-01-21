@@ -40,7 +40,7 @@ namespace HeuristicAlgoApp_Backend.Handlers
                         {
 
                             List<dynamic> solveParams = new List<dynamic> { fitnessFunction, request.multiTask.FitFuncLowerBoundaries, request.multiTask.FitFuncUpperBoundaries }; //adjust so that you can use solve
-                            List<double> doubleParams = new List<double> { request.multiTask.NumOfAgents, request.multiTask.NumOfIterations, request.multiTask.FitFuncDimension };//list without additional parameters
+                            List<double> doubleParams = new List<double> { request.multiTask.NumOfAgents, request.multiTask.NumOfIterations, request.multiTask.FitFuncDimension,0.5,2,1,0.5 };//list without additional parameters
                             if (algorithmDTO.Parameters != null)
                             {
                                 foreach (dynamic algoParameter in algorithmDTO.Parameters)
