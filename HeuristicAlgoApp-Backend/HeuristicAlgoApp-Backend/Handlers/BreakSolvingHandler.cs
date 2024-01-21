@@ -15,7 +15,7 @@ namespace HeuristicAlgoApp_Backend.Handlers
 
         public Task Handle(BreakSolvingCommand request, CancellationToken cancellationToken)
         {
-            string path = Directory.GetCurrentDirectory() + "\\PauseFolder\\";
+            string path = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\PauseFolder\\";
             string fileName = "PAUSEFILE.txt";
             string fullPath = Path.Combine(path, fileName);
 

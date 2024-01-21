@@ -52,6 +52,8 @@ namespace HeuristicAlgoApp_Backend.Handlers
                             solveParams.Add(doubleParams.ToArray());
                             string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
                             solveParams.Add(reportFolderPath);
+                            string stateFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\";
+                            solveParams.Add(stateFolderPath);
                             await dataCollection.AssignReferenceSingleAlgo(algorithm);
                             string reportPath= algorithm.GetType().GetMethod("Solve").Invoke(algorithm,solveParams.ToArray());
                             string frontReportPath = ReportFrontFolderPath + Path.GetFileName(reportPath);
@@ -73,7 +75,7 @@ namespace HeuristicAlgoApp_Backend.Handlers
                 }
                 else { return null; }
             }
-            catch (Exception ex) { Console.WriteLine(ex.Message); if (ex.InnerException != null) { Console.WriteLine(ex.InnerException.ToString()); } return null; }
+            catch (Exception ex) { Console.WriteLine(ex.ToString()); if (ex.InnerException != null) { Console.WriteLine(ex.InnerException.ToString()); } return null; }
         }
     }
 }
