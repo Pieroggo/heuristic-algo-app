@@ -43,19 +43,6 @@ namespace HeuristicAlgoApp_Backend.Controllers
             else { return BadRequest(); }
         }
         [HttpGet]
-        public async Task<ActionResult> GetSolvingSingleAlgo()
-        {
-            //to be implemented
-            return Ok("soon :)");
-
-        }
-        [HttpGet]
-        public async Task<ActionResult> GetSolvingMultiAlgo()
-        {
-            //to be implemented
-            return Ok("soon :)");
-        }
-        [HttpGet]
         public async Task<ActionResult> BreakSolving()
         {
             await _sender.Send(new BreakSolvingCommand());
