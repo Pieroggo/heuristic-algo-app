@@ -300,7 +300,7 @@ export default class AppStore {
             }
 
             console.log("Wysyłam")
-            this.clearSinglePDFReports()
+            // this.clearSinglePDFReports()
             this.setSingleTaskIsStarted(true)
             this.setSingleTaskIsRunning(true)
 
@@ -314,14 +314,28 @@ export default class AppStore {
                     console.log("Odebrano [data]: ", result.data)
                     return result.data
                 })
+                .catch((err) => {
+                    console.log("Task error: ", err)
+                    return null
+                })
 
             Promise.all([pWaiting, pSingleTaskResponse])
                 .then((values) => {
+                    if(values[1] == null){
+                        throw Error("^")
+                    }
                     console.log("Proms resolved")
                     this.setSingleTaskIsStarted(false)
                     this.setSingleTaskIsRunning(false)
-                    this.addSinglePDFReports(values[1])
-                });
+                    this.clearSinglePDFReports() // wyczyść stare reporty
+                    this.addSinglePDFReports(values[1]) // wsadź te odnośnie aktualngo zadania
+                })
+                .catch(() => {
+                    console.log("Promises error")
+                    this.setSingleTaskIsStarted(false)
+                    this.setSingleTaskIsRunning(false)
+                    alert("Przepraszamy, SingleTask nie mógł się wykonać :( \nMożliwe, że podano niedozwolone wartości parametrów.")
+                })
 
         }
         else {
@@ -350,7 +364,12 @@ export default class AppStore {
                 }),
             })
             .then((response) => {
+                // if(response.status == 200){
                 return response
+                // }
+            })
+            .catch((err) => {
+                console.log("postTask error: ", err)
             })
     }
 
@@ -377,7 +396,7 @@ export default class AppStore {
             console.log("FitFuncUpperBoundaries: ", this.getFunctionById("multi", this.multiFuncId).upperBoundaries)
 
             console.log("Wysyłam")
-            this.clearMultiPDFReports()
+            // this.clearMultiPDFReports()
             this.setMultiTaskIsStarted(true)
             this.setMultiTaskIsRunning(true)
 
@@ -391,15 +410,28 @@ export default class AppStore {
                     console.log("Odebrano [data]: ", result.data)
                     return result.data
                 })
+                .catch((err) => {
+                    console.log("Task error: ", err)
+                    return null
+                })
 
             Promise.all([pWaiting, pMultiTaskResponse])
                 .then((values) => {
+                    if(values[1] == null){
+                        throw Error("^")
+                    }
                     console.log("Proms resolved")
                     this.setMultiTaskIsStarted(false)
                     this.setMultiTaskIsRunning(false)
-                    this.addMultiPDFReports(values[1])
-                });
-
+                    this.clearMultiPDFReports() // wyczyść stare reporty
+                    this.addMultiPDFReports(values[1]) // wsadź te odnośnie aktualngo zadania                    
+                })
+                .catch((err) => {
+                    console.log("Promises error: ", err)
+                    this.setMultiTaskIsStarted(false)
+                    this.setMultiTaskIsRunning(false)
+                    alert("Przepraszamy, MultiTask nie mógł się wykonać :( \nMożliwe, że podano niedozwolone wartości parametrów.")
+                })
         }
         else {
             alert("Nie wybrano funkcji i/lub algorytmów")
@@ -420,21 +452,37 @@ export default class AppStore {
                 FitFuncUpperBoundaries: this.getFunctionById("multi", this.multiFuncId).upperBoundaries
             })
             .then((response) => {
+                // if(response.status == 200){
                 return response
+                // }
+            })
+            .catch((err) => {
+                console.log("postTask error: ", err)
             })
     }
 
     // przerywanie tasków PAUSE - RESUME
 
     singleTaskIsRunning = false;
+    singleTaskState = null;
+
     multiTaskIsRunning = false;
+    multiTaskState = null;
 
     setSingleTaskIsRunning = (bool) => {
         this.singleTaskIsRunning = bool
     }
 
+    setSingleTaskState = (data) => {
+        this.singleTaskState = data
+    }
+
     setMultiTaskIsRunning = (bool) => {
         this.multiTaskIsRunning = bool
+    }
+
+    setMultiTaskState = (data) => {
+        this.multiTaskState = data
     }
 
     breakTask = async (singleOrMulti) => {
@@ -443,15 +491,21 @@ export default class AppStore {
         if (singleOrMulti == "single") {
             await this.sendBreakTask()
                 .then((response) => {
-                    console.log("responseBreakTask (m): ", response)
-                    this.setSingleTaskIsRunning(false)
+                    if (response.status == 200) {
+                        console.log("responseBreakTask (m): ", response)
+                        this.setSingleTaskState("Stan: [ " + response.data + " ]")
+                        this.setSingleTaskIsRunning(false)
+                    }
                 })
         }
         if (singleOrMulti == "multi") {
             await this.sendBreakTask()
                 .then((response) => {
-                    console.log("responseBreakTask (m): ", response)
-                    this.setMultiTaskIsRunning(false)
+                    if (response.status == 200) {
+                        console.log("responseBreakTask (m): ", response)
+                        this.setMultiTaskState("Stan: [ " + response.data + " ]")
+                        this.setMultiTaskIsRunning(false)
+                    }
                 })
         }
 
@@ -463,15 +517,19 @@ export default class AppStore {
         if (singleOrMulti == "single") {
             await this.sendResumeTask()
                 .then((response) => {
-                    console.log("responseResumeTask (s): ", response)
-                    this.setSingleTaskIsRunning(true)
+                    if (response.status == 200) {
+                        console.log("responseResumeTask (s): ", response)
+                        this.setSingleTaskIsRunning(true)
+                    }
                 })
         }
         if (singleOrMulti == "multi") {
             await this.sendResumeTask()
                 .then((response) => {
-                    console.log("responseResumeTask (s): ", response)
-                    this.setMultiTaskIsRunning(true)
+                    if (response.status == 200) {
+                        console.log("responseResumeTask (s): ", response)
+                        this.setMultiTaskIsRunning(true)
+                    }
                 })
         }
 

@@ -17,7 +17,8 @@ export default observer(function RunningTask({ singleOrMulti }) {
                 }
                 {appStore.singleTaskIsStarted && !appStore.singleTaskIsRunning &&
                     <div>
-                        SingleTask zatrzymany.
+                        SingleTask zatrzymany. <br />
+                        {appStore.singleTaskState} <br />
                         <button onClick={() => appStore.resumeTask(singleOrMulti)}>Wznów</button>
                     </div>
                 }
@@ -36,7 +37,8 @@ export default observer(function RunningTask({ singleOrMulti }) {
                 }
                 {appStore.multiTaskIsStarted && !appStore.multiTaskIsRunning &&
                     <div>
-                        MultiTask zatrzymany.
+                        MultiTask zatrzymany. <br />
+                        {appStore.multiTaskState} <br />
                         <button onClick={() => appStore.resumeTask(singleOrMulti)}>Wznów</button>
                     </div>
                 }

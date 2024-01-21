@@ -61,7 +61,7 @@ function App() {
           }
           {appStore.singlePDFReports.length > 0 &&
             <div className='report'>
-              <h3>Przejrzyj raporty: </h3>
+              <h3>Przejrzyj ostatnie raporty: </h3>
               <PDFReport singleOrMulti="single" />
               <p>(wszystkie wcześniej zapisane raporty <br />znajdziesz w folderze /public/pdf/)</p>
             </div>
@@ -98,7 +98,7 @@ function App() {
           }
           {appStore.multiPDFReports.length > 0 &&
             <div className='report'>
-              <h3>Przejrzyj raporty: </h3>
+              <h3>Przejrzyj ostatnie raporty: </h3>
               <PDFReport singleOrMulti="multi" />
               <p>(wszystkie wcześniej zapisane raporty <br />znajdziesz w folderze /public/pdf/)</p>
             </div>
