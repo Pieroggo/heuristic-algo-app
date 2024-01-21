@@ -6,20 +6,42 @@ export default observer(function RunningTask({ singleOrMulti }) {
 
     const { appStore } = useStore();
 
-    if(singleOrMulti == "single"){
+    if (singleOrMulti == "single") {
         return (
             <div className="runningTask">
-                SingleTask się mieli..
-                <button onClick={() => appStore.breakTask(singleOrMulti)}>Przerwij</button>
+                {appStore.singleTaskIsStarted && appStore.singleTaskIsRunning &&
+                    <div>
+                        SingleTask się mieli..
+                        <button onClick={() => appStore.breakTask(singleOrMulti)}>Przerwij</button>
+                    </div>
+                }
+                {appStore.singleTaskIsStarted && !appStore.singleTaskIsRunning &&
+                    <div>
+                        SingleTask zatrzymany. <br />
+                        {appStore.singleTaskState} <br />
+                        <button onClick={() => appStore.resumeTask(singleOrMulti)}>Wznów</button>
+                    </div>
+                }
             </div>
         )
     }
 
-    if(singleOrMulti == "multi"){
+    if (singleOrMulti == "multi") {
         return (
             <div className="runningTask">
-                MultiTask się mieli..
-                <button onClick={() => appStore.breakTask(singleOrMulti)}>Przerwij</button>
+                {appStore.multiTaskIsStarted && appStore.multiTaskIsRunning &&
+                    <div>
+                        MultiTask się mieli..
+                        <button onClick={() => appStore.breakTask(singleOrMulti)}>Przerwij</button>
+                    </div>
+                }
+                {appStore.multiTaskIsStarted && !appStore.multiTaskIsRunning &&
+                    <div>
+                        MultiTask zatrzymany. <br />
+                        {appStore.multiTaskState} <br />
+                        <button onClick={() => appStore.resumeTask(singleOrMulti)}>Wznów</button>
+                    </div>
+                }
             </div>
         )
     }

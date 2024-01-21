@@ -1,5 +1,5 @@
 import './App.css';
-import React, { Component } from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 import { useStore } from './store';
 import { observer } from 'mobx-react-lite';
@@ -52,14 +52,18 @@ function App() {
 
           </div>
 
-          {!appStore.singleTaskRunning &&
+          {!appStore.singleTaskIsStarted &&
             <button onClick={() => appStore.runSinlgeTask()}>Uruchom</button>
           }
-          {appStore.singleTaskRunning &&
+          {appStore.singleTaskIsStarted &&
             <RunningTask singleOrMulti="single" />
           }
-          {appStore.singlePDFReport &&
-            <PDFReport singleOrMulti="single" />
+          {appStore.singlePDFReports.length > 0 &&
+            <div className='report'>
+              <h3>Przejrzyj ostatnie raporty: </h3>
+              <PDFReport singleOrMulti="single" />
+              <p>(wszystkie wcześniej zapisane raporty <br />znajdziesz w folderze /public/pdf/)</p>
+            </div>
           }
 
         </div>
@@ -85,14 +89,18 @@ function App() {
 
           </div>
 
-          {!appStore.multiTaskRunning &&
+          {!appStore.multiTaskIsStarted &&
             <button onClick={() => appStore.runMultiTask()}>Uruchom</button>
           }
-          {appStore.multiTaskRunning &&
+          {appStore.multiTaskIsStarted &&
             <RunningTask singleOrMulti="multi" />
           }
-          {appStore.multiPDFReport &&
-            <PDFReport singleOrMulti="multi" />
+          {appStore.multiPDFReports.length > 0 &&
+            <div className='report'>
+              <h3>Przejrzyj ostatnie raporty: </h3>
+              <PDFReport singleOrMulti="multi" />
+              <p>(wszystkie wcześniej zapisane raporty <br />znajdziesz w folderze /public/pdf/)</p>
+            </div>
           }
 
         </div>
@@ -100,7 +108,7 @@ function App() {
 
       <div className='flex-box-footer'>
         <h1>Wgrywanie</h1>
-        <p>Tutaj możesz przesłać własny plik (.dll) z funkcją lub algorytmem do systemu</p>
+        <p>Tutaj możesz przesłać własny plik (.dll) z funkcją i/lub algorytmem do systemu</p>
         <div>
           <input type="file" id="fileUpload" onChange={appStore.handleOnChangeFile} /> <br />
           <button onClick={appStore.handleUpload}>Prześlij plik</button>

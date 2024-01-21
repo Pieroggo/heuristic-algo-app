@@ -15,7 +15,28 @@ namespace HeuristicAlgoApp_Backend.Handlers
 
         public Task Handle(BreakSolvingCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            string path = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\PauseFolder\\";
+            string fileName = "PAUSEFILE.txt";
+            string fullPath = Path.Combine(path, fileName);
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            try
+            {
+                using (StreamWriter sw = File.CreateText(fullPath))
+                {
+                    sw.WriteLine("PAUSEFILE to pause program");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Wystąpił błąd podczas tworzenia pliku: {ex.Message}");
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

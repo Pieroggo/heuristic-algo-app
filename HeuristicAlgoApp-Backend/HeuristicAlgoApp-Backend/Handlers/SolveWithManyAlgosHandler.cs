@@ -51,6 +51,8 @@ namespace HeuristicAlgoApp_Backend.Handlers
                             solveParams.Add(doubleParams.ToArray());
                             string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
                             solveParams.Add(reportFolderPath);
+                            string stateFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\";
+                            solveParams.Add(stateFolderPath);
                             await dataCollection.AssignReferenceMultiAlgo(algorithm);
                             Console.WriteLine(algorithm);
                             Console.WriteLine(solveParams.ToArray());
@@ -62,7 +64,8 @@ namespace HeuristicAlgoApp_Backend.Handlers
                                 Console.WriteLine($"Solve on algorithm worked.");
                                 File.Copy(reportPath, ReportFrontFolderPath + Path.GetFileName(reportPath));
                             }
-                            reports.Add(frontReportPath);
+                            //reports.Add(frontReportPath);
+                            reports.Add(Path.GetFileName(frontReportPath));
                             await dataCollection.AssignReferenceMultiAlgo(null); //reset of reference
                         }
                         else

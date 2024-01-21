@@ -15,7 +15,27 @@ namespace HeuristicAlgoApp_Backend.Handlers
 
         public Task Handle(ResumeSolvingCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            string path = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\PauseFolder\\";
+            string fileName = "PAUSEFILE.txt";
+            string fullPath = System.IO.Path.Combine(path, fileName);
+
+            try
+            {
+                if (File.Exists(fullPath))
+                {
+                    File.Delete(fullPath);
+                }
+                else
+                {
+                    Console.WriteLine($"Plik {fileName} nie istnieje w ścieżce {fullPath}.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Wystąpił błąd podczas usuwania pliku: {ex.Message}");
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

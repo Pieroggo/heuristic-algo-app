@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, runInAction, values } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import axios from "axios";
 
 export default class AppStore {
@@ -10,7 +10,7 @@ export default class AppStore {
     //apiPath = 'https://jsonplaceholder.typicode.com/';
     apiPath = 'https://localhost:7071/api';
 
-    // SHOW VALUES function to better see values of states when using mobx
+    // SHOW VALUES function to better see values of states when using mobx ..nah
 
     show = (what) => {
         // console.log("> Showing variable values")
@@ -247,7 +247,18 @@ export default class AppStore {
         }
     }
 
-    // SINGLE & MULTI TASK's
+    // SINGLE & MULTI TASK's ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    singleTaskIsStarted = false;
+    multiTaskIsStarted = false;
+
+    setSingleTaskIsStarted = (bool) => {
+        this.singleTaskIsStarted = bool
+    }
+
+    setMultiTaskIsStarted = (bool) => {
+        this.multiTaskIsStarted = bool
+    }
 
     // dla SINGLE Taska:
 
@@ -289,12 +300,13 @@ export default class AppStore {
             }
 
             console.log("Wysyłam")
-            this.setSinglePDFReport(false)
-            this.setSingleTaskRunning(true)
+            // this.clearSinglePDFReports()
+            this.setSingleTaskIsStarted(true)
+            this.setSingleTaskIsRunning(true)
 
             const pWaiting = new Promise((resolve) => { // sztuczne czekanie pare sekund, tak jakby się tam coś mieliło
-                console.log("Timeout 3 sekundy")
-                setTimeout(resolve, 3000, 'pWaiting');
+                console.log("Timeout: 0.5 sekund")
+                setTimeout(resolve, 500, 'pWaiting');
             })
 
             const pSingleTaskResponse = await this.postSingleTask()
@@ -302,51 +314,37 @@ export default class AppStore {
                     console.log("Odebrano [data]: ", result.data)
                     return result.data
                 })
+                .catch((err) => {
+                    console.log("Task error: ", err)
+                    return null
+                })
 
             Promise.all([pWaiting, pSingleTaskResponse])
                 .then((values) => {
-                    console.log("Proms resolved")
-                    if (this.singleTaskRunning) { // jeśli nie został przerwany (tymczasowo)
-                        this.setSingleTaskRunning(false)
-                        this.setSinglePDFReport(values[1])
+                    if(values[1] == null){
+                        throw Error("^")
                     }
-                });
-
-            // console.log("Czyszcze inputy")
-            // TO DO
+                    console.log("Proms resolved")
+                    this.setSingleTaskIsStarted(false)
+                    this.setSingleTaskIsRunning(false)
+                    this.clearSinglePDFReports() // wyczyść stare reporty
+                    this.addSinglePDFReports(values[1]) // wsadź te odnośnie aktualngo zadania
+                })
+                .catch(() => {
+                    console.log("Promises error")
+                    this.setSingleTaskIsStarted(false)
+                    this.setSingleTaskIsRunning(false)
+                    alert("Przepraszamy, SingleTask nie mógł się wykonać :( \nMożliwe, że podano niedozwolone wartości parametrów.")
+                })
 
         }
         else {
+            alert("Nie wybrano funkcji i/lub algorytmów")
             console.log("Nie wybrano funkcjów i/lub algorytmu")
         }
     }
 
     postSingleTask = async () => {
-
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(
-        //         {
-        //             "AlgoId": this.singleAlgoId,
-        //             "FitFuncIds": this.singleFuncIds,
-        //             "NumOfAgents": this.singlePopulation,
-        //             "NumOfIterations": this.singleIterations,
-        //             "AlgoParameters": this.singleAlgoParameters,
-        //             "FitFuncDimensions": this.singleFuncIds.map((fid) => {
-        //                 return this.getFunctionById("single", fid).dimension
-        //             }),
-        //             "FitFuncLowerBoundaries": this.singleFuncIds.map((fid) => {
-        //                 return this.getFunctionById("single", fid).lowerBoundaries
-        //             }),
-        //             "FitFuncUpperBoundaries": this.singleFuncIds.map((fid) => {
-        //                 return this.getFunctionById("single", fid).upperBoundaries
-        //             }),
-        //         }
-        //     )
-        // };
-
-        // console.log("postSingleTask, sending: ", requestOptions)
 
         return axios.post(this.apiPath + '/Task/TaskForSingleAlgo',
             {
@@ -366,25 +364,13 @@ export default class AppStore {
                 }),
             })
             .then((response) => {
+                // if(response.status == 200){
                 return response
+                // }
             })
-
-        // return fetch(this.apiPath + "/Task/TaskForSingleAlgo", requestOptions)
-        //     .then(function (response) {
-        //         if (!response.ok) {
-        //             console.log("response postSingleTask not ok: ", response.status)
-        //             throw Error(response.statusText);
-        //         }
-        //         console.log("response postSingleTask status: ", response.status);
-        //         // return response.json();
-        //         return response;
-        //     })
-        //     .catch(function (error) {
-        //         console.log("postSingleTask error: ")
-        //         console.log(error)
-        //         return false;
-        //     })
-
+            .catch((err) => {
+                console.log("postTask error: ", err)
+            })
     }
 
     // dla MULTI Taska:
@@ -410,12 +396,13 @@ export default class AppStore {
             console.log("FitFuncUpperBoundaries: ", this.getFunctionById("multi", this.multiFuncId).upperBoundaries)
 
             console.log("Wysyłam")
-            this.setMultiPDFReport(false)
-            this.setMultiTaskRunning(true)
+            // this.clearMultiPDFReports()
+            this.setMultiTaskIsStarted(true)
+            this.setMultiTaskIsRunning(true)
 
             const pWaiting = new Promise((resolve) => { // sztuczne czekanie pare sekund, tak jakby się tam coś mieliło
-                console.log("Timeout 3 sekundy")
-                setTimeout(resolve, 3000, 'pWaiting');
+                console.log("Timeout 0.5 sekundy")
+                setTimeout(resolve, 500, 'pWaiting');
             })
 
             const pMultiTaskResponse = await this.postMultiTask()
@@ -423,22 +410,31 @@ export default class AppStore {
                     console.log("Odebrano [data]: ", result.data)
                     return result.data
                 })
+                .catch((err) => {
+                    console.log("Task error: ", err)
+                    return null
+                })
 
             Promise.all([pWaiting, pMultiTaskResponse])
                 .then((values) => {
-                    console.log("Proms resolved")
-                    if (this.multiTaskRunning) { // jeśli nie został przerwany (tymczasowo)
-                        this.setMultiTaskRunning(false)
-                        this.setMultiPDFReport(values[1])
+                    if(values[1] == null){
+                        throw Error("^")
                     }
-                });
-
-            // console.log("Czyszcze inputy")
-            // TO DO
-
-
+                    console.log("Proms resolved")
+                    this.setMultiTaskIsStarted(false)
+                    this.setMultiTaskIsRunning(false)
+                    this.clearMultiPDFReports() // wyczyść stare reporty
+                    this.addMultiPDFReports(values[1]) // wsadź te odnośnie aktualngo zadania                    
+                })
+                .catch((err) => {
+                    console.log("Promises error: ", err)
+                    this.setMultiTaskIsStarted(false)
+                    this.setMultiTaskIsRunning(false)
+                    alert("Przepraszamy, MultiTask nie mógł się wykonać :( \nMożliwe, że podano niedozwolone wartości parametrów.")
+                })
         }
         else {
+            alert("Nie wybrano funkcji i/lub algorytmów")
             console.log("Nie wybrano funkcji i/lub algorytmów")
         }
     }
@@ -456,54 +452,130 @@ export default class AppStore {
                 FitFuncUpperBoundaries: this.getFunctionById("multi", this.multiFuncId).upperBoundaries
             })
             .then((response) => {
+                // if(response.status == 200){
                 return response
+                // }
+            })
+            .catch((err) => {
+                console.log("postTask error: ", err)
             })
     }
 
     // przerywanie tasków PAUSE - RESUME
 
-    singleTaskRunning = false;
-    multiTaskRunning = false;
+    singleTaskIsRunning = false;
+    singleTaskState = null;
 
-    setSingleTaskRunning = (bool) => {
-        this.singleTaskRunning = bool
+    multiTaskIsRunning = false;
+    multiTaskState = null;
+
+    setSingleTaskIsRunning = (bool) => {
+        this.singleTaskIsRunning = bool
     }
 
-    setMultiTaskRunning = (bool) => {
-        this.multiTaskRunning = bool
+    setSingleTaskState = (data) => {
+        this.singleTaskState = data
     }
 
-    breakTask = (singleOrMulti) => {
-        console.log("Breaking " + singleOrMulti + " task")
+    setMultiTaskIsRunning = (bool) => {
+        this.multiTaskIsRunning = bool
+    }
+
+    setMultiTaskState = (data) => {
+        this.multiTaskState = data
+    }
+
+    breakTask = async (singleOrMulti) => {
+        console.log("Breaking " + singleOrMulti + " task..")
 
         if (singleOrMulti == "single") {
-            this.setSingleTaskRunning(false)
-            this.setSinglePDFReport(null)
-
+            await this.sendBreakTask()
+                .then((response) => {
+                    if (response.status == 200) {
+                        console.log("responseBreakTask (m): ", response)
+                        this.setSingleTaskState("Stan: [ " + response.data + " ]")
+                        this.setSingleTaskIsRunning(false)
+                    }
+                })
         }
         if (singleOrMulti == "multi") {
-            this.setMultiTaskRunning(false)
-            this.setMultiPDFReport(null)
-
+            await this.sendBreakTask()
+                .then((response) => {
+                    if (response.status == 200) {
+                        console.log("responseBreakTask (m): ", response)
+                        this.setMultiTaskState("Stan: [ " + response.data + " ]")
+                        this.setMultiTaskIsRunning(false)
+                    }
+                })
         }
 
+    }
+
+    resumeTask = async (singleOrMulti) => {
+        console.log("Resuming " + singleOrMulti + " task..")
+
+        if (singleOrMulti == "single") {
+            await this.sendResumeTask()
+                .then((response) => {
+                    if (response.status == 200) {
+                        console.log("responseResumeTask (s): ", response)
+                        this.setSingleTaskIsRunning(true)
+                    }
+                })
+        }
+        if (singleOrMulti == "multi") {
+            await this.sendResumeTask()
+                .then((response) => {
+                    if (response.status == 200) {
+                        console.log("responseResumeTask (s): ", response)
+                        this.setMultiTaskIsRunning(true)
+                    }
+                })
+        }
+
+    }
+
+    sendBreakTask = async () => {
+        return axios.get(this.apiPath + '/Task/BreakSolving')
+            .then((response) => {
+                return response
+            })
+    }
+
+    sendResumeTask = async () => {
+        return axios.get(this.apiPath + '/Task/ResumeSolving')
+            .then((response) => {
+                return response
+            })
     }
 
     // PDF REPORTs
 
     // single
-    singlePDFReport = null
+    singlePDFReports = []
 
-    setSinglePDFReport = (data) => {
-        this.singlePDFReport = data
+    addSinglePDFReports = (reportsNames) => {
+        reportsNames.map((n) => {
+            this.singlePDFReports.push(n)
+        })
+    }
+
+    clearSinglePDFReports = () => {
+        this.singlePDFReports = []
     }
 
     // multi
 
-    multiPDFReport = null
+    multiPDFReports = []
 
-    setMultiPDFReport = (data) => {
-        this.multiPDFReport = data
+    addMultiPDFReports = (reportsNames) => {
+        reportsNames.map((n) => {
+            this.multiPDFReports.push(n)
+        })
+    }
+
+    clearMultiPDFReports = () => {
+        this.multiPDFReports = []
     }
 
     // FILE UPLOAD

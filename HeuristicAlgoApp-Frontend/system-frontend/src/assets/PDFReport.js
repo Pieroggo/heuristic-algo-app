@@ -6,22 +6,25 @@ export default observer(function PDFReport({ singleOrMulti }) {
 
     const { appStore } = useStore();
 
-    if(singleOrMulti == "single"){
+    if (singleOrMulti == "single") {
         return (
-            <div className="report">
-                <form action="/pdf/DummySingleAlgoPDF.pdf" target="_blank" className="buttonForm">
-                    <input type="submit" value="Otwórz raport" />
-                </form>
+            <div>
+                {appStore.singlePDFReports.map((reportName, i) => (
+                    <form action={"/pdf/" + reportName} target="_blank" className="buttonForm" key={i} id={"report-" + i}>
+                        <input type="submit" value={reportName} className="reportButton"/>
+                    </form>
+                ))}
             </div>
         )
     }
-
-    if(singleOrMulti == "multi"){
+    else if (singleOrMulti == "multi") {
         return (
-            <div className="report">
-                <form action="/pdf/DummyMultiAlgoPDF.pdf" target="_blank" className="buttonForm">
-                    <input type="submit" value="Otwórz raport" />
-                </form>
+            <div className>
+                {appStore.multiPDFReports.map((reportName, i) => (
+                    <form action={"/pdf/" + reportName} target="_blank" className="buttonForm" key={i} id={"report-" + i}>
+                        <input type="submit" value={reportName} className="reportButton"/>
+                    </form>
+                ))}
             </div>
         )
     }

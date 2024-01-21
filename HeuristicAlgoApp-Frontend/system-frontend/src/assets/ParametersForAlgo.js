@@ -10,7 +10,6 @@ export default observer(function ParametersForAlgo({ id }) {
     if (a.parameters != null) {
         return (
             <div className="parametersForAlgo">
-
                 {a.parameters.map((parameter, i) => (
                     <label key={parameter.id}>
                         {parameter.name}:&nbsp;
@@ -25,7 +24,6 @@ export default observer(function ParametersForAlgo({ id }) {
                         </input>
                     </label>
                 ))}
-
             </div>
         )
     }
