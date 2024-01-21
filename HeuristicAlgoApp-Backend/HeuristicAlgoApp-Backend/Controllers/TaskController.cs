@@ -55,13 +55,13 @@ namespace HeuristicAlgoApp_Backend.Controllers
             //to be implemented
             return Ok("soon :)");
         }
-        [HttpPost]
+        [HttpGet]
         public async Task<ActionResult> BreakSolving()
         {
             await _sender.Send(new BreakSolvingCommand());
             return Ok();
         }
-        [HttpPost]
+        [HttpGet]
         public async Task<ActionResult> ResumeSolving()
         {
             await _sender.Send(new ResumeSolvingCommand());
