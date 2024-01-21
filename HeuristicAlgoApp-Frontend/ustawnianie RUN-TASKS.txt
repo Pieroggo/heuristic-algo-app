@@ -1,0 +1,35 @@
+RUN:
+
+taskIsStarted = true
+taskIsRunning = true
+PDFreport = []
+request POST /api/Task/TaskFor
+	-> taskIsStarted = false
+	   taskIsRunning = false
+
+
+BREAK:
+
+if taskIsStarted ORAZ taskIsRunning==true
+	request GET /api/Task/BreakSolving
+		if OK
+			taskIsRunning = false
+			-> zmień guzik na Wznów
+
+
+RESUME:
+
+if taskIsStarted ORAZ taskIsRunning==false
+	request GET /api/Task/ResumeSolving
+		if OK
+			taskIsRunning = true
+			-> zmień guzik na Przerwij
+
+
+REPORT:
+
+if PDFreport.length > 0
+	wyświetl
+
+
+

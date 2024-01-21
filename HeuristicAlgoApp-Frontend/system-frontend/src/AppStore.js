@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, runInAction, values } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import axios from "axios";
 
 export default class AppStore {
@@ -10,7 +10,7 @@ export default class AppStore {
     //apiPath = 'https://jsonplaceholder.typicode.com/';
     apiPath = 'https://localhost:7071/api';
 
-    // SHOW VALUES function to better see values of states when using mobx
+    // SHOW VALUES function to better see values of states when using mobx ..nah
 
     show = (what) => {
         // console.log("> Showing variable values")
@@ -247,7 +247,18 @@ export default class AppStore {
         }
     }
 
-    // SINGLE & MULTI TASK's
+    // SINGLE & MULTI TASK's ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    singleTaskIsStarted = false;
+    multiTaskIsStarted = false;
+
+    setSingleTaskIsStarted = (bool) => {
+        this.singleTaskIsStarted = bool
+    }
+
+    setMultiTaskIsStarted = (bool) => {
+        this.multiTaskIsStarted = bool
+    }
 
     // dla SINGLE Taska:
 
@@ -290,7 +301,8 @@ export default class AppStore {
 
             console.log("Wysyłam")
             this.clearSinglePDFReports()
-            this.setSingleTaskRunning(true)
+            this.setSingleTaskIsStarted(true)
+            this.setSingleTaskIsRunning(true)
 
             const pWaiting = new Promise((resolve) => { // sztuczne czekanie pare sekund, tak jakby się tam coś mieliło
                 console.log("Timeout: 0.5 sekund")
@@ -306,44 +318,19 @@ export default class AppStore {
             Promise.all([pWaiting, pSingleTaskResponse])
                 .then((values) => {
                     console.log("Proms resolved")
-                    if (this.singleTaskRunning) { // jeśli nie został przerwany (tymczasowo)
-                        this.setSingleTaskRunning(false)
-                        this.addSinglePDFReports(values[1])
-                    }
+                    this.setSingleTaskIsStarted(false)
+                    this.setSingleTaskIsRunning(false)
+                    this.addSinglePDFReports(values[1])
                 });
 
         }
         else {
+            alert("Nie wybrano funkcji i/lub algorytmów")
             console.log("Nie wybrano funkcjów i/lub algorytmu")
         }
     }
 
     postSingleTask = async () => {
-
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(
-        //         {
-        //             "AlgoId": this.singleAlgoId,
-        //             "FitFuncIds": this.singleFuncIds,
-        //             "NumOfAgents": this.singlePopulation,
-        //             "NumOfIterations": this.singleIterations,
-        //             "AlgoParameters": this.singleAlgoParameters,
-        //             "FitFuncDimensions": this.singleFuncIds.map((fid) => {
-        //                 return this.getFunctionById("single", fid).dimension
-        //             }),
-        //             "FitFuncLowerBoundaries": this.singleFuncIds.map((fid) => {
-        //                 return this.getFunctionById("single", fid).lowerBoundaries
-        //             }),
-        //             "FitFuncUpperBoundaries": this.singleFuncIds.map((fid) => {
-        //                 return this.getFunctionById("single", fid).upperBoundaries
-        //             }),
-        //         }
-        //     )
-        // };
-
-        // console.log("postSingleTask, sending: ", requestOptions)
 
         return axios.post(this.apiPath + '/Task/TaskForSingleAlgo',
             {
@@ -365,23 +352,6 @@ export default class AppStore {
             .then((response) => {
                 return response
             })
-
-        // return fetch(this.apiPath + "/Task/TaskForSingleAlgo", requestOptions)
-        //     .then(function (response) {
-        //         if (!response.ok) {
-        //             console.log("response postSingleTask not ok: ", response.status)
-        //             throw Error(response.statusText);
-        //         }
-        //         console.log("response postSingleTask status: ", response.status);
-        //         // return response.json();
-        //         return response;
-        //     })
-        //     .catch(function (error) {
-        //         console.log("postSingleTask error: ")
-        //         console.log(error)
-        //         return false;
-        //     })
-
     }
 
     // dla MULTI Taska:
@@ -408,7 +378,8 @@ export default class AppStore {
 
             console.log("Wysyłam")
             this.clearMultiPDFReports()
-            this.setMultiTaskRunning(true)
+            this.setMultiTaskIsStarted(true)
+            this.setMultiTaskIsRunning(true)
 
             const pWaiting = new Promise((resolve) => { // sztuczne czekanie pare sekund, tak jakby się tam coś mieliło
                 console.log("Timeout 0.5 sekundy")
@@ -424,14 +395,14 @@ export default class AppStore {
             Promise.all([pWaiting, pMultiTaskResponse])
                 .then((values) => {
                     console.log("Proms resolved")
-                    if (this.multiTaskRunning) { // jeśli nie został przerwany (tymczasowo)
-                        this.setMultiTaskRunning(false)
-                        this.addMultiPDFReports(values[1])
-                    }
+                    this.setMultiTaskIsStarted(false)
+                    this.setMultiTaskIsRunning(false)
+                    this.addMultiPDFReports(values[1])
                 });
 
         }
         else {
+            alert("Nie wybrano funkcji i/lub algorytmów")
             console.log("Nie wybrano funkcji i/lub algorytmów")
         }
     }
@@ -455,31 +426,69 @@ export default class AppStore {
 
     // przerywanie tasków PAUSE - RESUME
 
-    singleTaskRunning = false;
-    multiTaskRunning = false;
+    singleTaskIsRunning = false;
+    multiTaskIsRunning = false;
 
-    setSingleTaskRunning = (bool) => {
-        this.singleTaskRunning = bool
+    setSingleTaskIsRunning = (bool) => {
+        this.singleTaskIsRunning = bool
     }
 
-    setMultiTaskRunning = (bool) => {
-        this.multiTaskRunning = bool
+    setMultiTaskIsRunning = (bool) => {
+        this.multiTaskIsRunning = bool
     }
 
-    breakTask = (singleOrMulti) => {
-        console.log("Breaking " + singleOrMulti + " task")
+    breakTask = async (singleOrMulti) => {
+        console.log("Breaking " + singleOrMulti + " task..")
 
         if (singleOrMulti == "single") {
-            this.setSingleTaskRunning(false)
-            this.clearSinglePDFReports()
-
+            await this.sendBreakTask()
+                .then((response) => {
+                    console.log("responseBreakTask (m): ", response)
+                    this.setSingleTaskIsRunning(false)
+                })
         }
         if (singleOrMulti == "multi") {
-            this.setMultiTaskRunning(false)
-            this.clearMultiPDFReports()
-
+            await this.sendBreakTask()
+                .then((response) => {
+                    console.log("responseBreakTask (m): ", response)
+                    this.setMultiTaskIsRunning(false)
+                })
         }
 
+    }
+
+    resumeTask = async (singleOrMulti) => {
+        console.log("Resuming " + singleOrMulti + " task..")
+
+        if (singleOrMulti == "single") {
+            await this.sendResumeTask()
+                .then((response) => {
+                    console.log("responseResumeTask (s): ", response)
+                    this.setSingleTaskIsRunning(true)
+                })
+        }
+        if (singleOrMulti == "multi") {
+            await this.sendResumeTask()
+                .then((response) => {
+                    console.log("responseResumeTask (s): ", response)
+                    this.setMultiTaskIsRunning(true)
+                })
+        }
+
+    }
+
+    sendBreakTask = async () => {
+        return axios.get(this.apiPath + '/Task/BreakSolving')
+            .then((response) => {
+                return response
+            })
+    }
+
+    sendResumeTask = async () => {
+        return axios.get(this.apiPath + '/Task/ResumeSolving')
+            .then((response) => {
+                return response
+            })
     }
 
     // PDF REPORTs

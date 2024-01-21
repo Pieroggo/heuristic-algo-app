@@ -53,17 +53,17 @@ function App() {
 
           </div>
 
-          {!appStore.singleTaskRunning &&
+          {!appStore.singleTaskIsStarted &&
             <button onClick={() => appStore.runSinlgeTask()}>Uruchom</button>
           }
-          {appStore.singleTaskRunning &&
+          {appStore.singleTaskIsStarted &&
             <RunningTask singleOrMulti="single" />
           }
           {appStore.singlePDFReports.length > 0 &&
             <div className='report'>
-              <h3>Przejrzyj ostatnie raporty: </h3>
+              <h3>Przejrzyj raporty: </h3>
               <PDFReport singleOrMulti="single" />
-              <p>(wszystkie raporty znajdziesz w folderze)</p>
+              <p>(wszystkie wcześniej zapisane raporty <br />znajdziesz w folderze /public/pdf/)</p>
             </div>
           }
 
@@ -90,17 +90,17 @@ function App() {
 
           </div>
 
-          {!appStore.multiTaskRunning &&
+          {!appStore.multiTaskIsStarted &&
             <button onClick={() => appStore.runMultiTask()}>Uruchom</button>
           }
-          {appStore.multiTaskRunning &&
+          {appStore.multiTaskIsStarted &&
             <RunningTask singleOrMulti="multi" />
           }
           {appStore.multiPDFReports.length > 0 &&
             <div className='report'>
-              <h3>Przejrzyj ostatnie raporty: </h3>
+              <h3>Przejrzyj raporty: </h3>
               <PDFReport singleOrMulti="multi" />
-              <p>(wszystkie raporty znajdziesz w folderze)</p>
+              <p>(wszystkie wcześniej zapisane raporty <br />znajdziesz w folderze /public/pdf/)</p>
             </div>
           }
 
