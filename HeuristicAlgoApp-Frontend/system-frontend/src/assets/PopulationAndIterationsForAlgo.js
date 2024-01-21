@@ -2,7 +2,7 @@ import { useStore } from "../store";
 import React from 'react';
 import { observer } from "mobx-react-lite";
 
-export default observer(function PopulationAndIterationsForAlgo({ singleOrMulti, id }) {
+export default observer(function PopulationAndIterationsForAlgo({ singleOrMulti }) {
 
     const { appStore } = useStore();
     let popInputId = singleOrMulti + "Population"

@@ -4,7 +4,6 @@ import { observer } from "mobx-react-lite";
 import DimBoundariesForFunc from "./DimBoundariesForFunc";
 import PopulationAndIterationsForAlgo from './PopulationAndIterationsForAlgo';
 import ParametersForAlgo from './ParametersForAlgo';
-//import Parameters from "./Parameters";
 
 export default observer(function Inputs({ algoOrFunc, multiple }) {
 
