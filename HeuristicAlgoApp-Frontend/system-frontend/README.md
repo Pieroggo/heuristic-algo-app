@@ -7,7 +7,17 @@ Hello therere
 `mobx` \
 `mobx-react-lite` \
 `axios`\
-`@blueprintjs/core`
+`@blueprintjs/core`\
+...\
+
+# For repairing:
+npm install\ 
+npm audit fix --force\ 
+
+usuń packages-lock.json\
+usuń node_modules\
+wywal "babel-loader"\
+npm install\
 
 # To run it:
 `npm start`

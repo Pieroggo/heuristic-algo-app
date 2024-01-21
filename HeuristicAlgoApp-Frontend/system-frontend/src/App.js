@@ -1,5 +1,5 @@
 import './App.css';
-import React, { Component } from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 import { useStore } from './store';
 import { observer } from 'mobx-react-lite';
@@ -7,6 +7,7 @@ import axios from 'axios';
 import Inputs from './assets/Inputs';
 import RunningTask from './assets/RunningTask';
 import PDFReport from './assets/PDFReport';
+// import ReportsList from './assets/ReportsList';
 
 function App() {
 
@@ -114,6 +115,11 @@ function App() {
           <button onClick={appStore.handleUpload}>Prześlij plik</button>
         </div>
       </div>
+
+      {/* <div className='flex-box-footer'>
+        <h1>Raporty:</h1>
+        <ReportsList />
+      </div> */}
 
     </div>
   );

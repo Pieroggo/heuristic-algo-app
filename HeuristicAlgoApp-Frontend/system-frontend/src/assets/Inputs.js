@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useStore } from "../store";
 import { observer } from "mobx-react-lite";
 import DimBoundariesForFunc from "./DimBoundariesForFunc";
