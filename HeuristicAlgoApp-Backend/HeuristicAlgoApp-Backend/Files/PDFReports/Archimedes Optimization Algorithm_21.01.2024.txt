@@ -1,0 +1,15 @@
+To jest raport działania algorymu Archimedes Optimization Algorithm.
+Data: 21.01.2024 21:55:14
+Ilość iteracji: 1
+Liczba osobników: 1
+Liczba wymiarów: 2
+Parametry: 	1,5
+	4
+	1,5
+	0,75
+
+Przedziały: [-1, 1]	[-1, 1]	
+Funkcja testowana: Sphere
+Najlepszy wynik: 1,0056825197478643
+Współrzędne najlepszego: 0,4548016462414062,	0,893777367314686,	
+

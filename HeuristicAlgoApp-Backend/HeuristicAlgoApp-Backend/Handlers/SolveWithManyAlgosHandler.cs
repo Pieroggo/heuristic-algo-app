@@ -41,12 +41,22 @@ namespace HeuristicAlgoApp_Backend.Handlers
 
                             List<dynamic> solveParams = new List<dynamic> { fitnessFunction, request.multiTask.FitFuncLowerBoundaries, request.multiTask.FitFuncUpperBoundaries }; //adjust so that you can use solve
                             List<double> doubleParams = new List<double> { request.multiTask.NumOfAgents, request.multiTask.NumOfIterations, request.multiTask.FitFuncDimension };//list without additional parameters
-                            
+                            if (algorithmDTO.Parameters != null)
+                            {
+                                foreach (dynamic algoParameter in algorithmDTO.Parameters)
+                                {
+                                    doubleParams.Add((algoParameter.UpperBoundary + algoParameter.LowerBoundary) /2);
+                                }
+                            }
                             solveParams.Add(doubleParams.ToArray());
                             string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
                             solveParams.Add(reportFolderPath);
                             await dataCollection.AssignReferenceMultiAlgo(algorithm);
-                            string? reportPath =algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
+                            Console.WriteLine(algorithm);
+                            Console.WriteLine(solveParams.ToArray());
+                            List<dynamic> result = algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
+                            string? reportPath = result[1];
+                            Console.WriteLine(result[0]);
                             string frontReportPath = ReportFrontFolderPath + Path.GetFileName(reportPath);
                             if (reportPath != null) { 
                                 Console.WriteLine($"Solve on algorithm worked.");

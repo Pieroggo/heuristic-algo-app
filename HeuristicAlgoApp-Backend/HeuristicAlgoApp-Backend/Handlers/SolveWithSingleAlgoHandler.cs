@@ -53,7 +53,9 @@ namespace HeuristicAlgoApp_Backend.Handlers
                             string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
                             solveParams.Add(reportFolderPath);
                             await dataCollection.AssignReferenceSingleAlgo(algorithm);
-                            string reportPath= algorithm.GetType().GetMethod("Solve").Invoke(algorithm,solveParams.ToArray());
+                            List<dynamic> solveResults = algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
+                            Console.WriteLine(solveResults[0]);
+                            string reportPath= solveResults[1];
                             string frontReportPath = ReportFrontFolderPath + Path.GetFileName(reportPath);
                             if (reportPath != null) { 
                                 Console.WriteLine($"Solve on algorithm worked.");
