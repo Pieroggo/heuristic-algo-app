@@ -110,7 +110,7 @@ function App() {
         <h1>Wgrywanie</h1>
         <p>Tutaj możesz przesłać własny plik (.dll) z funkcją i/lub algorytmem do systemu</p>
         <div>
-          <input type="file" id="fileUpload" onChange={appStore.handleOnChangeFile} /> <br />
+          <input type="file" accept='.dll' id="fileUpload" onChange={appStore.handleOnChangeFile} /> <br />
           <button onClick={appStore.handleUpload}>Prześlij plik</button>
         </div>
       </div>
