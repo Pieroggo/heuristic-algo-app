@@ -1,0 +1,19 @@
+To jest raport działania algorymu Archimedes Optimization Algorithm.
+Data: 25.01.2024 23:21:48
+Ilość iteracji: 1
+Liczba osobników: 1
+Liczba wymiarów: 2
+Parametry: 	0,5
+	2
+	1
+	0,5
+	1,5
+	4
+	1,5
+	0,75
+
+Przedziały: [-1, 1]	[-1, 1]	
+Funkcja testowana: Himmelblau
+Najlepszy wynik: 145,8591884220181
+Współrzędne najlepszego: 0,9965896911337684,	-0,878232980790095,	
+

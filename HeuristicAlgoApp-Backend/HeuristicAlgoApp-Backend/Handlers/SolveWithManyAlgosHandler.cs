@@ -41,28 +41,48 @@ namespace HeuristicAlgoApp_Backend.Handlers
 
                             List<dynamic> solveParams = new List<dynamic> { fitnessFunction, request.multiTask.FitFuncLowerBoundaries, request.multiTask.FitFuncUpperBoundaries }; //adjust so that you can use solve
                             List<double> doubleParams = new List<double> { request.multiTask.NumOfAgents, request.multiTask.NumOfIterations, request.multiTask.FitFuncDimension,0.5,2,1,0.5 };//list without additional parameters
+                            string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
+                            string stateFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\";
+                            List<double> up = new List<double> { };
+                            List<double> jump = new List<double> { };
+                            List<double> solutions = new List<double> { };
+                            List<string> report = new List<string> { };
                             if (algorithmDTO.Parameters != null)
                             {
                                 foreach (dynamic algoParameter in algorithmDTO.Parameters)
                                 {
-                                    doubleParams.Add((algoParameter.UpperBoundary + algoParameter.LowerBoundary) /2);
+                                    doubleParams.Add(algoParameter.LowerBoundary);
+                                    up.Add(algoParameter.UpperBoundary);
+                                    jump.Add(algoParameter.IterationInterval);
+                                }
+                                Console.WriteLine(doubleParams[3]);
+                                for(int p = 0; p < algorithmDTO.Parameters.Count; p++)
+                                {
+                                    for(double q = doubleParams[p + 3]; q < up[p]; q += jump[p])
+                                    {
+                                        doubleParams[p+3] = q;
+                                        solveParams.Add(doubleParams.ToArray());
+                                        solveParams.Add(reportFolderPath);
+                                        solveParams.Add(stateFolderPath);
+                                        await dataCollection.AssignReferenceMultiAlgo(algorithm);
+                                        List<dynamic> res1 = algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
+                                        solutions.Add(res1[0]);
+                                        report.Add(res1[1]);
+                                    }
                                 }
                             }
-                            solveParams.Add(doubleParams.ToArray());
-                            string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
+                            /*solveParams.Add(doubleParams.ToArray());
                             solveParams.Add(reportFolderPath);
-                            string stateFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\";
                             solveParams.Add(stateFolderPath);
                             await dataCollection.AssignReferenceMultiAlgo(algorithm);
-                            Console.WriteLine(algorithm);
-                            Console.WriteLine(solveParams.ToArray());
                             List<dynamic> result = algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
                             string? reportPath = result[1];
-                            Console.WriteLine(result[0]);
-                            string frontReportPath = ReportFrontFolderPath + Path.GetFileName(reportPath);
-                            if (reportPath != null) { 
+                            Console.WriteLine(result[0]);*/
+                            int index = solutions.IndexOf(solutions.Min());
+                            string frontReportPath = ReportFrontFolderPath + Path.GetFileName(report[index]);
+                            if (report[index] != null) { 
                                 Console.WriteLine($"Solve on algorithm worked.");
-                                File.Copy(reportPath, ReportFrontFolderPath + Path.GetFileName(reportPath));
+                                File.Copy(report[index], ReportFrontFolderPath + Path.GetFileName(report[index]));
                             }
                             //reports.Add(frontReportPath);
                             reports.Add(Path.GetFileName(frontReportPath));
