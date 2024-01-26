@@ -1,10 +1,14 @@
 ﻿using HeuristicAlgoApp_Backend.Commands;
 using HeuristicAlgoApp_Backend.Models;
 using MediatR;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace HeuristicAlgoApp_Backend.Handlers
 {
-    public class BreakSolvingHandler : IRequestHandler<BreakSolvingCommand>
+    public class BreakSolvingHandler : IRequestHandler<BreakSolvingCommand,AlgoStateDTO>
     {
         private readonly DataCollection dataCollection;
 
@@ -13,30 +17,22 @@ namespace HeuristicAlgoApp_Backend.Handlers
             this.dataCollection = dataCollection;
         }
 
-        public Task Handle(BreakSolvingCommand request, CancellationToken cancellationToken)
+        public async Task<AlgoStateDTO> Handle(BreakSolvingCommand request, CancellationToken cancellationToken)
         {
-            string path = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\PauseFolder\\";
-            string fileName = "PAUSEFILE.txt";
-            string fullPath = Path.Combine(path, fileName);
+            string stateFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\SingleAlgo\\";
+            await dataCollection.CancelSingleTask();
+            System.IO.DirectoryInfo di = new DirectoryInfo(stateFolderPath);
+            FileInfo file = di.GetFiles().ElementAt(0);
+            string fileContents = File.ReadAllText(file.FullName);
+            //Thread.Sleep(200);
+            
 
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+                // Deserializacja JSONa do obiektu
+                var _data = JsonConvert.DeserializeObject<AlgoState>(fileContents);
 
-            try
-            {
-                using (StreamWriter sw = File.CreateText(fullPath))
-                {
-                    sw.WriteLine("PAUSEFILE to pause program");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Wystąpił błąd podczas tworzenia pliku: {ex.Message}");
-            }
-
-            return Task.CompletedTask;
+                // Przykład użycia odczytanych danych
+                return new AlgoStateDTO(_data.I, _data.It, file.Name.Split(".")[0]);
+            //if breaking fails, delete SingleAlgo Folder in States
         }
     }
 }

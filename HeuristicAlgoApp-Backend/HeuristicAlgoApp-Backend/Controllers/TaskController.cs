@@ -4,6 +4,7 @@ using HeuristicAlgoApp_Backend.Services;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace HeuristicAlgoApp_Backend.Controllers
 {
@@ -40,19 +41,19 @@ namespace HeuristicAlgoApp_Backend.Controllers
                 Console.WriteLine("Sending OK for Multi Algo");
                 return Ok(reports);
             }
-            else { return BadRequest(); }
+            else { return StatusCode(500,"No reports"); }
         }
         [HttpGet]
         public async Task<ActionResult> BreakSolving()
         {
-            await _sender.Send(new BreakSolvingCommand());
-            return Ok();
+            AlgoStateDTO algoState=await _sender.Send(new BreakSolvingCommand());
+            return Ok(algoState);
         }
         [HttpGet]
         public async Task<ActionResult> ResumeSolving()
         {
             await _sender.Send(new ResumeSolvingCommand());
-            return Ok();
+            return Ok("Resume");
             //to be implemented
         }
     }

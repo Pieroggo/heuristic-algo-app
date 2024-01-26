@@ -10,6 +10,7 @@ namespace HeuristicAlgoApp_Backend.Models
         public string Description { get; set; }
         public double UpperBoundary { get; set; }
         public double LowerBoundary { get; set; }
+        public double IterationInterval { get; set; }
         public Parameter() {
             GenerateId();
 

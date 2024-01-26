@@ -30,7 +30,8 @@ namespace HeuristicAlgoApp_Backend.Services
                                     Name = param.GetType().GetProperty("Name").GetValue(param),
                                     Description = param.GetType().GetProperty("Description").GetValue(param),
                                     LowerBoundary = param.GetType().GetProperty("LowerBoundary").GetValue(param),
-                                    UpperBoundary = param.GetType().GetProperty("UpperBoundary").GetValue(param)
+                                    UpperBoundary = param.GetType().GetProperty("UpperBoundary").GetValue(param),
+                                    IterationInterval=param.GetType().GetProperty("IterationInterval").GetValue(param)
                                 });
                             }
                         }
