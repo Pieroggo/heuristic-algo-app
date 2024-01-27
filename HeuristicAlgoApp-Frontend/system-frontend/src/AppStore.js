@@ -503,9 +503,9 @@ export default class AppStore {
                 })
             }
             if (singleOrMulti == "multi") {
-                await this.sendBreakTask()
+                await this.sendBreakMultiTask()
                 .then((response) => {
-                    console.log("responseBreakTask (m) json: ", response)
+                    console.log("responseBreakMultiTask (m) json: ", response)
                     let stan = ""
                     try {
                         response.map((r) => {
@@ -540,9 +540,9 @@ export default class AppStore {
                 })
         }
         if (singleOrMulti == "multi") {
-            await this.sendResumeTask()
+            await this.sendResumeMultiTask()
                 .then((response) => {
-                    console.log("responseResumeTask (m): ", response)
+                    console.log("responseResumeMultiTask (m): ", response)
                     this.setMultiTaskIsRunning(true)
                 })
                 .catch((err) => {
@@ -566,8 +566,32 @@ export default class AppStore {
             })
     }
 
+    sendBreakMultiTask = async () => {
+        return axios.get(this.apiPath + '/Task/BreakMultiSolving')
+            .then((response) => {
+                if (response.status == 200) {
+                    return response.data
+                }
+                else {
+                    throw Error("Not 200")
+                }
+            })
+    }
+
     sendResumeTask = async () => {
         return axios.get(this.apiPath + '/Task/ResumeSolving')
+            .then((response) => {
+                if (response.status == 200) {
+                    return response
+                }
+                else {
+                    throw Error("Not 200")
+                }
+            })
+    }
+
+    sendResumeMultiTask = async () => {
+        return axios.get(this.apiPath + '/Task/ResumeMultiSolving')
             .then((response) => {
                 if (response.status == 200) {
                     return response
