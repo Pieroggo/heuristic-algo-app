@@ -20,10 +20,17 @@ function App() {
         appStore.setAlgorithms(response.data)
         appStore.setAllAlgorithms(response.data)
       })
-    axios.get(appStore.apiPath + '/FitnessFunction/GetAll')
+      .catch((err) => {
+        console.log(err)
+        alert("Brak połączenia z bazą \n(" + err.message + ")")
+      })
+      axios.get(appStore.apiPath + '/FitnessFunction/GetAll')
       .then(response => {
         appStore.setFunctions(response.data)
         appStore.setAllFunctions(response.data)
+      })
+      .catch((err) => {
+        console.log(err.message)
       })
   }, [])
 

@@ -632,14 +632,26 @@ export default class AppStore {
             const formData = new FormData();
             formData.append('file', this.file);
             try {
-                const response = await axios.post(this.apiPath + '/Upload/Add', formData);
-                console.log('Plik przesłany pomyślnie', response);
-                alert("Plik wysłany - odśwież stronę")
+                await axios.post(this.apiPath + '/Upload/Add', formData)
+                .then((response) => {
+                    if(response.status == 200){
+                        console.log('Plik przesłany pomyślnie', response);
+                        alert("Plik przesłany pomyślnie - odśwież stronę")
+                    }
+                    else{
+                        throw Error(response)
+                    }
+                })
+                .catch((err) => {
+                    console.log('Błąd podczas przesyłania pliku: ', err);
+                    alert("Błąd podczas przesyłania pliku do bazy \n[" + err.message + "]")
+                })
             } catch (error) {
-                console.error('Błąd podczas przesyłania pliku', error);
+                console.error('Błąd: ', error);
             }
         }
         else {
+            alert("Najpierw wybierz plik .dll")
             console.log("Brak pliku do przesłania")
         }
 
