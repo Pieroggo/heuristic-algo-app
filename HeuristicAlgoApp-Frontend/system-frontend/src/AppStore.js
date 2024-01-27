@@ -321,7 +321,7 @@ export default class AppStore {
 
             Promise.all([pWaiting, pSingleTaskResponse])
                 .then((values) => {
-                    if(values[1] == null){
+                    if (values[1] == null) {
                         throw Error("^")
                     }
                     console.log("Proms resolved")
@@ -417,7 +417,7 @@ export default class AppStore {
 
             Promise.all([pWaiting, pMultiTaskResponse])
                 .then((values) => {
-                    if(values[1] == null){
+                    if (values[1] == null) {
                         throw Error("^")
                     }
                     console.log("Proms resolved")
@@ -486,66 +486,95 @@ export default class AppStore {
     }
 
     breakTask = async (singleOrMulti) => {
-        console.log("Breaking " + singleOrMulti + " task..")
 
+        console.log("Breaking " + singleOrMulti + " task..")
         if (singleOrMulti == "single") {
             await this.sendBreakTask()
                 .then((response) => {
-                    if (response.status == 200) {
-                        console.log("responseBreakTask (m): ", response)
-                        this.setSingleTaskState("Stan: [ " + response.data + " ]")
-                        this.setSingleTaskIsRunning(false)
-                    }
+                    console.log("responseBreakTask (s) json: ", response)
+                    // let stan = String(response.name + " " + String(response.id) + "/" + String(response.id) + " [" + String(Math.round((response.id / response.id) * 100)) + "%]")
+                    let stan = String(response.name + " " + String(response.i) + "/" + String(response.it) + " [" + String(Math.round((response.i / response.it) * 100)) + "%]")
+                    this.setSingleTaskState(stan)
+                    this.setSingleTaskIsRunning(false)
                 })
-        }
-        if (singleOrMulti == "multi") {
-            await this.sendBreakTask()
+                .catch((err) => {
+                    alert(err.message)
+                    console.log("break not ok: ", err)
+                })
+            }
+            if (singleOrMulti == "multi") {
+                await this.sendBreakTask()
                 .then((response) => {
-                    if (response.status == 200) {
-                        console.log("responseBreakTask (m): ", response)
-                        this.setMultiTaskState("Stan: [ " + response.data + " ]")
-                        this.setMultiTaskIsRunning(false)
+                    console.log("responseBreakTask (m) json: ", response)
+                    let stan = ""
+                    try {
+                        response.map((r) => {
+                            stan = stan + String(r.name + " " + String(r.i) + "/" + String(r.it) + " [" + String(Math.round((r.i / r.it) * 100)) + "%]")
+                        })
                     }
+                    catch{
+                        stan = String(response.name + " " + String(response.i) + "/" + String(response.it) + " [" + String(Math.round((response.i / response.it) * 100)) + "%]")
+                    }
+                    this.setMultiTaskState(stan)
+                    this.setMultiTaskIsRunning(false)
+                })
+                .catch((err) => {
+                    alert(err.message)
+                    console.log("break not ok: ", err)
                 })
         }
-
     }
 
     resumeTask = async (singleOrMulti) => {
-        console.log("Resuming " + singleOrMulti + " task..")
 
+        console.log("Resuming " + singleOrMulti + " task..")
         if (singleOrMulti == "single") {
             await this.sendResumeTask()
                 .then((response) => {
-                    if (response.status == 200) {
-                        console.log("responseResumeTask (s): ", response)
-                        this.setSingleTaskIsRunning(true)
-                    }
+                    console.log("responseResumeTask (s): ", response)
+                    this.setSingleTaskIsRunning(true)
+                })
+                .catch((err) => {
+                    alert(err.message)
+                    console.log("resume not ok: ", err)
                 })
         }
         if (singleOrMulti == "multi") {
             await this.sendResumeTask()
                 .then((response) => {
-                    if (response.status == 200) {
-                        console.log("responseResumeTask (s): ", response)
-                        this.setMultiTaskIsRunning(true)
-                    }
+                    console.log("responseResumeTask (m): ", response)
+                    this.setMultiTaskIsRunning(true)
+                })
+                .catch((err) => {
+                    alert(err.message)
+                    console.log("resume not ok: ", err)
                 })
         }
-
     }
 
     sendBreakTask = async () => {
+        // return axios.get("https://localhost:7071/api/Algorithm/GetById/2")
+        // return axios.get("https://localhost:7071/api/Algorithm/GetAll")
         return axios.get(this.apiPath + '/Task/BreakSolving')
             .then((response) => {
-                return response
+                if (response.status == 200) {
+                    return response.data
+                }
+                else {
+                    throw Error("Not 200")
+                }
             })
     }
 
     sendResumeTask = async () => {
         return axios.get(this.apiPath + '/Task/ResumeSolving')
             .then((response) => {
-                return response
+                if (response.status == 200) {
+                    return response
+                }
+                else {
+                    throw Error("Not 200")
+                }
             })
     }
 

@@ -31,7 +31,6 @@ function App() {
     <div className="App flex-box-main">
 
       <div className='flex-box-row'>
-
         <div className='flex-box-items'>
           <h1>Single task</h1>
           <p>"Jeden algorytm dla wielu funkcji testowych"</p>
