@@ -11,6 +11,7 @@ namespace HeuristicAlgoApp_Backend.Models
         dynamic? solvingSingleAlgo { get; set; }
         dynamic? solvingMultiAlgo { get; set; }
         public CancellationTokenSource ctsSingle { get; set; }
+        public CancellationTokenSource ctsMulti { get; set; }
         public DataCollection() {
             algorithms = new List<Algorithm>();
             fitnessFunctions = new List<FitnessFunction>();
@@ -97,6 +98,7 @@ namespace HeuristicAlgoApp_Backend.Models
             solvingSingleAlgo = null;
             solvingMultiAlgo = null;
             ctsSingle = new CancellationTokenSource();
+            ctsMulti = new CancellationTokenSource();
         }
         public DataCollection(List<Algorithm> algorithms, List<FitnessFunction> fitnessFunctions, List<Parameter> parameters)
         {
@@ -143,6 +145,31 @@ namespace HeuristicAlgoApp_Backend.Models
             else
             {
               throw new Exception("Tried resuming without action - Single Algo Task");
+            }
+        }
+        public async Task CancelMultiTask()
+        {
+            if (!ctsMulti.IsCancellationRequested)
+            {
+                ctsMulti.Cancel();
+                await Task.CompletedTask;
+            }
+            else
+            {
+                throw new Exception("Tried cancelling an already cancelled action - Multi Algo Task");
+            }
+        }
+        public async Task ResumeMultiTask()
+        {
+            if (ctsMulti.IsCancellationRequested)
+            {
+                ctsMulti.Dispose();
+                ctsMulti = new CancellationTokenSource();
+                await Task.CompletedTask;
+            }
+            else
+            {
+                throw new Exception("Tried resuming without action - Multi Algo Task");
             }
         }
         public async Task<List<Algorithm>> GetAllAlgorithms() => await Task.FromResult(algorithms);

@@ -42,7 +42,7 @@ namespace HeuristicAlgoApp_Backend.Handlers
                             List<dynamic> solveParams = new List<dynamic> { fitnessFunction, request.multiTask.FitFuncLowerBoundaries, request.multiTask.FitFuncUpperBoundaries }; //adjust so that you can use solve
                             List<double> doubleParams = new List<double> { request.multiTask.NumOfAgents, request.multiTask.NumOfIterations, request.multiTask.FitFuncDimension };//list without additional parameters
                             string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
-                            string stateFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\";
+                            string stateFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\MultiAlgo\\";
                             List<double> up = new List<double> { };
                             List<double> jump = new List<double> { };
                             List<double> solutions = new List<double> { };
@@ -65,9 +65,26 @@ namespace HeuristicAlgoApp_Backend.Handlers
                                         solveParams.Add(doubleParams.ToArray());
                                         solveParams.Add(reportFolderPath);
                                         solveParams.Add(stateFolderPath);
-                                        solveParams.Add(dataCollection.ctsSingle.Token);
+                                        solveParams.Add(dataCollection.ctsMulti.Token);
                                         await dataCollection.AssignReferenceMultiAlgo(algorithm);
-                                        List<dynamic> res1 = algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
+                                        List<dynamic> res1 = new List<dynamic>();
+                                        bool isCompleted = false;
+                                        while (!isCompleted)
+                                        {
+                                            res1 = algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
+                                            if (res1[1] == null)
+                                            {
+                                                //break was activated
+                                                while (dataCollection.ctsMulti.IsCancellationRequested)
+                                                {
+                                                    Console.WriteLine("Algorithm was stopped.");
+                                                    Thread.Sleep(1000);
+                                                }
+                                                solveParams.RemoveAt(solveParams.Count - 1);
+                                                solveParams.Add(dataCollection.ctsMulti.Token);
+                                            }
+                                            else { isCompleted = true; }
+                                        }
                                         solutions.Add(res1[0]);
                                         report.Add(res1[1]);
                                         q += jump[p];
@@ -79,7 +96,7 @@ namespace HeuristicAlgoApp_Backend.Handlers
                                 solveParams.Add(doubleParams.ToArray());
                                 solveParams.Add(reportFolderPath);
                                 solveParams.Add(stateFolderPath);
-                                solveParams.Add(dataCollection.ctsSingle.Token);
+                                solveParams.Add(dataCollection.ctsMulti.Token);
                                 await dataCollection.AssignReferenceMultiAlgo(algorithm);
                                 List<dynamic> result = algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
                                 report.Add(result[1]);
@@ -99,6 +116,12 @@ namespace HeuristicAlgoApp_Backend.Handlers
                             //reports.Add(frontReportPath);
                             reports.Add(Path.GetFileName(frontReportPath));
                             await dataCollection.AssignReferenceMultiAlgo(null); //reset of reference
+                            System.IO.DirectoryInfo di = new DirectoryInfo(stateFolderPath);
+                            if (di.Exists && di.GetFiles().Length > 0)
+                                foreach (FileInfo file in di.GetFiles())
+                                {
+                                    file.Delete();
+                                }
                         }
                         else
                         {

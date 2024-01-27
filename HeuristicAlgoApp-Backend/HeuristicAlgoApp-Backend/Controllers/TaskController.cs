@@ -46,13 +46,26 @@ namespace HeuristicAlgoApp_Backend.Controllers
         [HttpGet]
         public async Task<ActionResult> BreakSolving()
         {
-            AlgoStateDTO algoState=await _sender.Send(new BreakSolvingCommand());
+            string algoState=await _sender.Send(new BreakSolvingCommand());
             return Ok(algoState);
         }
         [HttpGet]
         public async Task<ActionResult> ResumeSolving()
         {
             await _sender.Send(new ResumeSolvingCommand());
+            return Ok("Resume");
+            //to be implemented
+        }
+        [HttpGet]
+        public async Task<ActionResult> BreakMultiSolving()
+        {
+            string algoState = await _sender.Send(new BreakMultiSolvingCommand());
+            return Ok(algoState);
+        }
+        [HttpGet]
+        public async Task<ActionResult> ResumeMutliSolving()
+        {
+            await _sender.Send(new ResumeMultiSolvingCommand());
             return Ok("Resume");
             //to be implemented
         }
