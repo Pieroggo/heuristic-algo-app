@@ -40,14 +40,14 @@ namespace HeuristicAlgoApp_Backend.Handlers
                         {
 
                             List<dynamic> solveParams = new List<dynamic> { fitnessFunction, request.multiTask.FitFuncLowerBoundaries, request.multiTask.FitFuncUpperBoundaries }; //adjust so that you can use solve
-                            List<double> doubleParams = new List<double> { request.multiTask.NumOfAgents, request.multiTask.NumOfIterations, request.multiTask.FitFuncDimension,0.5,2,1,0.5 };//list without additional parameters
+                            List<double> doubleParams = new List<double> { request.multiTask.NumOfAgents, request.multiTask.NumOfIterations, request.multiTask.FitFuncDimension };//list without additional parameters
                             string reportFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\PDFReports\\";
                             string stateFolderPath = Directory.GetCurrentDirectory() + "\\..\\HeuristicAlgoApp-Backend\\Files\\States\\";
                             List<double> up = new List<double> { };
                             List<double> jump = new List<double> { };
                             List<double> solutions = new List<double> { };
                             List<string> report = new List<string> { };
-                            if (algorithmDTO.Parameters != null)
+                            if (algorithmDTO.Parameters.Count != 0)
                             {
                                 foreach (dynamic algoParameter in algorithmDTO.Parameters)
                                 {
@@ -55,30 +55,42 @@ namespace HeuristicAlgoApp_Backend.Handlers
                                     up.Add(algoParameter.UpperBoundary);
                                     jump.Add(algoParameter.IterationInterval);
                                 }
-                                Console.WriteLine(doubleParams[3]);
-                                for(int p = 0; p < algorithmDTO.Parameters.Count; p++)
+                                for (int p = 0; p < algorithmDTO.Parameters.Count; p++)
                                 {
-                                    for(double q = doubleParams[p + 3]; q < up[p]; q += jump[p])
+                                    double q = doubleParams[p + 3];
+                                    while (q <= up[p])
                                     {
-                                        doubleParams[p+3] = q;
+                                        solveParams = new List<dynamic> { fitnessFunction, request.multiTask.FitFuncLowerBoundaries, request.multiTask.FitFuncUpperBoundaries };
+                                        doubleParams[p + 3] = q;
                                         solveParams.Add(doubleParams.ToArray());
                                         solveParams.Add(reportFolderPath);
                                         solveParams.Add(stateFolderPath);
+                                        solveParams.Add(dataCollection.ctsSingle.Token);
                                         await dataCollection.AssignReferenceMultiAlgo(algorithm);
                                         List<dynamic> res1 = algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
                                         solutions.Add(res1[0]);
                                         report.Add(res1[1]);
+                                        q += jump[p];
                                     }
                                 }
                             }
-                            /*solveParams.Add(doubleParams.ToArray());
-                            solveParams.Add(reportFolderPath);
-                            solveParams.Add(stateFolderPath);
-                            await dataCollection.AssignReferenceMultiAlgo(algorithm);
-                            List<dynamic> result = algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
-                            string? reportPath = result[1];
-                            Console.WriteLine(result[0]);*/
+                            else
+                            {
+                                solveParams.Add(doubleParams.ToArray());
+                                solveParams.Add(reportFolderPath);
+                                solveParams.Add(stateFolderPath);
+                                solveParams.Add(dataCollection.ctsSingle.Token);
+                                await dataCollection.AssignReferenceMultiAlgo(algorithm);
+                                List<dynamic> result = algorithm.GetType().GetMethod("Solve").Invoke(algorithm, solveParams.ToArray());
+                                report.Add(result[1]);
+                                solutions.Add(result[0]);
+                            }
+                            for(int z = 0; z < solutions.Count; z++)
+                            {
+                                Console.WriteLine("solutions:" + solutions[z]);
+                            }
                             int index = solutions.IndexOf(solutions.Min());
+                            Console.WriteLine(index);
                             string frontReportPath = ReportFrontFolderPath + Path.GetFileName(report[index]);
                             if (report[index] != null) { 
                                 Console.WriteLine($"Solve on algorithm worked.");

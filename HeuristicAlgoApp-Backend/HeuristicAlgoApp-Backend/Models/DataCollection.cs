@@ -8,7 +8,6 @@ namespace HeuristicAlgoApp_Backend.Models
     {
         List<Algorithm> algorithms { get; set; }
         List<FitnessFunction> fitnessFunctions { get; set; }
-
         dynamic? solvingSingleAlgo { get; set; }
         dynamic? solvingMultiAlgo { get; set; }
         public CancellationTokenSource ctsSingle { get; set; }
