@@ -1,10 +1,14 @@
 .App {
   text-align: center;
+  /* color: white; */
+  /* background-color: #404040; */
+  /* background-color:beige; */
 }
 
 .flex-box-main {
   display: flex;
   flex-direction: column;
+  /* background-color:beige; */
   background-color: #e3e3e3;
   width: 100vw;
   height: 100vh;
@@ -15,13 +19,15 @@
   margin: 10px;
   display: flex;
   flex-direction: column;
-  background-color: rgb(255, 198, 83);
+  /* background-color: rgb(255, 198, 83); */
+  background-color: rgb(99, 193, 224);
   /* justify-content: center; */
   flex-wrap: wrap;
   align-items: center;
   /* padding-bottom: 50px; */
   width: 100vw;
   padding-bottom: 15px;
+  border-radius: 5px;
 }
 
 .flex-box-items:nth-child(1) {
@@ -46,6 +52,7 @@
 
 .flex-box-footer {
   /* height: 100vh; */
+  /* background-color: beige; */
 }
 
 table td {

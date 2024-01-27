@@ -20,10 +20,17 @@ function App() {
         appStore.setAlgorithms(response.data)
         appStore.setAllAlgorithms(response.data)
       })
-    axios.get(appStore.apiPath + '/FitnessFunction/GetAll')
+      .catch((err) => {
+        console.log(err)
+        alert("Brak połączenia z bazą \n(" + err.message + ")")
+      })
+      axios.get(appStore.apiPath + '/FitnessFunction/GetAll')
       .then(response => {
         appStore.setFunctions(response.data)
         appStore.setAllFunctions(response.data)
+      })
+      .catch((err) => {
+        console.log(err.message)
       })
   }, [])
 
@@ -31,7 +38,6 @@ function App() {
     <div className="App flex-box-main">
 
       <div className='flex-box-row'>
-
         <div className='flex-box-items'>
           <h1>Single task</h1>
           <p>"Jeden algorytm dla wielu funkcji testowych"</p>
@@ -110,7 +116,7 @@ function App() {
         <h1>Wgrywanie</h1>
         <p>Tutaj możesz przesłać własny plik (.dll) z funkcją i/lub algorytmem do systemu</p>
         <div>
-          <input type="file" id="fileUpload" onChange={appStore.handleOnChangeFile} /> <br />
+          <input type="file" accept='.dll' id="fileUpload" onChange={appStore.handleOnChangeFile} /> <br />
           <button onClick={appStore.handleUpload}>Prześlij plik</button>
         </div>
       </div>
