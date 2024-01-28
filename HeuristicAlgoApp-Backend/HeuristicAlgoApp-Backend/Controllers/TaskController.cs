@@ -63,7 +63,7 @@ namespace HeuristicAlgoApp_Backend.Controllers
             return Ok(algoState);
         }
         [HttpGet]
-        public async Task<ActionResult> ResumeMutliSolving()
+        public async Task<ActionResult> ResumeMultiSolving()
         {
             await _sender.Send(new ResumeMultiSolvingCommand());
             return Ok("Resume");
