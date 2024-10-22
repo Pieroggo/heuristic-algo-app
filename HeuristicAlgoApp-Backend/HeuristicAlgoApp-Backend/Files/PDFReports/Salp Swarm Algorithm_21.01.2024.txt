@@ -1,0 +1,16 @@
+To jest raport działania algorymu Salp Swarm Algorithm.
+Data: 21.01.2024 23:06:23
+Ilość iteracji: 1
+Liczba osobników: 1
+Liczba wymiarów: 2
+Parametry: 	0,5
+	2
+	1
+	0,5
+	50,5
+
+Przedziały: [-1, 1]	[-1, 1]	
+Funkcja testowana: Himmelblau
+Najlepszy wynik: 169,7371911880278
+Współrzędne najlepszego: -1,	-0,41384167380637815,	
+

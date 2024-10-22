@@ -1,0 +1,47 @@
+ustawienie z początku:
+ functionsForSingle ok
+ functionsForMulti ok
+ algorithmsForSingle ok
+ algorithmsForMulti ok
+
+handle:
+ SINGLE
+  onChange algorytmu [jeden] ok
+   onChange population ok
+   onChange iterations ok
+   if maDodParametry ok
+    onChange konkretne parametry ok
+  
+  onChange funkcje [wiele] ok
+   if można zmieniać wymiar ok
+    onChange dimension ok
+   onChange lowerBoudaries ok
+   onChange upperBoundaries ok
+
+handle:
+ MULTI
+  onChange algorytmu [wiele] ok
+   onChange population ok
+   onChange iterations ok
+  
+  onChange funkcje [jedna] ok
+   if można zmieniać wymiar ok
+    onChange dimension ok
+   onChange lowerBoudaries ok
+   onChange upperBoundaries ok
+
+run:
+ SINGLE
+  uruchom
+   if błąd alert 
+   if OK 
+    pokaż przycisk PAUSE
+ MULTI
+  uruchom
+   if błąd alert
+   if OK 
+    pokaż przycisk PAUSE
+
+
+
+

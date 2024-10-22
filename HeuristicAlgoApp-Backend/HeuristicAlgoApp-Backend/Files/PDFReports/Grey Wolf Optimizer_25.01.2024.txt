@@ -1,0 +1,15 @@
+To jest raport działania algorymu Grey Wolf Optimizer.
+Data: 25.01.2024 23:21:47
+Ilość iteracji: 1
+Liczba osobników: 1
+Liczba wymiarów: 2
+Parametry: 	0,5
+	2
+	1
+	0,5
+
+Przedziały: [-1, 1]	[-1, 1]	
+Funkcja testowana: Himmelblau
+Najlepszy wynik: 163,62634309000873
+Współrzędne najlepszego: -0,8840276604409101,	0,1317736063484598,	
+
